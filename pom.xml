@@ -18,7 +18,12 @@
         <repository>
             <id>aclib-releases</id>
             <url>https://oss.jfrog.org/oss-snapshot-local/</url>
-        </repository>        
+        </repository>
+        <!-- WorldGuard repository -->
+        <repository>
+            <id>sk89q-repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -33,7 +38,15 @@
         <dependency>
             <groupId>com.alternacraft</groupId>
             <artifactId>aclib</artifactId>    
-            <version>0.0.5-SNAPSHOT</version>
+            <version>0.0.5-SNAPSHOT</version>      
+            <scope>compile</scope>
+        </dependency>
+        <!-- WorldGuard dependency -->
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldguard</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
             <type>jar</type>
         </dependency>
         <!-- TESTING DEPENDENCY -->
