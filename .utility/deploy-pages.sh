@@ -5,7 +5,7 @@ TARGET_BRANCH="gh-pages"
 
 URL=`git config remote.origin.url`
 REPO=$(echo $URL | sed -e "s/https:\/\//https:\/\/${GH_TOKEN}@/g")
-VERSION=`ls target/PvpTitles-*.jar | sed 's/target\/PvpTitles-//;s/.jar//;'`
+VERSION=`ls target/RandomTPs-*.jar | sed 's/target\/RandomTPs-//;s/.jar//;'`
 
 COMMIT_AUTHOR_NAME="Travis CI"
 COMMIT_AUTHOR_EMAIL="esejuli94@gmail.com"
