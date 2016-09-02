@@ -2,4 +2,13 @@
 
 echo "<settings><servers><server><id>bintray</id><username>\${BINTRAY_USER}</username><password>\${BINTRAY_PASS}</password></server></servers></settings>" > ~/settings.xml
 
-[[ ! -z $TRAVIS_TAG ]] && bash .utility/parse-dependencies.sh && bash .utility/deploy-pages.sh || mvn deploy --settings ~/settings.xml
+if [[ ! -z $TRAVIS_TAG ]]; then
+  VERSION=`ls target/RandomTPs-*.jar | sed 's/target\/RandomTPs-//;s/.jar//;'`  
+  
+  # Skipping snapshots
+  if [[ ! $VERSION =~ "SNAPSHOT" ]]; then
+    bash .utility/parse-dependencies.sh && bash .utility/deploy-pages.sh
+  fi
+else
+  mvn deploy --settings ~/settings.xml
+fi
