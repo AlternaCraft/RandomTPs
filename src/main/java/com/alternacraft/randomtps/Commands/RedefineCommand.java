@@ -20,8 +20,11 @@ import com.alternacraft.aclib.MessageManager;
 import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
 
-public class ZoneCommand implements ArgumentExecutor {
-    
+public class RedefineCommand implements ArgumentExecutor {
+
+    public static String INFO = "Redefine the configuration of a zone";
+    public static String USAGE = "rt redefine <name>";
+
     @Override
     public boolean execute(CommandSender cs, String[] args) {
         MessageManager.sendCommandSender(cs, "Zone");

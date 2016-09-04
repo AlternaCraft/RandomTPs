@@ -21,7 +21,10 @@ import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
 
 public class ReloadCommand implements ArgumentExecutor {
-    
+
+    public static String INFO = "Reload all the plugin";
+    public static String USAGE = "rt reload";
+
     @Override
     public boolean execute(CommandSender cs, String[] args) {
         MessageManager.sendCommandSender(cs, "Reload");

@@ -4,7 +4,7 @@
   <groupId>com.alternacraft</groupId>
   <artifactId>RandomTPs</artifactId>
   <name>RandomTPs</name>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <description>A random teleport plugin</description>
   <url>http://dev.bukkit.org/bukkit-plugins/randomtps/</url>
   <inceptionYear>2016</inceptionYear>
@@ -255,7 +255,7 @@
     <repository>
       <id>bintray</id>
       <name>RELEASES</name>
-      <url>https://api.bintray.com/maven/alternacraft/maven/PvpTitles/;publish=1;</url>
+      <url>https://api.bintray.com/maven/alternacraft/maven/RandomTPs/;publish=1;</url>
     </repository>
     <snapshotRepository>
       <id>bintray</id>

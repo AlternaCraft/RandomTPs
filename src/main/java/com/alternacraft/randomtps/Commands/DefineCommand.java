@@ -20,7 +20,10 @@ import com.alternacraft.aclib.MessageManager;
 import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
 
-public class ConfigCommand implements ArgumentExecutor {
+public class DefineCommand implements ArgumentExecutor {
+    
+    public static String INFO = "Configure a teleport zone";
+    public static String USAGE = "rt define <name>";
     
     @Override
     public boolean execute(CommandSender cs, String[] args) {

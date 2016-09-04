@@ -20,12 +20,14 @@ import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.PluginManager;
 import com.alternacraft.aclib.commands.CommandArgument;
 import com.alternacraft.aclib.commands.CommandListener;
+import com.alternacraft.aclib.langs.LangManager;
+import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.StrUtils;
-import com.alternacraft.randomtps.Commands.ConfigCommand;
-import com.alternacraft.randomtps.Commands.InfoCommand;
+import com.alternacraft.randomtps.Commands.DefineCommand;
 import com.alternacraft.randomtps.Commands.PurgeCommand;
 import com.alternacraft.randomtps.Commands.ReloadCommand;
-import com.alternacraft.randomtps.Commands.ZoneCommand;
+import com.alternacraft.randomtps.Commands.RedefineCommand;
+import com.alternacraft.randomtps.Files.Messages;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,9 +39,10 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @version 1.0
  */
 public class RandomTPs extends JavaPlugin {
+
     @Override
     public void onEnable() {
-        PluginManager pluginManager = PluginManager.instance;
+        PluginManager pluginManager = PluginManager.INSTANCE;
 
         // Plugin prefix definition
         String prefix = StrUtils.translateColors("&5[RandomTeleport] ");
@@ -48,25 +51,33 @@ public class RandomTPs extends JavaPlugin {
         // Plugin manager setup
         if (!pluginManager.setup(this)) {
             this.setEnabled(false);
+            return;
         }
 
         // Registering commands
         CommandListener mainCommand = new CommandListener("randomtps", this);
-        mainCommand.addArgument(new CommandArgument("info", "rt info"),
-                new InfoCommand());
-        mainCommand.addArgument(new CommandArgument("config", "rt config"),
-                new ConfigCommand());
-        mainCommand.addArgument(new CommandArgument("zone", "rt zone"),
-                new ZoneCommand());
-        mainCommand.addArgument(new CommandArgument("purge", "rt purge"),
+
+        mainCommand.addArgument(
+                new CommandArgument("define", DefineCommand.USAGE, DefineCommand.INFO),
+                new DefineCommand());
+        mainCommand.addArgument(
+                new CommandArgument("purge", PurgeCommand.USAGE, PurgeCommand.INFO),
                 new PurgeCommand());
-        mainCommand.addArgument(new CommandArgument("reload", "rt reload"),
+        mainCommand.addArgument(
+                new CommandArgument("redefine", RedefineCommand.USAGE, RedefineCommand.INFO),
+                new RedefineCommand());
+        mainCommand.addArgument(
+                new CommandArgument("reload", ReloadCommand.USAGE, ReloadCommand.INFO),
                 new ReloadCommand());
         
+        // Langs file
+        LangManager.setKeys(Langs.ES, Langs.EN);
+        LangManager.load(Messages.class);
+
         // Sends enabled message
         MessageManager.log("RandomTeleport has been enabled!");
     }
-
+    
     @Override
     public void onDisable() {
         // Sends disable message

@@ -22,6 +22,9 @@ import com.alternacraft.aclib.commands.ArgumentExecutor;
 
 public class PurgeCommand implements ArgumentExecutor {
     
+    public static String INFO = "Remove unused zones";
+    public static String USAGE = "rt purge";
+    
     @Override
     public boolean execute(CommandSender cs, String[] args) {
         MessageManager.sendCommandSender(cs, "Purge");
