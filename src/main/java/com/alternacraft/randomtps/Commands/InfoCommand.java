@@ -19,12 +19,29 @@ package com.alternacraft.randomtps.Commands;
 import com.alternacraft.aclib.MessageManager;
 import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
+import com.alternacraft.randomtps.Main.Manager;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class PurgeCommand implements ArgumentExecutor {
-    
+public class InfoCommand implements ArgumentExecutor {
+
     @Override
     public boolean execute(CommandSender cs, String[] args) {
-        MessageManager.sendCommandSender(cs, "Purge");
+        JavaPlugin plugin = Manager.BASE.plugin();
+        
+        cs.sendMessage("");
+        MessageManager.sendCommandSender(
+                cs,
+                "&fPlugin developed by &9AlternaCraft"
+        );
+        MessageManager.sendCommandSender(
+                cs,
+                "Version: " + ChatColor.GRAY + plugin.getDescription().getVersion()
+        );
+        MessageManager.sendCommandSender(
+                cs,
+                "&fMore info in &9" + plugin.getDescription().getWebsite()
+        );
         return true;
     }
 }

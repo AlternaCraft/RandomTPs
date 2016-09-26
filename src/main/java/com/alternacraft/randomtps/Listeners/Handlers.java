@@ -14,17 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Commands;
+package com.alternacraft.randomtps.Listeners;
 
-import com.alternacraft.aclib.MessageManager;
-import org.bukkit.command.CommandSender;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
+import com.alternacraft.aclib.listeners.HandlersInterface;
+import org.bukkit.event.Listener;
 
-public class PurgeCommand implements ArgumentExecutor {
-    
+public enum Handlers implements HandlersInterface {
+
+    BUILD(new HandleBuild()),
+    FALL(new HandleFall()),
+    GODS(new HandleGods()),
+    TELEPORT(new HandleTeleport()),
+    DEFINE(new HandleZoneCreation());
+
+    private final Listener listener;
+
+    Handlers(Listener listener) {
+        this.listener = listener;
+    }
+
     @Override
-    public boolean execute(CommandSender cs, String[] args) {
-        MessageManager.sendCommandSender(cs, "Purge");
-        return true;
+    public Listener getListener() {
+        return listener;
     }
 }

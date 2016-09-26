@@ -1,8 +1,9 @@
 ## Plugin YAML file
-name: RandomTeleport
-version: 0.0.1-ALPHA
+name: RandomTPs
+version: 1.0.0
 description: Random teleport plugin
 database: false
+website: alternacraft.github.io/RandomTPs/
 
 author: AlternaCraft
 
@@ -13,29 +14,24 @@ commands:
         description: Main command of the plugin
         usage: /<command>
         aliases: rt
-        permission: rt.info
 
 permissions:
-   rt.*:
-     description: Consigue acceso a todos los comandos de RandomTeleport
-     children:
-       rt.info: true
-       rt.config: true
-       rt.zona: true
-       rt.purge: true       
-       rt.reload: true       
-   rt.info:
-     description: Muestra la informacion del plugin
-     default: true
-   rt.config:
-     description: Configura el plugin
-     default: false
-   rt.zone:
-     description: Operaciones con las zonas
-     default: false
-   rt.purge:
-     description: Limpia la configuracion
-     default: false
-   rt.reload:
-     description: Recarga el plugin
-     default: false
+    rt.*:
+      description: Get access to all commands
+      children:
+        rt.info: true
+        rt.zone: true
+        rt.purge: true  
+        rt.reload: true            
+    rt.info:
+        description: Show plugin commands
+        default: true
+    rt.zone:
+        description: Manage a region
+        default: false
+    rt.purge:
+        description: Clean configuration
+        default: false
+    rt.reload:
+        description: Reload the plugin
+        default: false

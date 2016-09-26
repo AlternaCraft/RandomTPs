@@ -5,7 +5,7 @@
     <!-- The Basics -->
     <groupId>com.alternacraft</groupId>
     <artifactId>RandomTPs</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging> 
 
     <repositories>
@@ -16,18 +16,13 @@
         </repository>
         <!-- ACLIB repository -->
         <repository>
-            <id>aclib-releases</id>
+            <id>aclib-snapshots</id>
             <url>https://oss.jfrog.org/oss-snapshot-local/</url>
         </repository>
-        <!-- WorldGuard repository -->
+        <!-- METRICS -->
         <repository>
-            <id>sk89q-repo</id>
-            <url>http://maven.sk89q.com/repo/</url>
-        </repository>
-        <!-- Updater repository -->
-        <repository>
-            <id>gravity-repo</id>
-            <url>http://repo.gravitydevelopment.net</url>
+            <id>Plugin Metrics</id>
+            <url>http://repo.mcstats.org/content/repositories/public</url>
         </repository>
     </repositories>
 
@@ -43,24 +38,15 @@
         <dependency>
             <groupId>com.alternacraft</groupId>
             <artifactId>aclib</artifactId>    
-            <version>0.0.6-SNAPSHOT</version>      
+            <version>0.1.0-SNAPSHOT</version>      
             <scope>compile</scope>
         </dependency>
-        <!-- WorldGuard dependency -->
+        <!-- Metrics -->
         <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldguard</artifactId>
-            <version>LATEST</version>
-            <scope>provided</scope>
+            <groupId>org.mcstats.bukkit</groupId>
+            <artifactId>metrics</artifactId>
+            <version>R8-SNAPSHOT</version>
             <type>jar</type>
-        </dependency>
-        <!-- Updater -->
-        <dependency>
-            <groupId>net.gravitydevelopment.updater</groupId>
-            <artifactId>updater</artifactId>
-            <version>2.3</version>
-            <scope>compile</scope>
-            <optional>false</optional>
         </dependency>
         <!-- TESTING DEPENDENCY -->
         <dependency>
@@ -82,7 +68,7 @@
             <version>1.6.5</version>
             <type>jar</type>
             <scope>test</scope>
-        </dependency>
+        </dependency>        
     </dependencies>
 
     <properties>
@@ -90,6 +76,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <outputFile>${basedir}/.utility/dependencies.txt</outputFile>
+        <custom.path>target/release/</custom.path>
     </properties>
 
     <build>
@@ -117,20 +104,10 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>net.gravitydevelopment.updater:updater</include>
-                                    <include>com.alternacraft:aclib</include>
-                                </includes>
-                            </artifactSet>
                             <relocations>
                                 <relocation>
-                                    <pattern>net.gravitydevelopment.updater</pattern>
-                                    <shadedPattern>com.alternacraft.Updater</shadedPattern>
-                                </relocation>                                
-                                <relocation>
                                     <pattern>com.alternacraft.aclib</pattern>
-                                    <shadedPattern>com.alternacraft.Library</shadedPattern>
+                                    <shadedPattern>${project.groupId}.${project.artifactId}.ACLIB</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

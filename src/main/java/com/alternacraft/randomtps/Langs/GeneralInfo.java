@@ -14,29 +14,43 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Files;
+package com.alternacraft.randomtps.Langs;
 
-import static com.alternacraft.aclib.langs.LangManager.DIRECTORY;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.langs.LangInterface;
-import com.alternacraft.aclib.utils.StrUtils;
-import java.io.File;
+import com.alternacraft.aclib.langs.LangManager;
+import com.alternacraft.aclib.utils.StringsUtils;
 import java.util.HashMap;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-public enum Messages implements LangInterface {
+public enum GeneralInfo implements LangInterface {
     // <editor-fold defaultstate="collapsed" desc="MESSAGES">
     PLUGIN_ENABLED(
             "Plugin activado correctamente",
-            "Plugin activated successfully"
+            "Plugin enabled correctly"
     ),
     PLUGIN_DISABLED(
             "Plugin desactivado correctamente",
-            "Plugin disabled!"
+            "Plugin disabled correctly"
     ),
     PLUGIN_RELOAD(
-            "&6Plugin recargado correctamente",
-            "&6Plugin recharged properly"
+            "&aPlugin recargado correctamente",
+            "&aPlugin reloaded succesfully"
+    ),
+    PLUGIN_CLEANED(
+            "&6Plugin limpiado correctamente",
+            "&6Plugin purged successfully"
+    ),
+    PLUGIN_NO_CLEANED(
+            "&4No se ha podido purgar la configuracion",
+            "&4You couldn't purge the configuration"
+    ),
+    COMMAND_FORBIDDEN(
+            "&4No puedes ejecutar ese comando",
+            "&4You can't execute that command"
+    ),
+    COMMAND_ARGUMENTS(
+            "&4Te faltan/sobran argumentos!",
+            "&4You spare arguments!"            
     );
     // </editor-fold>
 
@@ -48,31 +62,23 @@ public enum Messages implements LangInterface {
      * @param es Spanish
      * @param en English
      */
-    private Messages(String es, String en) {
+    private GeneralInfo(String es, String en) {
         this.locales.put(Langs.ES, es);
         this.locales.put(Langs.EN, en);
     }
 
     @Override
     public String getText(Langs lang) {
-        return StrUtils.translateColors(getDefaultText(lang));
+        return StringsUtils.translateColors(getDefaultText(lang));
     }
 
     @Override
     public String getDefaultText(Langs lang) {
-        // Save the value from this (internally)
         String value = (this.locales.get(lang) == null)
                 ? this.locales.get(Langs.EN) : this.locales.get(lang);
 
-        // File access to get custom message (if exists)
-        File langFile = new File(DIRECTORY + "messages_" + lang.name().replace("CUSTOM_", "") + ".yml");
-        YamlConfiguration langConf = YamlConfiguration.loadConfiguration(langFile);
+        String v = LangManager.getValueFromFile(lang, this);
 
-        // Value from the file (externally)
-        if (langConf != null && langConf.contains(this.name())) {
-            value = langConf.getString(this.name());
-        }
-
-        return value;
+        return (v == null) ? value : v;
     }
 }

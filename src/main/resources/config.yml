@@ -1,1 +1,75 @@
-Version: 1.0
+# DO NOT TOUCH #
+version: 1.0.0
+################
+
+############################################################
+# +------------------------------------------------------+ #
+# |                    PLUGIN CONTROL                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Customizable plugin prefix
+prefix: "&1[&bRandomTeleport&1] &r"
+
+# Enable/Disable metrics
+metrics: true
+
+# Notice Update Available
+alert: true
+# Automatic updates
+update: false
+
+# Error structure:
+# 0 - Simplified
+# 1 - Essential data
+# 2 - All data
+errorFormat: 2
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   LANGUAGE OPTIONS                   | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Default translations (Spanish (ES) | English (EN))
+# ############################# // Custom translations available \\ ##############################
+# German (DE) | Greek (GR) | French (FR) | Japanese (JP) | Chinese (CH) | Simplified Chinese (CN)
+# Russian (RU) | Portuguese (PT) | Swedish (SV) | Czech (CS) | Euskara (EU) | Galician (GL)
+# Catalan (CA) | Croatian (HR) | Korean (KO) | Ukrainian (UK) | Polish (PL) | Slovenian (SL)
+# Serbian (SR) | Romanian (RO)
+# ################################################################################################
+defaultLang: EN
+## For system messages and for players whose launcher has another language ##
+## [Custom translations] Also, you can add your own translations...
+## Example: You can create "messages_DE" and the messages into the file will be shown to the players whose launcher language is German
+
+############################################################
+# +------------------------------------------------------+ #
+# |                 ZONE CONFIGURATIONS                  | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Selection info
+selection:
+    complete: add
+    cancel: cancel
+
+# Build
+building:    
+    instant: true
+
+# Limits
+coords:
+    x:
+        max: 10000
+        min: -5000        
+    # Specific coordenate
+    y: 150    
+    z:
+        max: 10000
+        min: -5000
+
+# Subzone
+subzone:
+    # Number of tries to teleport a player to a zubzone
+    tries: 3

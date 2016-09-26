@@ -3,7 +3,7 @@ language: java
 jdk:
   - openjdk7
 
-script: mvn test
+script: mvn clean install
 after_success:
   - bash <(curl -s https://codecov.io/bash)  
   - bash .utility/environment.sh
@@ -12,17 +12,12 @@ deploy:
   provider: releases
   api_key:
     secure: fPrvaH921p1efOjvqDwI6O3Sw905ymuQTs3In2hG87SqPSRg8eZzlx2BmVoV/RG9lR7hi4lWDVg93/oCTVwS2h1pr8CgE8UHRg6257I4+5SKZ7WIluK7s1Jo2bHSV9E3qnjBr8wcypMqfUzO2RsbqWnPk2NzczI7Lj5/fHbo42h4s53gOgxEsD5KL8Xrt//52mud1Upl9Q/5sxYiwsXAc7aOAyTSVI5Sj6kwWqnHHwwQLL2qs5TFv/vORCtT++k4oyg4IxaaGc2mkXuis9zq8JV2Eglwn6nA3RUdskvCym6s6sbMtyr0K8HAX5WCj32GJx9Ubh7jkSTjKEVauFXPIG3S6H61RPOKumzFrbXZcyRbIqxvRxplGrXUiDzYSdfzH587HhHLUvsmDu+xI+/xT2/9Y/WvPBUxG6pG4QvzCEtCGV6lBmy24nDfBIiPlgs834EocjOKVlJto8mSY3m58sLMItBx8lsWe81jRGtYJDN96BM8bds4SvN/mTs1Jwr9+WLhMtDw5xIekAJp7DXpSG9D3fmal/ddG/1TJkOEv6ugfqCE7+UwvqQfeDuu4PIOhW2sVYOujxAJDQbCCLZ8+B4gVfSPX+ndy40v/h+/5jc0dhdcve3P/tFOCC8iDdx8eUA1tPM9Q5cZkVTtIT/HH9nVE9zWGuGR1zpMffg3RX8=
-  file: target/dependency/RandomTPs.jar
+  file: target/release/RandomTPs.jar
   on:
     tags: true
   
 notifications:
   email: false
-  irc:
-    channels:
-    - "irc://freenode/randomtps"
-    use_notice: true
-    skip_join: true
 
 env:    
   global:

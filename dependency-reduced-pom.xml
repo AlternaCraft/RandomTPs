@@ -4,7 +4,7 @@
   <groupId>com.alternacraft</groupId>
   <artifactId>RandomTPs</artifactId>
   <name>RandomTPs</name>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>1.0.0</version>
   <description>A random teleport plugin</description>
   <url>http://dev.bukkit.org/bukkit-plugins/randomtps/</url>
   <inceptionYear>2016</inceptionYear>
@@ -56,20 +56,10 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <artifactSet>
-                <includes>
-                  <include>net.gravitydevelopment.updater:updater</include>
-                  <include>com.alternacraft:aclib</include>
-                </includes>
-              </artifactSet>
               <relocations>
                 <relocation>
-                  <pattern>net.gravitydevelopment.updater</pattern>
-                  <shadedPattern>com.alternacraft.Updater</shadedPattern>
-                </relocation>
-                <relocation>
                   <pattern>com.alternacraft.aclib</pattern>
-                  <shadedPattern>com.alternacraft.Library</shadedPattern>
+                  <shadedPattern>${project.groupId}.${project.artifactId}.ACLIB</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>
@@ -136,16 +126,12 @@
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
     <repository>
-      <id>aclib-releases</id>
+      <id>aclib-snapshots</id>
       <url>https://oss.jfrog.org/oss-snapshot-local/</url>
     </repository>
     <repository>
-      <id>sk89q-repo</id>
-      <url>http://maven.sk89q.com/repo/</url>
-    </repository>
-    <repository>
-      <id>gravity-repo</id>
-      <url>http://repo.gravitydevelopment.net</url>
+      <id>Plugin Metrics</id>
+      <url>http://repo.mcstats.org/content/repositories/public</url>
     </repository>
   </repositories>
   <dependencies>
@@ -156,32 +142,32 @@
       <scope>provided</scope>
       <exclusions>
         <exclusion>
+          <artifactId>commons-lang</artifactId>
+          <groupId>commons-lang</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>json-simple</artifactId>
+          <groupId>com.googlecode.json-simple</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>gson</artifactId>
+          <groupId>com.google.code.gson</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>ebean</artifactId>
+          <groupId>org.avaje</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>snakeyaml</artifactId>
+          <groupId>org.yaml</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>bungeecord-chat</artifactId>
           <groupId>net.md-5</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>com.sk89q</groupId>
-      <artifactId>worldguard</artifactId>
-      <version>LATEST</version>
-      <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>worldedit</artifactId>
-          <groupId>com.sk89q</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bukkit-classloader-check</artifactId>
-          <groupId>com.sk89q.spigot</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commandbook</artifactId>
-          <groupId>com.sk89q</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jsr305</artifactId>
-          <groupId>com.google.code.findbugs</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -243,6 +229,7 @@
     </snapshotRepository>
   </distributionManagement>
   <properties>
+    <custom.path>target/release/</custom.path>
     <outputFile>${basedir}/.utility/dependencies.txt</outputFile>
     <maven.compiler.source>1.7</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -19,28 +19,34 @@ package com.alternacraft.randomtps.Commands;
 import com.alternacraft.aclib.MessageManager;
 import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
-import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.randomtps.Main.Manager;
-import com.alternacraft.randomtps.Langs.GeneralInfo;
+import com.alternacraft.randomtps.Langs.GameInfo;
+import static com.alternacraft.randomtps.Listeners.HandleBuild.DISABLED;
+import com.alternacraft.randomtps.Utils.ZoneBuilder;
+import java.util.Map;
 
-public class ReloadCommand implements ArgumentExecutor {
+public class RestoreAllCommand implements ArgumentExecutor {
 
     @Override
     public boolean execute(CommandSender cs, String[] args) {
         Langs lang = Localizer.getLocale(cs);
-
-        LangManager.clearMessages();
         
-        // Reload main configuration
-        Manager.BASE.init(Manager.BASE.plugin(), Manager.INSTANCE.loader());
-        
-        // Other things
-        Manager.INSTANCE.loadLanguages();
-        Manager.INSTANCE.loadLocalizations();
-
-        MessageManager.sendCommandSender(cs, GeneralInfo.PLUGIN_RELOAD.getText(lang));
+        if (!DISABLED.isEmpty()) {
+            MessageManager.sendCommandSender(cs, GameInfo.RESET_ZONES.getText(lang));
+            for (Map.Entry<String, ZoneBuilder> entry : DISABLED.entrySet()) {
+                ZoneBuilder zonebuilder = entry.getValue();
+                if (zonebuilder.isFinished()) {
+                    zonebuilder.hide(cs);
+                } else {
+                    MessageManager.sendCommandSender(cs,
+                            GameInfo.ZONE_IN_USE.getText(lang));
+                }
+            }
+        } else {
+            MessageManager.sendCommandSender(cs,
+                    GameInfo.NO_ZONES_TO_RESET.getText(lang));
+        }
         
         return true;
     }

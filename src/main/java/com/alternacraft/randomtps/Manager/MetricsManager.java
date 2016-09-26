@@ -14,17 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Commands;
+package com.alternacraft.randomtps.Manager;
 
 import com.alternacraft.aclib.MessageManager;
-import org.bukkit.command.CommandSender;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
+import com.alternacraft.randomtps.Main.Manager;
+import java.io.IOException;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
-public class PurgeCommand implements ArgumentExecutor {
-    
-    @Override
-    public boolean execute(CommandSender cs, String[] args) {
-        MessageManager.sendCommandSender(cs, "Purge");
-        return true;
+public class MetricsManager {
+
+    // <editor-fold defaultstate="collapsed" desc="GRAPHS">
+    // </editor-fold>
+
+    public static void sendData(final JavaPlugin plugin) {
+        try {
+            if (Manager.INSTANCE.loader().isMetrics()) {
+                Metrics metrics = new Metrics(plugin);
+                
+                // Graphs //
+                
+                metrics.start();
+            }
+        } catch (IOException e) {
+            MessageManager.logError(e.getMessage());
+        }
     }
 }

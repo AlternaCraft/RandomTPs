@@ -14,20 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Commands;
+package com.alternacraft.randomtps.Events;
 
-import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import org.bukkit.command.CommandSender;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
 
-public class DefineCommand implements ArgumentExecutor {
+public class BuildCompletedEvent extends BuildEvent {
     
-    public static String INFO = "Configure a teleport zone";
-    public static String USAGE = "rt define <name>";
+    public BuildCompletedEvent(CommandSender cs, ZoneBuilder zb) {
+        super(cs, zb);
+    }
     
-    @Override
-    public boolean execute(CommandSender cs, String[] args) {
-        MessageManager.sendCommandSender(cs, "Config");
-        return true;
+    public long getElapsedtime() {
+        return this.zoneBuilder().elapsedTime();
+    }
+    
+    public int getElapsedtimeInSeconds() {
+        return (int)(getElapsedtime() / 1000);
     }
 }

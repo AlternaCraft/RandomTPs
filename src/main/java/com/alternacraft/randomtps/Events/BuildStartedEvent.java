@@ -14,17 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Commands;
+package com.alternacraft.randomtps.Events;
 
-import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import org.bukkit.command.CommandSender;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
 
-public class PurgeCommand implements ArgumentExecutor {
-    
-    @Override
-    public boolean execute(CommandSender cs, String[] args) {
-        MessageManager.sendCommandSender(cs, "Purge");
-        return true;
+public class BuildStartedEvent extends BuildEvent {
+
+    public BuildStartedEvent(CommandSender cs, ZoneBuilder zb) {
+        super(cs, zb);
     }
 }
