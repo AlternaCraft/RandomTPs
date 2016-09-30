@@ -17,8 +17,8 @@
 package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.randomtps.Manager.MetricsManager;
-import com.alternacraft.randomtps.Manager.UpdaterManager;
+import com.alternacraft.randomtps.Managers.MetricsManager;
+import com.alternacraft.randomtps.Managers.UpdaterManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**

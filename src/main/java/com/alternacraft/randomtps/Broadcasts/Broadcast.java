@@ -14,29 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Listeners;
+package com.alternacraft.randomtps.Broadcasts;
 
-import com.alternacraft.aclib.listeners.HandlersInterface;
-import com.alternacraft.randomtps.Broadcasts.BroadcastAsExp;
-import org.bukkit.event.Listener;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
-public enum Handlers implements HandlersInterface {
+public interface Broadcast {
 
-    BUILD(new HandleBuild()),
-    FALL(new HandleFall()),
-    GODS(new HandleGods()),
-    GODS_EXP_BROADCAST(new BroadcastAsExp()),
-    TELEPORT(new HandleTeleport()),
-    DEFINE(new HandleZoneCreation());
+    /**
+     * Method for showing a broadcast
+     * 
+     * @param pl
+     * @param time
+     * @return 
+     */
+    public int showBroadcast(final Player pl, int time);
 
-    private final Listener listener;
-
-    Handlers(Listener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public Listener getListener() {
-        return listener;
-    }
+    /**
+     * Method for stopping a broadcast
+     * 
+     * @param player
+     */
+    public void stopBroadcast(OfflinePlayer player);
+    
 }

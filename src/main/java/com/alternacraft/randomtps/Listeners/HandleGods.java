@@ -24,6 +24,7 @@ import com.alternacraft.randomtps.Events.PlayerBecomesUselessEvent;
 import com.alternacraft.randomtps.Events.PlayerGodModeEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
+import com.alternacraft.randomtps.Managers.BroadcastManager;
 import com.alternacraft.randomtps.Utils.Localization;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +39,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import static org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.PLUGIN;
@@ -51,21 +51,6 @@ public class HandleGods implements Listener {
     private final List<UUID> gods = new ArrayList();
     // Cancel delayed task
     private final Map<UUID, Integer> overtime = new HashMap();
-
-    // Old experience
-    private final Map<UUID, Integer> experience = new HashMap();
-    // Cancel repeat task
-    private final Map<UUID, Integer> counter = new HashMap();
-
-    //<editor-fold defaultstate="collapsed" desc="COUNTER FIX">
-    @EventHandler
-    public void onPlayerGetsExperience(PlayerExpChangeEvent e) {
-        UUID uuid = e.getPlayer().getUniqueId();
-        if (experience.containsKey(uuid)) {
-            e.setAmount(0);
-        }
-    }
-    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="BAD EXIT">
     @EventHandler
@@ -124,7 +109,7 @@ public class HandleGods implements Listener {
 
         // Ending
         if (l.broadcastAsEXP()) {
-            counter(pl, time);
+            BroadcastManager.callBroadcast(BroadcastManager.TYPE.AS_EXP, pl, time);
         }
         
         overtime(pl, time);
@@ -132,19 +117,6 @@ public class HandleGods implements Listener {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="END TASKS">
-    //<editor-fold defaultstate="collapsed" desc="SECUNDARY">
-    private void counter(final Player pl, int time) {
-        experience.put(pl.getUniqueId(), pl.getLevel());
-        pl.setLevel(time);
-
-        counter.put(pl.getUniqueId(), Bukkit.getServer().getScheduler().runTaskTimer(Manager.BASE.plugin(), new Runnable() {
-            @Override
-            public void run() {
-                pl.setLevel(pl.getLevel() - 1);
-            }
-        }, TPS, TPS).getTaskId());
-    }
-
     private void overtime(final OfflinePlayer pl, final int time) {
         overtime.put(pl.getUniqueId(), Bukkit.getServer().getScheduler().runTaskLater(Manager.BASE.plugin(), new Runnable() {
             @Override
@@ -158,23 +130,11 @@ public class HandleGods implements Listener {
             }
         }, TPS * time).getTaskId());
     }
-
-    //</editor-fold>
+    
     private void clearGod(OfflinePlayer player) {
-        // Counter
-        if (counter.containsKey(player.getUniqueId())) {
-            Bukkit.getServer().getScheduler().cancelTask(counter.get(player.getUniqueId()));
-            counter.remove(player.getUniqueId());
-
-            if (player.isOnline()) {
-                Player pl = (Player) player;
-                UUID uuid = pl.getUniqueId();
-
-                // Experience        
-                int level = experience.get(uuid);
-                experience.remove(uuid);
-                pl.setLevel(level);
-            }
+        // Broadcast
+        if (BroadcastManager.BROADCASTERS.containsKey(player.getUniqueId())) {
+            BroadcastManager.stopBroadcast(player);
         }
 
         // Players

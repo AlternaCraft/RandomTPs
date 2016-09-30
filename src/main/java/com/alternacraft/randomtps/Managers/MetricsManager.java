@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Manager;
+package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.randomtps.Main.Manager;

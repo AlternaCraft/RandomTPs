@@ -20,6 +20,7 @@ import com.alternacraft.aclib.langs.LangInterface;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.StringsUtils;
+import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
 
 public enum DefineInfo implements LangInterface {
@@ -99,7 +100,7 @@ public enum DefineInfo implements LangInterface {
     @Override
     public String getDefaultText(Langs lang) {
         String value = (this.locales.get(lang) == null)
-                ? this.locales.get(Langs.EN) : this.locales.get(lang);
+                ? this.locales.get(Manager.BASE.getMainLanguage()) : this.locales.get(lang);
 
         String v = LangManager.getValueFromFile(lang, this);
 

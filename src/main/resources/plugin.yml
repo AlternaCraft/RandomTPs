@@ -1,6 +1,6 @@
 ## Plugin YAML file
 name: RandomTPs
-version: 1.0.1
+version: 1.0.0
 description: Random teleport plugin
 database: false
 website: alternacraft.github.io/RandomTPs/
