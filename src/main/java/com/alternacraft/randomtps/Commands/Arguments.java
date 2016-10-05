@@ -23,56 +23,50 @@ import com.alternacraft.randomtps.Langs.CommandInfo;
 public enum Arguments implements ArgumentsInterface {
     NONE(
             "",
-            "rt",
+            "rtp",
             CommandInfo.COMMAND_EMPTY,
-            new AllCommands()
+            new Commands()
     ),
     INFO(
             "info",
-            "rt info",
+            "rtp info",
             CommandInfo.COMMAND_INFO_DESC,
             new InfoCommand()
     ),
     ZONE(
             "zone",
-            "rt zone [list | toggleActive | go | create | show | hide]",
+            "rtp zone [list | toggleactive | go | create | show | hide | restoreall]",
             CommandInfo.COMMAND_ZONE_DESC,
             new ZoneCommand()
     ),
-    RESTORE(
-            "restoreall",
-            "rt restoreall",
-            CommandInfo.COMMAND_RESTOREALL_DESC,
-            new RestoreAllCommand()
-    ),
     PURGE(
             "purge",
-            "rt purge",
+            "rtp purge",
             CommandInfo.COMMAND_PURGE_DESC,
             new PurgeCommand()
     ),
     RELOAD(
             "reload",
-            "rt reload",
+            "rtp reload",
             CommandInfo.COMMAND_RELOAD_DESC,
             new ReloadCommand()
     ),
     STATS(
             "stats",
-            "rt stats",
+            "rtp stats",
             CommandInfo.COMMAND_STATS_DESC,
             new StatsCommand()
     );
 
     private final String arg, usage;
     private final Enum info;
-    private final ArgumentExecutor clazz;
+    private final ArgumentExecutor instance;
 
-    Arguments(String argument, String usage, Enum description, ArgumentExecutor clazz) {
+    Arguments(String argument, String usage, Enum description, ArgumentExecutor instance) {
         this.arg = argument;
         this.usage = usage;
         this.info = description;
-        this.clazz = clazz;
+        this.instance = instance;
     }
 
     @Override
@@ -91,7 +85,7 @@ public enum Arguments implements ArgumentsInterface {
     }
 
     @Override
-    public ArgumentExecutor getClazz() {
-        return clazz;
+    public ArgumentExecutor getInstance() {
+        return instance;
     }
 }

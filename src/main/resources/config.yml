@@ -9,7 +9,7 @@ version: 1.0.0
 ############################################################
 
 # Customizable plugin prefix
-prefix: "&1[&bRandomTeleport&1] &r"
+prefix: "&1[&bRandomTPs&1] &r"
 
 # Enable/Disable metrics
 metrics: true

@@ -24,16 +24,17 @@ public interface Broadcast {
     /**
      * Method for showing a broadcast
      * 
-     * @param pl
-     * @param time
-     * @return 
+     * @param pl Player
+     * @param time Time in seconds
+     *
+     * @return Task id
      */
     public int showBroadcast(final Player pl, int time);
 
     /**
      * Method for stopping a broadcast
      * 
-     * @param player
+     * @param player OfflinePlayer
      */
     public void stopBroadcast(OfflinePlayer player);
     

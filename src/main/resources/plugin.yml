@@ -13,25 +13,25 @@ commands:
     randomtps:
         description: Main command of the plugin
         usage: /<command>
-        aliases: rt
+        aliases: rtp
 
 permissions:
-    rt.*:
+    rtp.*:
       description: Get access to all commands
       children:
         rt.info: true
         rt.zone: true
         rt.purge: true  
         rt.reload: true            
-    rt.info:
+    rtp.info:
         description: Show plugin commands
         default: true
-    rt.zone:
+    rtp.zone:
         description: Manage a region
-        default: false
-    rt.purge:
+        default: false     
+    rtp.purge:
         description: Clean configuration
         default: false
-    rt.reload:
+    rtp.reload:
         description: Reload the plugin
         default: false

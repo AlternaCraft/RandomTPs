@@ -28,9 +28,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class AllCommands implements ArgumentExecutor {
+public class Commands implements ArgumentExecutor {
 
-    public static String USAGE = "rt";
+    public static String USAGE = "rtp";
 
     @Override
     public boolean execute(CommandSender cs, String[] args) {

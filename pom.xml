@@ -16,8 +16,8 @@
         </repository>
         <!-- ACLIB repository -->
         <repository>
-            <id>aclib-snapshots</id>
-            <url>https://oss.jfrog.org/oss-snapshot-local/</url>
+            <id>aclib-releases</id>
+            <url>http://dl.bintray.com/alternacraft/maven/</url>
         </repository>
         <!-- METRICS -->
         <repository>
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.alternacraft</groupId>
             <artifactId>aclib</artifactId>    
-            <version>0.1.0-SNAPSHOT</version>      
+            <version>1.0.0</version>      
             <scope>compile</scope>
         </dependency>
         <!-- Metrics -->

@@ -16,9 +16,9 @@
  */
 package com.alternacraft.randomtps.Files;
 
-import static com.alternacraft.aclib.ConfigurationFile.DIRECTORY;
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.files.PluginFile;
+import static com.alternacraft.aclib.config.ConfigurationFile.DIRECTORY;
+import com.alternacraft.aclib.utils.PluginFile;
 import com.alternacraft.randomtps.Utils.Localization;
 import com.alternacraft.randomtps.Utils.Zone;
 import java.io.File;

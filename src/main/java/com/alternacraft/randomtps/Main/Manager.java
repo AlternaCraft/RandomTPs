@@ -18,13 +18,13 @@ package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.aclib.PluginBase;
-import com.alternacraft.aclib.arguments.ArgumentsRegistration;
+import com.alternacraft.aclib.arguments.ArgumentsRegister;
 import com.alternacraft.aclib.hook.ExternalPluginRegister;
 import com.alternacraft.aclib.hook.HookerInterface;
 import com.alternacraft.aclib.langs.DefaultMessages;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
-import com.alternacraft.aclib.listeners.HandlersRegistration;
+import com.alternacraft.aclib.listeners.HandlersRegister;
 import com.alternacraft.randomtps.Commands.Arguments;
 import com.alternacraft.randomtps.Files.ZonesFile;
 import com.alternacraft.randomtps.Langs.CommandInfo;
@@ -44,7 +44,7 @@ public class Manager {
     public static final ExternalPluginRegister HOOKS = ExternalPluginRegister.INSTANCE;
 
     private List<Localization> localizations = new ArrayList();
-    private ArgumentsRegistration argRegister = null;
+    private ArgumentsRegister mainCommand = null;
 
     /**
      * @since 0.0.9
@@ -69,12 +69,12 @@ public class Manager {
     }
 
     public void registerCommands() {
-        argRegister = new ArgumentsRegistration("randomtps", "rt");
-        argRegister.register(Arguments.class);
+        mainCommand = new ArgumentsRegister("randomtps", "rt");
+        mainCommand.register(Arguments.class);
     }
 
     public void registerListeners() {
-        HandlersRegistration.registerHandlers(Handlers.class);
+        HandlersRegister.load(Handlers.class);
     }
 
     public void loadLanguages() {
@@ -101,8 +101,8 @@ public class Manager {
         return HOOKS.getHooker(name);
     }
 
-    public ArgumentsRegistration getArgRegister() {
-        return argRegister;
+    public ArgumentsRegister getArgRegister() {
+        return mainCommand;
     }
 
     /* LOCALIZATIONS */

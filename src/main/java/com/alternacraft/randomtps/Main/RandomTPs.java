@@ -33,7 +33,7 @@ public class RandomTPs extends JavaPlugin {
     public void onEnable() {
         Manager pluginManager = Manager.INSTANCE;
 
-        Manager.BASE.definePluginPrefix("&1[&bRandomTeleport&1] &r");
+        Manager.BASE.definePluginPrefix("&1[&bRandomTPs&1] &r");
         
         // Plugin manager init
         if (!pluginManager.setup(this)) {
@@ -50,12 +50,12 @@ public class RandomTPs extends JavaPlugin {
         });
 
         // Sends enabled message
-        MessageManager.log("RandomTeleport has been enabled!");
+        MessageManager.log(Manager.BASE.pluginPrefix() + " has been enabled!");
     }
 
     @Override
     public void onDisable() {
         // Sends disable message
-        MessageManager.log("RandomTeleport has been disabled!");
+        MessageManager.log(Manager.BASE.pluginPrefix() + " has been disabled!");
     }
 }

@@ -27,6 +27,7 @@ import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Listeners.HandleBuild;
+import static com.alternacraft.randomtps.Listeners.HandleBuild.DISABLED;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.Localization;
 import com.alternacraft.randomtps.Utils.ZoneBuilder;
@@ -40,8 +41,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import static com.alternacraft.randomtps.Listeners.HandleBuild.DISABLED;
-import com.alternacraft.randomtps.Listeners.HandleZoneCreation;
+import java.util.Map;
 
 public class ZoneCommand implements ArgumentExecutor {
 
@@ -82,7 +82,7 @@ public class ZoneCommand implements ArgumentExecutor {
                 }
                 break;
             // </editor-fold>
-            case "toggleActive":
+            case "toggleactive":
                 //<editor-fold defaultstate="collapsed" desc="TOGGLE CODE">
                 if (args.length > 2) {
                     String zone = args[2];
@@ -244,6 +244,25 @@ public class ZoneCommand implements ArgumentExecutor {
                 }
                 break;
             // </editor-fold>
+            case "restoreall":
+                //<editor-fold defaultstate="collapsed" desc="RESTORE ALL CODE">
+                if (!DISABLED.isEmpty()) {
+                    MessageManager.sendCommandSender(cs, GameInfo.RESET_ZONES.getText(lang));
+                    for (Map.Entry<String, ZoneBuilder> entry : DISABLED.entrySet()) {
+                        ZoneBuilder zonebuilder = entry.getValue();
+                        if (zonebuilder.isFinished()) {
+                            zonebuilder.hide(cs);
+                        } else {
+                            MessageManager.sendCommandSender(cs,
+                                    GameInfo.ZONE_IN_USE.getText(lang));
+                        }
+                    }
+                } else {
+                    MessageManager.sendCommandSender(cs,
+                            GameInfo.NO_ZONES_TO_RESET.getText(lang));
+                }
+                break;
+                //</editor-fold>
             default:
                 return false;
         }

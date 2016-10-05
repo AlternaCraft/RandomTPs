@@ -56,5 +56,4 @@ public class BroadcastManager {
         BROADCASTERS.get(player.getUniqueId()).stopBroadcast(player);
         BROADCASTERS.remove(player.getUniqueId());
     }
-
 }
