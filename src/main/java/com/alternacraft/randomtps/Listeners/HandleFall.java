@@ -31,13 +31,16 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class HandleFall implements Listener {
 
-    private final Map<UUID, String> dropped = new HashMap();
+    private static final Map<UUID, String> DROPPED = new HashMap();
     
     @EventHandler
     public void onPlayerDropped(PlayerDroppedEvent e) {
         UUID uuid = e.player().getUniqueId();
-        if (!dropped.containsKey(uuid)) {
-            dropped.put(uuid, e.zoneName());
+        if (!DROPPED.containsKey(uuid)) {
+            if (HandleTeleport.CANCELEDTP.contains(uuid)) {
+                HandleTeleport.CANCELEDTP.remove(uuid);
+            }
+            DROPPED.put(uuid, e.zoneName());
         }
     }
 
@@ -48,8 +51,15 @@ public class HandleFall implements Listener {
         }
         
         Player p = (Player) e.getEntity();
-
-        for (Map.Entry<UUID, String> entry : dropped.entrySet()) {
+        
+        // Avoiding instakill on tp
+        if (HandleTeleport.CANCELEDTP.contains(p.getUniqueId())) {
+            e.setCancelled(true);
+            HandleTeleport.CANCELEDTP.remove(p.getUniqueId());
+            return;
+        }
+        
+        for (Map.Entry<UUID, String> entry : DROPPED.entrySet()) {
             UUID player = entry.getKey();
             String zone = entry.getValue();
             if (player.equals(p.getUniqueId())) {

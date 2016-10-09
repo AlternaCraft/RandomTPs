@@ -155,12 +155,10 @@ public class ZonesFile {
                 List<Zone> zones = entry.getValue();
                 int i = 1;
                 for (Zone z : zones) {
-                    ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p1.x", z.getP1().getBlockX());
-                    ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p1.y", z.getP1().getBlockY());
+                    ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p1.x", z.getP1().getBlockX());                    
                     ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p1.z", z.getP1().getBlockZ());
 
                     ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p2.x", z.getP2().getBlockX());
-                    ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p2.y", z.getP2().getBlockY());
                     ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p2.z", z.getP2().getBlockZ());
 
                     i++;
@@ -221,12 +219,12 @@ public class ZonesFile {
                 for (String subzone : szs) {
                     Vector v1 = new Vector(
                             (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p1.x"),
-                            (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p1.y"),
+                            0, // I dont need it
                             (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p1.z")
                     );
                     Vector v2 = new Vector(
                             (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p2.x"),
-                            (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p2.y"),
+                            0, // I dont need it
                             (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p2.z")
                     );
 

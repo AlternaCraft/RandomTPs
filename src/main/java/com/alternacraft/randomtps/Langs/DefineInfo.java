@@ -27,55 +27,55 @@ public enum DefineInfo implements LangInterface {
     // <editor-fold defaultstate="collapsed" desc="MESSAGES">
     ALREADY_DEFINING(
             "&cUsted ya está definiendo una zona",
-            ""
+            "&cYou are already defining a zone"
     ),
     REDEFINING(
             "&cEsa zona ya existe por lo que se reajustaran los valores",
-            ""
+            "&cThat zone already exists so you are defining again"
     ),
     STOP_DEFINING(
             "&aCreación de zona cancelada",
-            ""
+            "&aZone creation canceled"
     ),
     NOT_DEFINING(
             "&cNo está definiendo ninguna zona",
-            ""
+            "&cYou are not defining any zone"
     ),
     SELECTION(
-            "&aBloque (%BLOCK_X%, %BLOCK_Y%, %BLOCK_Z%) seleccionado.",
-            ""
+            "&aBloque (%BLOCK_X%, %BLOCK_Y%, %BLOCK_Z%) seleccionado",
+            "&aBlock (%BLOCK_X%, %BLOCK_Y%, %BLOCK_Z%) selected"
     ),
     NO_SELECTED(
-            "&c¡No ha seleccionado ningún punto!",
-            ""
+            "&c¡No ha seleccionado ninguna coordenada!",
+            "&cYou haven not selected any coordenate!"
     ),
     INVALID_WORLD(
             "&c¡El mundo %WORLD% no existe!",
-            ""
+            "&cWorld %WORLD% does not exist!"
     ),
     HOW_TO_CANCEL(
             "&6Recuerde que puede cancelar la creación de la zona escribiendo: \"%CANCEL%\"",
-            ""
+            "&6You remember you can cancel a zone creation by writing: \"%CANCEL%\""
     ),
     POINT_1(
-            "&ePor favor, seleccione la primera coordenada y escriba: '%SELECT%'",
-            ""
+            "&ePor favor, seleccione la primera coordenada y escriba: \"%SELECT%\"",
+            "&ePlease, you have to select the first coordenate and write: \"%SELECT%\""
     ),
     POINT_2(
-            "&eBien, ahora seleccione la segunda coordenada y escriba: '%SELECT%'",
-            ""
+            "&eBien, ahora seleccione la segunda coordenada y escriba: \"%SELECT%\"",
+            "&eCool. Now, you have to select the second coordenate and write: \"%SELECT%\""
     ),
     SUBZONE(
             "&e¿Quieres definir una subzona? (y/n)",
-            ""
+            "&edo you want to define a subezone? (y/n)"
     ),
     WORLDS(
             "&e¡Perfecto!. Ahora indique el mundo, o los mundos (<mundo1> <mundo2> etc), de destino",
-            ""
+            "&ePerfect!, Now you have to indicate the destination world/s (<world1> <world2> etc)"
     ),
     ZONE_CREATED(
             "&aZona creada con exito",
-            ""
+            "&aZone created sucessfully"
     );
     // </editor-fold>
 

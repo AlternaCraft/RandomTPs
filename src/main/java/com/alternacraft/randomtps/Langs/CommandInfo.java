@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 public enum CommandInfo implements LangInterface {
     // <editor-fold defaultstate="collapsed" desc="MESSAGES">
-// <editor-fold defaultstate="collapsed" desc="MESSAGES">
     COMMAND_EMPTY(
             "Lista de comandos",
             "Command list"
@@ -52,7 +51,7 @@ public enum CommandInfo implements LangInterface {
     ),
     COMMAND_PURGE_DESC(
             "Para limpiar las zonas NO activas",
-            "Remove unused zones"
+            "Remove NOT active zones"
     ),
     COMMAND_RELOAD_DESC(
             "Para recargar el config del plugin",

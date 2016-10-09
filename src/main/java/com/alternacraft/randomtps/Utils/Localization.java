@@ -17,11 +17,14 @@
 package com.alternacraft.randomtps.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import static org.bukkit.entity.EntityType.PLAYER;
@@ -49,17 +52,17 @@ public class Localization extends Zone {
 
         this.zoneName = zonename;
         this.origin = origin;
-        
+
         this.dests.addAll(destinations);
     }
 
     public Localization(String zonename, Zone zone, String origin,
-             Map<String, List<Zone>> subzones) {
+            Map<String, List<Zone>> subzones) {
         super(zone.getP1(), zone.getP2());
 
         this.zoneName = zonename;
         this.origin = origin;
-        
+
         this.subzones = subzones;
     }
 
@@ -135,11 +138,11 @@ public class Localization extends Zone {
     public boolean hasSubzones() {
         return this.subzones.size() > 0;
     }
-    
+
     public Map<String, List<Zone>> getSubzones() {
         return subzones;
     }
-    
+
     /**
      * Method for checking if a player is in a location
      *
@@ -153,43 +156,185 @@ public class Localization extends Zone {
     /**
      * Method for checking if a location meets the requirements
      * <ul>
-     * <li>Chunk has not liquids</li>
-     * <li>Chunk has not players</li>
+     * <li>Chunks has not liquids</li>
+     * <li>Chunks has not players</li>
      * </ul>
      *
      * @param l Location
      * @return boolean
      */
-    public static boolean isValid(Location l) {
-        Chunk chunk = l.getChunk();
+    public static boolean isValidZone(Location l) {
+        Chunk[] chunks = getCollidantChunks(l);
 
-        boolean loaded = true;
-        if (!chunk.isLoaded()) {
-            loaded = false;
-            chunk.load();
-        }
-
-        // Search another player into the chunk
-        Entity[] entities = chunk.getEntities();
-        for (Entity e : entities) {
-            if (e.getType() == PLAYER) {
-                if (!loaded) {
-                    chunk.unload(); // Maintenance
-                }
-                return false;
+        for (Chunk chunk : chunks) {
+            boolean wasloaded = true;
+            if (!chunk.isLoaded()) {
+                wasloaded = false;
+                chunk.load();
             }
-        }
 
-        // Check if it has liquid blocks
-        for (BlockState b : chunk.getTileEntities()) {
-            if (b.getBlock().isLiquid()) {
-                if (!loaded) {
-                    chunk.unload(); // Maintenance
+            if (hasPlayers(chunk.getEntities()) || hasLiquidBlocks(chunk.getTileEntities())) {
+                if (!wasloaded) {
+                    chunk.unload();
                 }
                 return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * Method for checking if a location meets the requirements
+     * <ul>
+     * <li>Chunks has not liquids</li>
+     * <li>Chunks has not players</li>
+     * </ul>
+     *
+     * @param l Location
+     * @param zone Subzone
+     * @return boolean
+     */
+    public static boolean isValidSubZone(Location l, Zone zone) {
+        Chunk[] chunks = getCollidantChunks(l);
+        
+        for (Chunk chunk : chunks) {
+            boolean wasloaded = true;
+            if (!chunk.isLoaded()) {
+                wasloaded = false;
+                chunk.load();
+            }
+
+            if (hasPlayersInto(chunk.getEntities(), zone)
+                    || hasLiquidBlocksInto(chunk.getTileEntities(), zone)) {
+                if (!wasloaded) {
+                    chunk.unload();
+                }
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Method for checking if there are players inside of a zone
+     *
+     * @param entities Entity[]
+     * @param z Zone
+     *
+     * @return boolean
+     */
+    private static boolean hasPlayersInto(Entity[] entities, Zone z) {
+        for (Entity e : entities) {
+            if (e.getType() == PLAYER && isInsideOfSubzone(e.getLocation().toVector(), z)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method for checking if there are players inside of chunks
+     *
+     * @param entities Entity[]
+     *
+     * @return boolean
+     */
+    private static boolean hasPlayers(Entity[] entities) {
+        // Search another player into the chunk
+        for (Entity e : entities) {
+            if (e.getType() == PLAYER) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method for checking if there are liquids inside of a zone
+     *
+     * @param entities BlockState[]
+     * @param z Zone
+     *
+     * @return boolean
+     */
+    private static boolean hasLiquidBlocksInto(BlockState[] blocks, Zone z) {
+        for (BlockState b : blocks) {
+            if (b.getBlock().isLiquid() && isInsideOfSubzone(b.getLocation().toVector(), z)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method for checking if there are liquids inside of chunks
+     *
+     * @param entities BlockState[]
+     * @param z Zone
+     *
+     * @return boolean
+     */
+    private static boolean hasLiquidBlocks(BlockState[] blocks) {
+        // Check if it has liquid blocks
+        for (BlockState b : blocks) {
+            if (b.getBlock().isLiquid()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method for checking if a player is inside of a subzone
+     *
+     * @param p Player coordenates
+     * 
+     * @return true if he is & false if not
+     */
+    private static boolean isInsideOfSubzone(Vector p, Zone z) {
+        Vector max = Vector.getMaximum(z.getP1(), z.getP2());
+        Vector min = Vector.getMinimum(z.getP1(), z.getP2());
+        
+        int xplayer = (p.getBlockX() < 0) ? p.getBlockX() + 1:p.getBlockX();
+        int zplayer = (p.getBlockZ() < 0) ? p.getBlockZ() + 1:p.getBlockZ();
+        
+        return ((xplayer <= max.getBlockX() && xplayer >= min.getBlockX()) 
+                && (zplayer <= max.getBlockZ() && zplayer >= min.getBlockZ()));
+    }
+
+    /**
+     * Method for getting collidant chunks by location
+     *
+     * @param l Location
+     *
+     * @return Chunk[]
+     */
+    private static Chunk[] getCollidantChunks(Location l) {
+        Chunk[] chunks = new Chunk[9];
+
+        Chunk origin = l.getChunk();
+        
+        int xmin = origin.getX() - 1;
+        int zmin = origin.getZ() - 1;
+
+        int diff = 3;
+
+        int xtemp = xmin;
+        int ztemp = zmin;
+
+        for (int i = 0; i < chunks.length; i++) {
+            if (ztemp < zmin + diff) {
+                chunks[i] = l.getWorld().getChunkAt(xtemp, ztemp);
+                ztemp++;
+            } else {
+                xtemp++;
+                ztemp = zmin;
+                i--;
+            }
+        }
+
+        return chunks;
     }
 }

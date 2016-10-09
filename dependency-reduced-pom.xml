@@ -4,7 +4,7 @@
   <groupId>com.alternacraft</groupId>
   <artifactId>RandomTPs</artifactId>
   <name>RandomTPs</name>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <description>A random teleport plugin</description>
   <url>http://dev.bukkit.org/bukkit-plugins/randomtps/</url>
   <inceptionYear>2016</inceptionYear>

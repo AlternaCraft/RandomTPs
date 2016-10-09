@@ -17,6 +17,7 @@
 package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.Randomizer;
 import com.alternacraft.randomtps.Events.PlayerDroppedEvent;
@@ -26,7 +27,12 @@ import com.alternacraft.randomtps.Utils.ElapsedTime;
 import com.alternacraft.randomtps.Utils.Localization;
 import com.alternacraft.aclib.utils.CustomLinkedMap;
 import com.alternacraft.randomtps.Utils.Zone;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -41,6 +47,11 @@ import org.bukkit.event.player.PlayerMoveEvent;
  */
 public class HandleTeleport implements Listener {
 
+    private static final int MAX_TRIES = 10000;
+
+    public static final HashSet<UUID> CANCELEDTP = new HashSet<>();
+    private final Map<UUID, Location> rollbackLocation = new HashMap();
+
     public HandleTeleport() {
     }
 
@@ -50,6 +61,15 @@ public class HandleTeleport implements Listener {
         List<Localization> zones = Manager.INSTANCE.getLocalizations();
 
         Player player = e.getPlayer();
+        Langs lang = Localizer.getLocale(player);
+
+        Location cLocation = new Location(player.getLocation().getWorld(),
+                player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1,
+                player.getLocation().getBlockZ());
+
+        if (!cLocation.getBlock().isEmpty()) {
+            rollbackLocation.put(player.getUniqueId(), player.getLocation());
+        }
 
         for (int i = 0; i < zones.size(); i++) {
             Localization localization = zones.get(i);
@@ -60,8 +80,9 @@ public class HandleTeleport implements Listener {
 
             // Same world
             if (player.getLocation().getWorld().getName().equalsIgnoreCase(localization.getOrigin())) {
+                // New instance for avoiding problems
                 Location playerLocation = new Location(player.getLocation().getWorld(),
-                        player.getLocation().getX(), player.getLocation().getBlockY(),
+                        player.getLocation().getBlockX(), player.getLocation().getBlockY(),
                         player.getLocation().getBlockZ());
 
                 try {
@@ -75,6 +96,7 @@ public class HandleTeleport implements Listener {
                         // Here comes the hard part, to get the location...
                         ElapsedTime et = new ElapsedTime() {
                             {
+                                // Testing purposes
                                 this.startCount();
                             }
                         };
@@ -82,10 +104,12 @@ public class HandleTeleport implements Listener {
                         CustomLinkedMap<String, List<Zone>> subzones = new CustomLinkedMap();
                         subzones.putAll(localization.getSubzones());
 
+                        int maxtries = 0;
+
                         if (subzones.isEmpty()) {
                             // Destination world
                             int randWorld = Randomizer.rand(
-                                    localization.getDestinations().size() - 1, 0);                            
+                                    localization.getDestinations().size() - 1, 0);
                             World destination = Bukkit.getServer().getWorld(
                                     localization.getDestinations().get(randWorld));
 
@@ -99,64 +123,70 @@ public class HandleTeleport implements Listener {
                                 location = new Location(destination,
                                         Randomizer.rand(max_x, min_x), y,
                                         Randomizer.rand(max_z, min_z));
-                                resul = Localization.isValid(location);
-                            } while (!resul);
+                                resul = Localization.isValidZone(location);
+                                maxtries++;
+                            } while (!resul && maxtries < MAX_TRIES);
 
                             ElapsedTime.recordValue("zone", et.getValue());
                         } else {
                             int tries = Manager.INSTANCE.loader().getTries();
-                            int randWorld = -1, randSubzone = -1;
+                            int previousworld = -1, randSubzone = -1;
 
                             do {
-                                int trandWorld = Randomizer.rand(subzones.size() - 1, 0);
-                                if (trandWorld == randWorld && subzones.size() > 0) {
+                                int randworld = Randomizer.rand(subzones.size() - 1, 0);
+                                if (randworld == previousworld && subzones.size() > 1) {
                                     continue; // No repeat
                                 }
-                                randWorld = trandWorld;
+                                previousworld = randworld;
 
-                                int trandSubzone = Randomizer.rand(subzones.getValue(trandWorld).size() - 1, 0);
-                                if (trandSubzone == randSubzone && subzones.getValue(trandWorld).size() > 0) {
+                                int trandSubzone = Randomizer.rand(subzones.getValue(randworld).size() - 1, 0);
+                                if (trandSubzone == randSubzone && subzones.getValue(randworld).size() > 1) {
                                     continue; // No repeat
                                 }
                                 randSubzone = trandSubzone;
 
                                 Zone zone = subzones.get(subzones
-                                        .getKey(randWorld)).get(randSubzone);
-                                
+                                        .getKey(previousworld)).get(randSubzone);
+
                                 zone.getP1().setY(Manager.INSTANCE.loader().getY());
                                 zone.getP2().setY(Manager.INSTANCE.loader().getY());
-                                
+
                                 // Destination world
                                 World destination = Bukkit.getServer().getWorld(
-                                        subzones.getKey(randWorld));
+                                        subzones.getKey(previousworld));
 
-                                int intent = 0;
-                                do {
-                                    location = zone.randomLocation(destination);
-                                    resul = Localization.isValid(location);
-                                    intent++;
-                                } while (intent < tries && !resul);
-                            } while (!resul);
+                                location = zone.randomLocation(destination);
+                                resul = Localization.isValidSubZone(location, zone);
+
+                                maxtries++;
+                            } while (!resul && maxtries < MAX_TRIES);
 
                             ElapsedTime.recordValue("subzone", et.getValue());
+                        }
+
+                        // Avoiding he falls for ever
+                        if (!resul) {
+                            CANCELEDTP.add(player.getUniqueId());
+                            MessageManager.sendPlayer(player,
+                                    GameInfo.PLAYER_CANT_BE_TELEPORTED.getText(lang));
+                            player.teleport(rollbackLocation.get(player.getUniqueId()));
+                            return;
                         }
 
                         // We got it!!
                         player.teleport(location);
                         player.setGameMode(GameMode.SURVIVAL);
 
-                        MessageManager.sendPlayer(player, GameInfo.PLAYER_TELEPORTED.getText(
-                                Localizer.getLocale(player))
-                        );
+                        MessageManager.sendPlayer(player, GameInfo.PLAYER_TELEPORTED.getText(lang));
 
                         // Let's to propagate the good new
                         Bukkit.getServer().getPluginManager().callEvent(
                                 new PlayerDroppedEvent(player, localization.getZoneName()));
-                    }
+
+                        return;
+                    }                                        
                 } catch (Exception ex) {
-                    MessageManager.sendPlayer(player, GameInfo.PLUGIN_ERROR_TP.getText(
-                            Localizer.getLocale(player)
-                    ));
+                    MessageManager.sendPlayer(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
                 }
             }
         }

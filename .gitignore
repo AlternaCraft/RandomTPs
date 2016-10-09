@@ -3,4 +3,16 @@
 /nbproject/
 /nbactions-deployer.xml
 /nb-configuration.xml
+/versions.txt
+
+# Dependencies
 /.utility/*.txt
+
+# Jetbrains
+/*.iml
+/.idea
+
+# Eclipse
+/.classpath
+/.project
+/.settings

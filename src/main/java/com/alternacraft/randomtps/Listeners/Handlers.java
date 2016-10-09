@@ -25,7 +25,7 @@ public enum Handlers implements HandlersInterface {
     BUILD(new HandleBuild()),
     FALL(new HandleFall()),
     GODS(new HandleGods()),
-    GODS_EXP_BROADCAST(new BroadcastAsExp()),
+    GODS_EXP_BROADCAST(new BroadcastAsExp()), // custom broadcast
     TELEPORT(new HandleTeleport()),
     DEFINE(new HandleZoneCreation());
 

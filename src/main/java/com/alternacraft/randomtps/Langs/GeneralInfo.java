@@ -42,15 +42,15 @@ public enum GeneralInfo implements LangInterface {
             "&6Plugin purged successfully"
     ),
     PLUGIN_NO_CLEANED(
-            "&4No se ha podido purgar la configuracion",
-            "&4You couldn't purge the configuration"
+            "&4No se ha podido purgar la configuración",
+            "&4You could not purge the configuration"
     ),
     COMMAND_FORBIDDEN(
-            "&4No puedes ejecutar ese comando",
-            "&4You can't execute that command"
+            "&4¡No puedes ejecutar ese comando!",
+            "&4You can not execute that command!"
     ),
     COMMAND_ARGUMENTS(
-            "&4Te faltan/sobran argumentos!",
+            "&4¡Te faltan/sobran argumentos!",
             "&4You spare arguments!"            
     );
     // </editor-fold>

@@ -50,10 +50,10 @@ public class HandleZoneCreation implements Listener {
         if (DEFINERS.containsKey(uuid)) {
             if (ev.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                 Location l = ev.getClickedBlock().getLocation();
-                if (l.getBlockX() < 0) {
+                if (l.getBlockX() < 0) { // Negative values
                     l.setX(l.getBlockX() + 1);
                 }
-                if (l.getBlockZ() < 0) {
+                if (l.getBlockZ() < 0) { // Negative values
                     l.setZ(l.getBlockZ() + 1);
                 }
 
@@ -117,6 +117,7 @@ public class HandleZoneCreation implements Listener {
             Langs lang = Localizer.getLocale(player);
             String zone = HandleZoneCreation.DEFINERS.get(uuid).getZone();
             
+            // Bye bye
             HandleBuild.DISABLED.remove(zone);
             MessageManager.sendPlayer(player,
                     DefineInfo.STOP_DEFINING.getText(lang));    
@@ -176,8 +177,6 @@ public class HandleZoneCreation implements Listener {
 
                     MessageManager.sendPlayer(ev.getPlayer(),
                             DefineInfo.SUBZONE.getText(lang));
-                } else {
-                    // WTF
                 }
 
                 LOCATIONS.remove(uuid);
@@ -217,8 +216,8 @@ public class HandleZoneCreation implements Listener {
                     if (preloc.isSubzone()) {
                         save(preloc, ev.getPlayer());
                     } else {
-                        preloc.askSubzone(false);
                         preloc.askWorld(true);
+                        preloc.askSubzone(false);
 
                         MessageManager.sendPlayer(ev.getPlayer(),
                                 DefineInfo.WORLDS.getText(lang));

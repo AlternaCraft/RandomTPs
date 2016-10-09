@@ -25,6 +25,10 @@ import java.util.HashMap;
 
 public enum GameInfo implements LangInterface {
     // <editor-fold defaultstate="collapsed" desc="MESSAGES">
+    PLAYER_CANT_BE_TELEPORTED(
+            "&cLo siento, la zona de llegada esta ocupada",
+            "&cI am sorry, the destination zone is full"
+    ),
     PLAYER_TELEPORTED(
             "&6¡Preparate para la batalla!",
             "&6Prepare for the battle!"
@@ -34,16 +38,16 @@ public enum GameInfo implements LangInterface {
             "&bYou are invulnerable for %TIME% seconds"
     ),
     PLAYER_LOSES_PVP(
-            "&cNo puedes pegar mientras estas protegido",
-            "&cYou can't hit while you are protected"
+            "&cNo puedes pegar a otros jugadores mientras estás protegido",
+            "&cYou can not hit other players while you are protected"
     ),
     PLAYER_RECOVERS_PVP(
-            "&cSe ha terminado tu proteccion",
+            "&cSe ha terminado tu protección",
             "&cYour protection has finished"
     ),
-    PLUGIN_ERROR_TP(
+    PLUGIN_ERROR_ON_TP(
             "&cEl mundo de destino no existe",
-            "&cThe destiny world does not exist"
+            "&cThe destination world does not exist"
     ),
     ZONE_ENABLED(
             "&aZona activada",
@@ -54,7 +58,7 @@ public enum GameInfo implements LangInterface {
             "&aZone disabled"
     ),
     ZONE_START_BUILD(
-            "&6Costruyendo limites de la zona %NAME%...",
+            "&6Costruyendo límites de la zona %NAME%...",
             "&6Building the limits for %NAME% zone..."
     ),
     ZONE_END_BUILD(
@@ -79,7 +83,7 @@ public enum GameInfo implements LangInterface {
     ),
     ZONE_NOT_ROLLBACK(
             "&cEsa zona no puede ser restaurada",
-            "&cThat zone can't be restored"
+            "&cThat zone can not be restored"
     ),
     ZONE_GO_TITLE(
             "&b* &lCoordenadas &bde la zona *",
@@ -91,7 +95,7 @@ public enum GameInfo implements LangInterface {
     ),
     ZONE_GO_FINISHED(
             "&aHa llegado a su destino",
-            "&aYou've reached your destination"
+            "&aYou have reached your destination"
     ),
     ZONE_IN_USE(
             "&cEsa zona está en uso, ¡espera a que termine!",
@@ -103,7 +107,7 @@ public enum GameInfo implements LangInterface {
     ),
     NO_ZONES_TO_RESET(
             "&cNo hay zonas para restaurar",
-            "&cThere are no zones to recover"
+            "&cThere are no zones to restore"
     );
     // </editor-fold>
 

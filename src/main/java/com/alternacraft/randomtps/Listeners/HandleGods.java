@@ -41,7 +41,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import static org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.PLUGIN;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -77,7 +76,7 @@ public class HandleGods implements Listener {
         }
 
         Player pl = (Player) ev.player();
-
+        
         // Auto fix if something fails
         if (gods.contains(pl.getUniqueId())) {
             clearGod(pl);
@@ -87,6 +86,7 @@ public class HandleGods implements Listener {
         int time = l.getTime();
 
         // God
+        pl.setNoDamageTicks(0);
         if (l.isInmortal()) {
             pl.setNoDamageTicks(TPS * time);
         }
@@ -170,7 +170,7 @@ public class HandleGods implements Listener {
                     Langs lang = Localizer.getLocale(player);
 
                     if (no_pvp.getUniqueId().equals(player.getUniqueId())) {
-                        no_pvp.sendMessage(PLUGIN + GameInfo.PLAYER_LOSES_PVP.getText(lang));
+                        MessageManager.sendPlayer(no_pvp, GameInfo.PLAYER_LOSES_PVP.getText(lang));
                         e.setCancelled(true);
                         break;
                     }
