@@ -17,10 +17,10 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
-import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
 import com.alternacraft.randomtps.Main.Manager;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class InfoCommand implements ArgumentExecutor {

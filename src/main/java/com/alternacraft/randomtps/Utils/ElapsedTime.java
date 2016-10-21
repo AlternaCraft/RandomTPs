@@ -17,6 +17,7 @@
 package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.utils.StringsUtils;
+import com.alternacraft.randomtps.Managers.MetricsManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,16 +28,16 @@ public class ElapsedTime {
 
     private static final Map<String, List<Long>> REGISTER = new HashMap();
 
-    private long first = 0;
-    
-    public void startCount() {
-        first = System.currentTimeMillis();
+    private long timeAtStart = 0;
+
+    public void start() {
+        timeAtStart = System.currentTimeMillis();
     }
-    
-    public long getValue() {
-        return this.first;
+
+    public long getStartTime() {
+        return this.timeAtStart;
     }
-    
+
     public static void recordValue(String id, long f) {
         if (!ElapsedTime.REGISTER.containsKey(id)) {
             ElapsedTime.REGISTER.put(id, new ArrayList());
@@ -44,25 +45,37 @@ public class ElapsedTime {
         ElapsedTime.REGISTER.get(id).add((System.currentTimeMillis() - f));
     }
 
-    public static String getAverage() {        
+    private static int getAverageInMillis(List<Long> times) {
+        int x = 0;
+
+        for (Long l : times) {
+            x += l;
+        }
+
+        return (x /= times.size());
+    }
+
+    public static String showAverage() {
         String v = ChatColor.YELLOW + "(Average) Load time of each process...\n";
-        
+
         for (Map.Entry<String, List<Long>> entry : REGISTER.entrySet()) {
             String key = entry.getKey();
             List<Long> times = entry.getValue();
-            
-            v += key + " (";
-            
-            int x = 0;
-            for (Long l : times) {
-                x += l;
-            }
-            x /= times.size();
-            
-            v += StringsUtils.splitToComponentTimes((int)(x / 1000)) + "); ";
+
+            v += key + " (" + StringsUtils.splitToComponentTimes(
+                    (int) (getAverageInMillis(times) / 1000)) + "); ";
         }
-        
+
         return v;
+    }
+
+    public static void loadAverage() {
+        for (Map.Entry<String, List<Long>> entry : REGISTER.entrySet()) {
+            String type = entry.getKey();
+            List<Long> time = entry.getValue();
+
+            MetricsManager.sendTimings(type, getAverageInMillis(time));
+        }
     }
 
 }

@@ -17,13 +17,13 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
-import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
+import com.alternacraft.randomtps.Main.Manager;
+import org.bukkit.command.CommandSender;
 
 public class ReloadCommand implements ArgumentExecutor {
 
@@ -37,6 +37,7 @@ public class ReloadCommand implements ArgumentExecutor {
         Manager.BASE.init(Manager.BASE.plugin(), Manager.INSTANCE.loader());
         
         // Other things
+        Manager.INSTANCE.registerDBs();        
         Manager.INSTANCE.loadLanguages();
         Manager.INSTANCE.loadLocalizations();
 

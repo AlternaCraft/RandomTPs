@@ -17,12 +17,11 @@
 package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.aclib.MessageManager;
-import java.io.File;
-import java.util.regex.Pattern;
 import com.alternacraft.aclib.utils.Updater;
 import com.alternacraft.aclib.utils.Updater.UpdateResult;
 import com.alternacraft.aclib.utils.Updater.UpdateType;
 import com.alternacraft.randomtps.Main.Manager;
+import java.io.File;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 

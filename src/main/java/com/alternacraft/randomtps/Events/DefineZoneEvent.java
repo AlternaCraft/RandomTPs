@@ -43,7 +43,7 @@ public class DefineZoneEvent extends Event implements Cancellable {
         return (Player) player;
     }
 
-    public String getZone() {
+    public String getZoneName() {
         return zone;
     }
 

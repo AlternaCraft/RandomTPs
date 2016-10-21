@@ -16,13 +16,13 @@
  */
 package com.alternacraft.randomtps.Managers;
 
+import com.alternacraft.randomtps.Broadcasts.Broadcast;
 import com.alternacraft.randomtps.Broadcasts.BroadcastAsExp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.bukkit.entity.Player;
-import com.alternacraft.randomtps.Broadcasts.Broadcast;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 public class BroadcastManager {
 

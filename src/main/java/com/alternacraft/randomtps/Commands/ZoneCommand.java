@@ -17,7 +17,6 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
-import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
@@ -32,6 +31,7 @@ import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.Localization;
 import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import java.util.List;
+import java.util.Map;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -40,8 +40,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import java.util.Map;
 
 public class ZoneCommand implements ArgumentExecutor {
 
@@ -71,7 +71,7 @@ public class ZoneCommand implements ArgumentExecutor {
                         tc.setText(zonename);
                         tc.setItalic(Boolean.TRUE);
                         tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                "/rt zone go " + loc.getZoneName()));
+                                " /rtp zone go " + loc.getZoneName()));
                         tc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 new ComponentBuilder(loc.toClickString(lang)).create()));
                         ((Player) cs).spigot().sendMessage(tc);

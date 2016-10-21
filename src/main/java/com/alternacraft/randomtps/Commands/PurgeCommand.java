@@ -17,14 +17,24 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
-import org.bukkit.command.CommandSender;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
+import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.utils.Localizer;
+import com.alternacraft.randomtps.Langs.GameInfo;
+import com.alternacraft.randomtps.Main.Manager;
+import org.bukkit.command.CommandSender;
 
 public class PurgeCommand implements ArgumentExecutor {
-    
+
     @Override
     public boolean execute(CommandSender cs, String[] args) {
-        MessageManager.sendCommandSender(cs, "Purge");
+
+        Langs lang = Localizer.getLocale(cs);
+
+        int n = Manager.INSTANCE.getZonesDB().purge();
+        MessageManager.sendCommandSender(cs, GameInfo.PURGE_ZONES.getText(lang)
+                .replace("%QUANT%", String.valueOf(n)));
+
         return true;
     }
 }

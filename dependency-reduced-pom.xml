@@ -4,7 +4,7 @@
   <groupId>com.alternacraft</groupId>
   <artifactId>RandomTPs</artifactId>
   <name>RandomTPs</name>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <description>A random teleport plugin</description>
   <url>http://dev.bukkit.org/bukkit-plugins/randomtps/</url>
   <inceptionYear>2016</inceptionYear>
@@ -128,6 +128,10 @@
     <repository>
       <id>aclib-releases</id>
       <url>http://dl.bintray.com/alternacraft/maven/</url>
+    </repository>
+    <repository>
+      <id>aclib-snapshots</id>
+      <url>http://oss.jfrog.org/oss-snapshot-local/com/alternacraft/aclib/</url>
     </repository>
     <repository>
       <id>Plugin Metrics</id>

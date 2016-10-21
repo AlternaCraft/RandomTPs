@@ -77,7 +77,7 @@ public class ZoneBuilder {
             minz = p1.getBlockZ();
         }
 
-        ElapsedTime et = new ElapsedTime() {{ this.startCount(); }};
+        ElapsedTime et = new ElapsedTime() {{ this.start(); }};
         
         for (int i = minx; i <= x; i++) {
             for (int j = miny; j <= y; j++) {
@@ -98,7 +98,7 @@ public class ZoneBuilder {
             }
         }
         
-        ElapsedTime.recordValue("Load zone", et.getValue());
+        ElapsedTime.recordValue("Loading zone", et.getStartTime());
     }
 
     public void show(CommandSender cs, final Material m) {
@@ -140,7 +140,8 @@ public class ZoneBuilder {
         private final ZoneBuilder builder;
 
         private long starttime;
-        public boolean stop;
+        private boolean stop;
+        private int lastBlock;
         private boolean finished;
 
         public BlocksReplacer(Collection mats, boolean rollback,
@@ -154,6 +155,7 @@ public class ZoneBuilder {
             this.rollback = rollback;
             this.cs = cs;
             this.builder = builder;
+            this.lastBlock = 0;
         }
         
         public BlocksReplacer(boolean rollback, CommandSender cs, ZoneBuilder builder) {
@@ -162,7 +164,7 @@ public class ZoneBuilder {
 
         @Override
         public void run() {
-            recursiveTask(0, blocks.size());
+            recursiveTask(this.lastBlock, blocks.size());
         }
 
         private void recursiveTask(final int n, final int total) {
@@ -180,13 +182,24 @@ public class ZoneBuilder {
                         recursiveTask(n + 1, total);
                     }
                 }, TIMEPERBLOCK);
-            } else {
+            } else if (!stop) {
                 this.starttime = System.currentTimeMillis() - this.starttime;
                 this.finished = true;
 
                 Bukkit.getServer().getPluginManager().callEvent(new BuildCompletedEvent(
                         cs, builder));
+            } else {
+                this.lastBlock = n;
             }
+        }
+        
+        private void start() {
+            this.stop = false;
+            this.run();
+        }
+        
+        private void stop() {
+            this.stop = true;
         }
     }
     //</editor-fold>
@@ -207,7 +220,11 @@ public class ZoneBuilder {
         return run.starttime;
     }
 
+    public void go() {
+        this.run.start();
+    }
+    
     public void stop() {
-        this.run.stop = true;
+        this.run.stop();
     }
 }

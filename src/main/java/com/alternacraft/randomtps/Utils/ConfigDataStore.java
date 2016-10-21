@@ -17,6 +17,8 @@
 package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.langs.Langs;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigDataStore {
 
@@ -54,8 +56,11 @@ public class ConfigDataStore {
     protected int y = Y;
     protected int[] z = {MAX_Z, MIN_Z};
 
-    // Subzone
-    private int tries = 3;    
+    // Default extras
+    protected int time = 10;
+    protected boolean inmortal = true;
+    protected boolean broadcast_as_exp = true;
+    protected List<String> potions_effects = new ArrayList();
 
     public String getPluginPrefix() {
         return pluginPrefix;
@@ -169,11 +174,35 @@ public class ConfigDataStore {
         this.z = z;
     }
 
-    public int getTries() {
-        return tries;
+    public int getTime() {
+        return time;
     }
 
-    public void setTries(int tries) {
-        this.tries = tries;
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public boolean isInmortal() {
+        return inmortal;
+    }
+
+    public void setInmortal(boolean inmortal) {
+        this.inmortal = inmortal;
+    }
+
+    public boolean isBroadcast_as_exp() {
+        return broadcast_as_exp;
+    }
+
+    public void setBroadcast_as_exp(boolean broadcast_as_exp) {
+        this.broadcast_as_exp = broadcast_as_exp;
+    }
+
+    public List<String> getPotions_effects() {
+        return potions_effects;
+    }
+
+    public void setPotions_effects(List<String> potions_effects) {
+        this.potions_effects = potions_effects;
     }
 }

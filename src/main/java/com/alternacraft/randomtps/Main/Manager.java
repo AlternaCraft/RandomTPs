@@ -16,20 +16,21 @@
  */
 package com.alternacraft.randomtps.Main;
 
-import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.aclib.PluginBase;
 import com.alternacraft.aclib.arguments.ArgumentsRegister;
 import com.alternacraft.aclib.hook.ExternalPluginRegister;
 import com.alternacraft.aclib.hook.HookerInterface;
-import com.alternacraft.aclib.langs.DefaultMessages;
+import com.alternacraft.aclib.langs.CommandMessages;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.listeners.HandlersRegister;
 import com.alternacraft.randomtps.Commands.Arguments;
-import com.alternacraft.randomtps.Files.ZonesFile;
+import com.alternacraft.randomtps.Database.ZonesDB;
+import com.alternacraft.randomtps.Database.ZonesFile;
 import com.alternacraft.randomtps.Langs.CommandInfo;
 import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Langs.GameInfo;
+import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Listeners.Handlers;
 import com.alternacraft.randomtps.Utils.Localization;
 import java.util.ArrayList;
@@ -43,12 +44,12 @@ public class Manager {
     public static final PluginBase BASE = PluginBase.INSTANCE;
     public static final ExternalPluginRegister HOOKS = ExternalPluginRegister.INSTANCE;
 
+    /* DBs */
+    private ZonesDB zonesdb;
+    
     private List<Localization> localizations = new ArrayList();
     private ArgumentsRegister mainCommand = null;
 
-    /**
-     * @since 0.0.9
-     */
     private final ConfigLoader loader;
 
     private Manager() {
@@ -58,6 +59,8 @@ public class Manager {
     public boolean setup(JavaPlugin plugin) {
         BASE.init(plugin, loader);
 
+        this.registerDBs();
+        
         this.registerCommands();
         this.registerListeners();
 
@@ -66,6 +69,11 @@ public class Manager {
         this.loadLocalizations(); // Logic game
 
         return true;
+    }
+    
+    public void registerDBs() {
+        // Multiple DBs in the future
+        zonesdb = new ZonesFile();
     }
 
     public void registerCommands() {
@@ -79,7 +87,7 @@ public class Manager {
 
     public void loadLanguages() {
         LangManager.setKeys(Langs.ES, Langs.EN);
-        LangManager.saveMessages(DefaultMessages.class, GeneralInfo.class,
+        LangManager.saveMessages(CommandMessages.class, GeneralInfo.class,
                 CommandInfo.class, DefineInfo.class, GameInfo.class);
         LangManager.loadMessages();
     }
@@ -89,7 +97,7 @@ public class Manager {
 
     public void loadLocalizations() {
         ZonesFile.load();
-        this.localizations = ZonesFile.getLocalizations();
+        this.localizations = zonesdb.getLocalizations();
     }
 
     /* GETTERS */
@@ -105,6 +113,10 @@ public class Manager {
         return mainCommand;
     }
 
+    public ZonesDB getZonesDB() {
+        return this.zonesdb;
+    }
+    
     /* LOCALIZATIONS */
     public Localization getLocalizationByName(String zone) {
         for (Localization loc : localizations) {
@@ -125,17 +137,17 @@ public class Manager {
     }
 
     public void enableLocation(String zone) {
-        ZonesFile.enableZone(zone);
+        zonesdb.enableLocalization(zone);
         this.addLocalization(zone);
     }
 
     public void disableLocation(String zone) {
-        ZonesFile.disableZone(zone);
+        zonesdb.disableLocalization(zone);
         this.removeLocalization(zone);
     }
 
     public void addLocalization(String zone) {
-        localizations.add(ZonesFile.getLocalization(zone));
+        localizations.add(zonesdb.getLocalization(zone));
     }
 
     public void removeLocalization(String zone) {

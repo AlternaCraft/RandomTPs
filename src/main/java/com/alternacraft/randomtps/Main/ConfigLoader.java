@@ -44,7 +44,10 @@ public class ConfigLoader extends ConfigDataStore implements ConfigDataInterface
         this.setY(fc.getInt("coords.y"));
         this.setZ(new int[]{fc.getInt("coords.z.max"), fc.getInt("coords.z.min")});
         
-        this.setTries(fc.getInt("subzone.tries"));
+        this.setTime(fc.getInt("defaultExtras.time"));
+        this.setInmortal(fc.getBoolean("defaultExtras.inmortal"));
+        this.setBroadcast_as_exp(fc.getBoolean("defaultExtras.broadcast.show_as_exp"));
+        this.setPotions_effects(fc.getStringList("defaultExtras.effects.potions"));
     }
 
 }

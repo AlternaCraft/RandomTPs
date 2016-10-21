@@ -19,6 +19,7 @@ package com.alternacraft.randomtps.Main;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.randomtps.Managers.MetricsManager;
 import com.alternacraft.randomtps.Managers.UpdaterManager;
+import com.alternacraft.randomtps.Utils.ElapsedTime;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -44,7 +45,7 @@ public class RandomTPs extends JavaPlugin {
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             @Override
             public void run() {
-                MetricsManager.sendData(Manager.BASE.plugin());
+                MetricsManager.load(Manager.BASE.plugin());
                 UpdaterManager.testUpdate(Manager.BASE.plugin(), getFile());
             }
         });
@@ -54,7 +55,11 @@ public class RandomTPs extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
+    public void onDisable() {       
+        /* METRICS CONFIGURATION */
+        ElapsedTime.loadAverage();
+        MetricsManager.send();
+        
         // Sends disable message
         MessageManager.log(Manager.BASE.pluginPrefix() + " has been disabled!");
     }

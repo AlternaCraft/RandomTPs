@@ -1,5 +1,5 @@
 # DO NOT TOUCH #
-version: 1.0.0
+version: 1.0.1
 ################
 
 ############################################################
@@ -54,7 +54,8 @@ selection:
     complete: add
     cancel: cancel
 
-# Build
+# Building the edges of a zone (Block to block or instantly)
+# If you choose instantly you've to know that it will cause lag to the players who are near
 building:    
     instant: true
 
@@ -68,8 +69,17 @@ coords:
     z:
         max: 10000
         min: -5000
-
-# Subzone
-subzone:
-    # Number of tries to teleport a player to a zubzone
-    tries: 3
+        
+# Extras
+defaultExtras:
+    # Time of effects
+    time: 10
+    # Enable or disable invulnerability
+    inmortal: true
+    # Show time left
+    broadcast:
+        show_as_exp: true
+    # Potion effects
+    effects:
+        potions:
+            - Speed 5

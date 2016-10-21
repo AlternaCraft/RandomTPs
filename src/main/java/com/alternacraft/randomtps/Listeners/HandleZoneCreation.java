@@ -20,7 +20,6 @@ import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.Events.DefineZoneEvent;
-import com.alternacraft.randomtps.Files.ZonesFile;
 import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.PreLocalization;
@@ -98,7 +97,7 @@ public class HandleZoneCreation implements Listener {
                         DefineInfo.POINT_1.getText(lang)
                         .replace("%SELECT%", selection));
                 
-                DEFINERS.put(uuid, new PreLocalization(ev.getZone()));
+                DEFINERS.put(uuid, new PreLocalization(ev.getZoneName()));
             }
         }
     }
@@ -115,7 +114,7 @@ public class HandleZoneCreation implements Listener {
 
         if (DEFINERS.containsKey(uuid) && answ.contains(Manager.INSTANCE.loader().getCancel())) {
             Langs lang = Localizer.getLocale(player);
-            String zone = HandleZoneCreation.DEFINERS.get(uuid).getZone();
+            String zone = HandleZoneCreation.DEFINERS.get(uuid).getZoneName();
             
             // Bye bye
             HandleBuild.DISABLED.remove(zone);
@@ -265,12 +264,13 @@ public class HandleZoneCreation implements Listener {
     private void save(PreLocalization preloc, Player pl) {
         Langs lang = Localizer.getLocale(pl);
 
-        ZonesFile.saveZone(preloc.toLocalization());
-        Manager.INSTANCE.addLocalization(preloc.getZone());
+        Manager.INSTANCE.getZonesDB().saveLocalization(preloc.toLocalization());
+        Manager.INSTANCE.getZonesDB().enableLocalization(preloc.getZoneName());        
+        Manager.INSTANCE.addLocalization(preloc.getZoneName());
 
         DEFINERS.remove(pl.getUniqueId());
         // If redefine
-        HandleBuild.DISABLED.remove(preloc.getZone());
+        HandleBuild.DISABLED.remove(preloc.getZoneName());
 
         MessageManager.sendPlayer(pl,
                 DefineInfo.ZONE_CREATED.getText(lang));

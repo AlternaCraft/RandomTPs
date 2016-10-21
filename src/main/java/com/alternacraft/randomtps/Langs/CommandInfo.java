@@ -50,8 +50,8 @@ public enum CommandInfo implements LangInterface {
             "Restore all regions"
     ),
     COMMAND_PURGE_DESC(
-            "Para limpiar las zonas NO activas",
-            "Remove NOT active zones"
+            "Para limpiar las zonas inactivas",
+            "Remove inactive zones"
     ),
     COMMAND_RELOAD_DESC(
             "Para recargar el config del plugin",

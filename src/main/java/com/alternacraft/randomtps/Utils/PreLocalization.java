@@ -39,7 +39,7 @@ public class PreLocalization extends PreValues {
         this.zone = zone;
     }
 
-    public String getZone() {
+    public String getZoneName() {
         return zone;
     }
 
@@ -57,7 +57,6 @@ public class PreLocalization extends PreValues {
 
     public void addDestination(String dest) {
         if (!this.dests.contains(dest)) {
-            System.out.println("a");
             this.dests.add(dest);
         }
     }

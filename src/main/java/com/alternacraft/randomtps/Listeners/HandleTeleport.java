@@ -18,6 +18,7 @@ package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.utils.CustomLinkedMap;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.Randomizer;
 import com.alternacraft.randomtps.Events.PlayerDroppedEvent;
@@ -25,9 +26,7 @@ import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.ElapsedTime;
 import com.alternacraft.randomtps.Utils.Localization;
-import com.alternacraft.aclib.utils.CustomLinkedMap;
 import com.alternacraft.randomtps.Utils.Zone;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -79,17 +78,12 @@ public class HandleTeleport implements Listener {
             }
 
             // Same world
-            if (player.getLocation().getWorld().getName().equalsIgnoreCase(localization.getOrigin())) {
-                // New instance for avoiding problems
-                Location playerLocation = new Location(player.getLocation().getWorld(),
-                        player.getLocation().getBlockX(), player.getLocation().getBlockY(),
-                        player.getLocation().getBlockZ());
-
+            if (player.getLocation().getWorld().getName().equalsIgnoreCase(localization.getOrigin())) {                
                 try {
                     Location location = null;
 
                     // Is the player in the zone?
-                    if (localization.isInsideOfMe(playerLocation.toVector())) {
+                    if (localization.isInsideOfMe(player.getLocation().toVector())) {
                         // Check subzones to go
                         boolean resul = false;
 
@@ -97,7 +91,7 @@ public class HandleTeleport implements Listener {
                         ElapsedTime et = new ElapsedTime() {
                             {
                                 // Testing purposes
-                                this.startCount();
+                                this.start();
                             }
                         };
 
@@ -127,9 +121,8 @@ public class HandleTeleport implements Listener {
                                 maxtries++;
                             } while (!resul && maxtries < MAX_TRIES);
 
-                            ElapsedTime.recordValue("zone", et.getValue());
+                            ElapsedTime.recordValue("Teleport to zone", et.getStartTime());
                         } else {
-                            int tries = Manager.INSTANCE.loader().getTries();
                             int previousworld = -1, randSubzone = -1;
 
                             do {
@@ -161,7 +154,7 @@ public class HandleTeleport implements Listener {
                                 maxtries++;
                             } while (!resul && maxtries < MAX_TRIES);
 
-                            ElapsedTime.recordValue("subzone", et.getValue());
+                            ElapsedTime.recordValue("teleport to subzone", et.getStartTime());
                         }
 
                         // Avoiding he falls for ever

@@ -21,23 +21,54 @@ import com.alternacraft.randomtps.Main.Manager;
 import java.io.IOException;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
+import org.mcstats.Metrics.Graph;
 
 public class MetricsManager {
 
-    // <editor-fold defaultstate="collapsed" desc="GRAPHS">
-    // </editor-fold>
+    private static Metrics metrics;
 
-    public static void sendData(final JavaPlugin plugin) {
+    //<editor-fold defaultstate="collapsed" desc="PLOTTER">
+    private static void addPlotter(Graph g, String plotter, final int number) {
+        if (number == 0) {
+            return;
+        }
+        g.addPlotter(new Metrics.Plotter(plotter) {
+            @Override
+            public int getValue() {
+                return number;
+            }
+        });
+    }
+    //</editor-fold>    
+
+    public static void send() {
+        metrics.start();
+    }
+    
+    public static void getGraphs() {
+        
+    }
+    
+    public static void load(final JavaPlugin plugin) {
         try {
             if (Manager.INSTANCE.loader().isMetrics()) {
-                Metrics metrics = new Metrics(plugin);
-                
-                // Graphs //
-                
+                metrics = new Metrics(plugin);
+                getGraphs();
                 metrics.start();
             }
         } catch (IOException e) {
             MessageManager.logError(e.getMessage());
+        }
+    }
+
+    public static void sendTimings(String type, int time) {
+        if (time == 0)
+            return;
+        
+        if (Manager.INSTANCE.loader().isMetrics()) {
+            Graph graph = metrics.createGraph(type);
+            addPlotter(graph, "Time average", time);
+            metrics.addGraph(graph);            
         }
     }
 }
