@@ -21,10 +21,10 @@ import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.CustomLinkedMap;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.Randomizer;
+import com.alternacraft.aclib.utils.Timer;
 import com.alternacraft.randomtps.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
-import com.alternacraft.randomtps.Utils.ElapsedTime;
 import com.alternacraft.randomtps.Utils.Localization;
 import com.alternacraft.randomtps.Utils.Zone;
 import java.util.HashMap;
@@ -88,7 +88,7 @@ public class HandleTeleport implements Listener {
                         boolean resul = false;
 
                         // Here comes the hard part, to get the location...
-                        ElapsedTime et = new ElapsedTime() {
+                        Timer et = new Timer() {
                             {
                                 // Testing purposes
                                 this.start();
@@ -121,7 +121,7 @@ public class HandleTeleport implements Listener {
                                 maxtries++;
                             } while (!resul && maxtries < MAX_TRIES);
 
-                            ElapsedTime.recordValue("Teleport to zone", et.getStartTime());
+                            et.recordValue("Teleport to zone");
                         } else {
                             int previousworld = -1, randSubzone = -1;
 
@@ -154,7 +154,7 @@ public class HandleTeleport implements Listener {
                                 maxtries++;
                             } while (!resul && maxtries < MAX_TRIES);
 
-                            ElapsedTime.recordValue("teleport to subzone", et.getStartTime());
+                            et.recordValue("teleport to subzone");
                         }
 
                         // Avoiding he falls for ever

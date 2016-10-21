@@ -19,6 +19,7 @@ package com.alternacraft.randomtps.Utils;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
+import com.alternacraft.aclib.utils.Timer;
 import com.alternacraft.randomtps.Events.BuildCompletedEvent;
 import com.alternacraft.randomtps.Events.BuildStartedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
@@ -77,7 +78,7 @@ public class ZoneBuilder {
             minz = p1.getBlockZ();
         }
 
-        ElapsedTime et = new ElapsedTime() {{ this.start(); }};
+        Timer et = new Timer() {{ this.start(); }};
         
         for (int i = minx; i <= x; i++) {
             for (int j = miny; j <= y; j++) {
@@ -98,7 +99,7 @@ public class ZoneBuilder {
             }
         }
         
-        ElapsedTime.recordValue("Loading zone", et.getStartTime());
+        et.recordValue("Loading zone");
     }
 
     public void show(CommandSender cs, final Material m) {

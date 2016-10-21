@@ -71,7 +71,7 @@ public class ZoneCommand implements ArgumentExecutor {
                         tc.setText(zonename);
                         tc.setItalic(Boolean.TRUE);
                         tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                " /rtp zone go " + loc.getZoneName()));
+                                "/rtp zone go " + loc.getZoneName()));
                         tc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 new ComponentBuilder(loc.toClickString(lang)).create()));
                         ((Player) cs).spigot().sendMessage(tc);

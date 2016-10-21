@@ -16,10 +16,10 @@
  */
 package com.alternacraft.randomtps.Main;
 
-import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.aclib.utils.PluginLogs;
+import com.alternacraft.aclib.utils.Timer;
 import com.alternacraft.randomtps.Managers.MetricsManager;
 import com.alternacraft.randomtps.Managers.UpdaterManager;
-import com.alternacraft.randomtps.Utils.ElapsedTime;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -34,7 +34,9 @@ public class RandomTPs extends JavaPlugin {
     public void onEnable() {
         Manager pluginManager = Manager.INSTANCE;
 
+        // Set up before start
         Manager.BASE.definePluginPrefix("&1[&bRandomTPs&1] &r");
+        PluginLogs.changeLogsFolderNameTo("logs");
         
         // Plugin manager init
         if (!pluginManager.setup(this)) {
@@ -51,16 +53,15 @@ public class RandomTPs extends JavaPlugin {
         });
 
         // Sends enabled message
-        MessageManager.log(Manager.BASE.pluginPrefix() + " has been enabled!");
+        this.getLogger().info("RandomTPs has been enabled!");
     }
 
     @Override
     public void onDisable() {       
         /* METRICS CONFIGURATION */
-        ElapsedTime.loadAverage();
-        MetricsManager.send();
+        Timer.reportAverage();
         
         // Sends disable message
-        MessageManager.log(Manager.BASE.pluginPrefix() + " has been disabled!");
+        this.getLogger().info("RandomTPs has been disabled!");
     }
 }

@@ -17,8 +17,15 @@
 package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.aclib.utils.PluginLogs;
 import com.alternacraft.randomtps.Main.Manager;
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import org.mcstats.Metrics.Graph;
@@ -39,36 +46,47 @@ public class MetricsManager {
             }
         });
     }
-    //</editor-fold>    
+    //</editor-fold>
 
-    public static void send() {
-        metrics.start();
+    public static void setGraphs() {
+        File log = PluginLogs.importLog("metrics.txt");
+        if (log != null) {
+            Map<Date, List<String>> loginfo = PluginLogs.parseLogFile(log);
+            
+            for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
+                List<String> reports = entry.getValue();
+                Graph graph = metrics.createGraph("General statistics");
+
+                for (String report : reports) {
+                    Pattern p = Pattern.compile("\\[ (.*) \\] ([0-9]+)");
+                    Matcher m = p.matcher(report);
+
+                    String type = "";
+                    int value = 0;
+
+                    if (m.find()) {
+                        type = m.group(1);
+                        value = Integer.valueOf(m.group(2));
+                    }
+
+                    addPlotter(graph, type, value);
+                }
+            }
+
+            // Cleaning old values
+            PluginLogs.removeLog("metrics.txt");
+        }
     }
-    
-    public static void getGraphs() {
-        
-    }
-    
+
     public static void load(final JavaPlugin plugin) {
         try {
             if (Manager.INSTANCE.loader().isMetrics()) {
                 metrics = new Metrics(plugin);
-                getGraphs();
+                setGraphs();
                 metrics.start();
             }
         } catch (IOException e) {
             MessageManager.logError(e.getMessage());
-        }
-    }
-
-    public static void sendTimings(String type, int time) {
-        if (time == 0)
-            return;
-        
-        if (Manager.INSTANCE.loader().isMetrics()) {
-            Graph graph = metrics.createGraph(type);
-            addPlotter(graph, "Time average", time);
-            metrics.addGraph(graph);            
         }
     }
 }

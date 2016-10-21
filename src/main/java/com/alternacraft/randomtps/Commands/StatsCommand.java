@@ -18,14 +18,14 @@ package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.commands.ArgumentExecutor;
-import com.alternacraft.randomtps.Utils.ElapsedTime;
+import com.alternacraft.aclib.utils.Timer;
 import org.bukkit.command.CommandSender;
 
 public class StatsCommand implements ArgumentExecutor {
 
     @Override
     public boolean execute(CommandSender cs, String[] args) {
-        MessageManager.sendCommandSender(cs, ElapsedTime.showAverage());
+        MessageManager.sendCommandSender(cs, Timer.showAverage());
         return true;
     }
 }
