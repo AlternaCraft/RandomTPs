@@ -130,10 +130,6 @@
       <url>http://dl.bintray.com/alternacraft/maven/</url>
     </repository>
     <repository>
-      <id>aclib-snapshots</id>
-      <url>http://oss.jfrog.org/oss-snapshot-local/com/alternacraft/aclib/</url>
-    </repository>
-    <repository>
       <id>Plugin Metrics</id>
       <url>http://repo.mcstats.org/content/repositories/public</url>
     </repository>
