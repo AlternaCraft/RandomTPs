@@ -19,10 +19,10 @@
             <id>aclib-snapshots</id>
             <url>http://oss.jfrog.org/oss-snapshot-local/com/alternacraft/aclib/</url>
         </repository>
-        <repository>
+        <!--<repository>
             <id>aclib-releases</id>
             <url>http://dl.bintray.com/alternacraft/maven/</url>
-        </repository>
+        </repository>-->
         <!-- METRICS -->
         <repository>
             <id>Plugin Metrics</id>
