@@ -17,11 +17,15 @@
 package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.utils.PluginLogs;
+import com.alternacraft.aclib.utils.DateUtils;
+import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.randomtps.Main.Manager;
-import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -34,47 +38,30 @@ public class MetricsManager {
 
     private static Metrics metrics;
 
-    //<editor-fold defaultstate="collapsed" desc="PLOTTER">
-    private static void addPlotter(Graph g, String plotter, final int number) {
-        if (number == 0) {
-            return;
-        }
-        g.addPlotter(new Metrics.Plotter(plotter) {
-            @Override
-            public int getValue() {
-                return number;
-            }
-        });
-    }
-    //</editor-fold>
-
     public static void setGraphs() {
-        File log = PluginLogs.importLog("metrics.txt");
-        if (log != null) {
-            Map<Date, List<String>> loginfo = PluginLogs.parseLogFile(log);
-            
-            for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
-                List<String> reports = entry.getValue();
-                Graph graph = metrics.createGraph("General statistics");
+        PluginLog pl = new PluginLog("performance.txt");
+        pl.importLog();
 
-                for (String report : reports) {
-                    Pattern p = Pattern.compile("\\[ (.*) \\] ([0-9]+)");
-                    Matcher m = p.matcher(report);
+        Map<Date, List<String>> loginfo = parseLogFile(pl.getMessages());
 
-                    String type = "";
-                    int value = 0;
+        for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
+            List<String> reports = entry.getValue();
+            Graph graph = metrics.createGraph("General statistics");
 
-                    if (m.find()) {
-                        type = m.group(1);
-                        value = Integer.valueOf(m.group(2));
-                    }
+            for (String report : reports) {
+                Pattern p = Pattern.compile("\\[ (.*) \\] ([0-9]+)");
+                Matcher m = p.matcher(report);
 
-                    addPlotter(graph, type, value);
+                String type = "";
+                int value = 0;
+
+                if (m.find()) {
+                    type = m.group(1);
+                    value = Integer.valueOf(m.group(2));
                 }
-            }
 
-            // Cleaning old values
-            PluginLogs.removeLog("metrics.txt");
+                addPlotter(graph, type, value);
+            }
         }
     }
 
@@ -89,4 +76,40 @@ public class MetricsManager {
             MessageManager.logError(e.getMessage());
         }
     }
+
+    //<editor-fold defaultstate="collapsed" desc="CLASS STUFF">
+    private static Map<Date, List<String>> parseLogFile(List<String> lines) {
+        Map<Date, List<String>> data = new HashMap<>();
+
+        Date lastdate = null;
+        DateFormat format = DateUtils.getDefaultDateFormat();
+
+        for (String line : lines) {
+            if (line.matches("### .* ###")) {
+                try {
+                    lastdate = format.parse(line.replace("### ", "").replace(" ###", ""));
+                    data.put(lastdate, new ArrayList());
+                } catch (ParseException ex) {
+                    MessageManager.logError(ex.getMessage());
+                }
+            } else if (!line.isEmpty() && lastdate != null && data.containsKey(lastdate)) {
+                data.get(lastdate).add(line);
+            }
+        }
+
+        return data;
+    }
+
+    private static void addPlotter(Graph g, String plotter, final int number) {
+        if (number == 0) {
+            return;
+        }
+        g.addPlotter(new Metrics.Plotter(plotter) {
+            @Override
+            public int getValue() {
+                return number;
+            }
+        });
+    }
+    //</editor-fold>
 }

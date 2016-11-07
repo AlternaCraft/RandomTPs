@@ -25,6 +25,7 @@ public class ConfigLoader extends ConfigDataStore implements ConfigDataInterface
 
     @Override
     public void loadParams(FileConfiguration fc) { 
+        // Defaults
         Manager.BASE.definePluginPrefix(fc.getString("prefix"));
         
         this.setMetrics(fc.getBoolean("metrics"));
@@ -35,17 +36,19 @@ public class ConfigLoader extends ConfigDataStore implements ConfigDataInterface
         Manager.BASE.defineErrorFormat((short) fc.getInt("errorFormat"));
         Manager.BASE.defineMainLanguage(Langs.valueOf(fc.getString("defaultLang")));
         
+        // Building options
         this.setSelection(fc.getString("selection.complete"));
         this.setCancel(fc.getString("selection.cancel"));
-
+        
         this.setInstant(fc.getBoolean("building.instant"));
 
+        // Coordenates
         this.setX(new int[]{fc.getInt("coords.x.max"), fc.getInt("coords.x.min")});
         this.setY(fc.getInt("coords.y"));
         this.setZ(new int[]{fc.getInt("coords.z.max"), fc.getInt("coords.z.min")});
         
+        // Extras
         this.setTime(fc.getInt("defaultExtras.time"));
-        this.setInmortal(fc.getBoolean("defaultExtras.inmortal"));
         this.setBroadcast_as_exp(fc.getBoolean("defaultExtras.broadcast.show_as_exp"));
         this.setPotions_effects(fc.getStringList("defaultExtras.effects.potions"));
     }

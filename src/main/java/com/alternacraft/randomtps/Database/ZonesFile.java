@@ -17,12 +17,10 @@
 package com.alternacraft.randomtps.Database;
 
 import com.alternacraft.aclib.MessageManager;
-import static com.alternacraft.aclib.config.ConfigurationFile.DIRECTORY;
 import com.alternacraft.aclib.utils.PluginFile;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.Localization;
 import com.alternacraft.randomtps.Utils.Zone;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,44 +32,39 @@ import org.bukkit.util.Vector;
 public class ZonesFile implements ZonesDB {
 
     //<editor-fold defaultstate="collapsed" desc="FILE">
-    private static final PluginFile ZONESFILE = new PluginFile(
-            DIRECTORY
-                + File.separator
-                    + "localizations.yml");
+    private static PluginFile ZONESFILE;
 
     public static void load() {
-        if (!ZONESFILE.exists()) {
-            createConfig();
-        }
-        ZONESFILE.loadYamlConfiguration();
-    }
+        ZONESFILE = new PluginFile("localizations.yml") {
+            @Override
+            public void createConfig() {
+                this.resetYamlConfiguration();
 
-    private static void createConfig() {
-        ZONESFILE.resetYamlConfiguration();
+                this.yamlFile.options().header(
+                        "###############\n"
+                        + "## ZONE LIST ##\n"
+                        + "###############"
+                );
+                this.yamlFile.options().copyHeader(true);
 
-        ZONESFILE.yamlFile.options().header(
-                "###############\n"
-                + "## ZONE LIST ##\n"
-                + "###############"
-        );
-        ZONESFILE.yamlFile.options().copyHeader(true);
+                this.setNode("activeZones", new ArrayList());
 
-        ZONESFILE.setNode("activeZones", new ArrayList());
+                this.setNode("example.customExtras.time", 15);
+                this.setNode("example.origin.alias", "world");
 
-        ZONESFILE.setNode("example.customExtras.time", 15);
-        ZONESFILE.setNode("example.origin.alias", "world");
+                this.setNode("example.origin.p1.x", 0);
+                this.setNode("example.origin.p1.y", 0);
+                this.setNode("example.origin.p1.z", 0);
 
-        ZONESFILE.setNode("example.origin.p1.x", 0);
-        ZONESFILE.setNode("example.origin.p1.y", 0);
-        ZONESFILE.setNode("example.origin.p1.z", 0);
+                this.setNode("example.origin.p2.x", 0);
+                this.setNode("example.origin.p2.y", 0);
+                this.setNode("example.origin.p2.z", 0);
 
-        ZONESFILE.setNode("example.origin.p2.x", 0);
-        ZONESFILE.setNode("example.origin.p2.y", 0);
-        ZONESFILE.setNode("example.origin.p2.z", 0);
+                this.setNode("example.destination", Arrays.asList(new String[]{"world"}));
 
-        ZONESFILE.setNode("example.destination", Arrays.asList(new String[]{"world"}));
-
-        ZONESFILE.saveConfiguration();
+                this.saveConfiguration();
+            }
+        };
     }
     //</editor-fold>
     
@@ -109,10 +102,6 @@ public class ZonesFile implements ZonesDB {
         l.setTime(Manager.INSTANCE.loader().getTime());
         if (ZONESFILE.hasNode(zoneName + ".customExtras.time")) {
             l.setTime((int) ZONESFILE.getNode(zoneName + ".customExtras.time"));
-        }
-        l.setInmortal(Manager.INSTANCE.loader().isInmortal());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.inmortal")) {
-            l.setInmortal((boolean) ZONESFILE.getNode(zoneName + ".customExtras.inmortal"));
         }
         l.setBroadcastAsEXP(Manager.INSTANCE.loader().isBroadcast_as_exp());
         if (ZONESFILE.hasNode(zoneName + ".customExtras.broadcast.show_as_exp")) {
@@ -221,7 +210,7 @@ public class ZonesFile implements ZonesDB {
             actives.add(zone);
             ZONESFILE.setNode("activeZones", actives);
         }
-        
+
         ZONESFILE.saveConfiguration();
     }
 
@@ -232,26 +221,26 @@ public class ZonesFile implements ZonesDB {
             actives.remove(zone);
             ZONESFILE.setNode("activeZones", actives);
         }
-        
+
         ZONESFILE.saveConfiguration();
     }
 
     @Override
     public int purge() {
         int n = 0;
-        
+
         List<String> actives = ZONESFILE.yamlFile.getStringList("activeZones");
         Set<String> localizations = ZONESFILE.getNodes("");
-        
+
         for (String localization : localizations) {
             if (!actives.contains(localization) && !localization.equals("activeZones")) {
                 ZONESFILE.setNode(localization, null);
                 n++;
             }
         }
-        
+
         ZONESFILE.saveConfiguration();
-        
+
         return n;
     }
 }

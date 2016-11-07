@@ -37,7 +37,6 @@ public class Localization extends Zone {
 
     // Basics    
     private int time = 10;
-    private boolean inmortal = true;
     // Broadcast
     private boolean show_as_exp = true;
     // Effects
@@ -96,14 +95,6 @@ public class Localization extends Zone {
         this.time = no_pvp;
     }
 
-    public boolean isInmortal() {
-        return inmortal;
-    }
-
-    public void setInmortal(boolean b) {
-        this.inmortal = b;
-    }
-
     public boolean broadcastAsEXP() {
         return show_as_exp;
     }
@@ -141,24 +132,24 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if a player is in a location
+     * Method for checking if a player is in a location.
      *
      * @param p Player coordenates
-     * @return true if he is & false if not
+     * @return True if he is; False if not
      */
     public boolean isInsideOfMe(Vector p) {
         return p.isInAABB(Vector.getMinimum(p1, p2), Vector.getMaximum(p1, p2));
     }
 
     /**
-     * Method for checking if a location meets the requirements
+     * Method for checking if a zone meets the requirements.
      * <ul>
-     * <li>Chunks has not liquids</li>
-     * <li>Chunks has not players</li>
+     * <li>Chunks has not liquids.</li>
+     * <li>Chunks has not players.</li>
      * </ul>
      *
-     * @param l Location
-     * @return boolean
+     * @param l Zone location
+     * @return True if it is; False if not
      */
     public static boolean isValidZone(Location l) {
         Chunk[] chunks = getCollidantChunks(l);
@@ -182,15 +173,15 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if a location meets the requirements
+     * Method for checking if a subzone meets the requirements
      * <ul>
      * <li>Chunks has not liquids</li>
      * <li>Chunks has not players</li>
      * </ul>
      *
-     * @param l Location
+     * @param l Subzone location
      * @param zone Subzone
-     * @return boolean
+     * @return True if it is: False if not
      */
     public static boolean isValidSubZone(Location l, Zone zone) {
         Chunk[] chunks = getCollidantChunks(l);
@@ -217,10 +208,10 @@ public class Localization extends Zone {
     /**
      * Method for checking if there are players inside of a zone
      *
-     * @param entities Entity[]
+     * @param entities Entities
      * @param z Zone
      *
-     * @return boolean
+     * @return True if he is inside; False if not
      */
     private static boolean hasPlayersInto(Entity[] entities, Zone z) {
         for (Entity e : entities) {
@@ -234,9 +225,9 @@ public class Localization extends Zone {
     /**
      * Method for checking if there are players inside of chunks
      *
-     * @param entities Entity[]
+     * @param entities Entities
      *
-     * @return boolean
+     * @return True if it has players; False if not
      */
     private static boolean hasPlayers(Entity[] entities) {
         // Search another player into the chunk
@@ -249,12 +240,12 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if there are liquids inside of a zone
+     * Method for checking if there are liquids and It is inside of a zone
      *
-     * @param entities BlockState[]
+     * @param blocks BlockState array
      * @param z Zone
      *
-     * @return boolean
+     * @return True if it has liquids and it is inside of a zone: False if not
      */
     private static boolean hasLiquidBlocksInto(BlockState[] blocks, Zone z) {
         for (BlockState b : blocks) {
@@ -266,12 +257,12 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if there are liquids inside of chunks
+     * Method for checking if there are liquids
      *
-     * @param entities BlockState[]
+     * @param blocks BlockState array
      * @param z Zone
      *
-     * @return boolean
+     * @return True if it has liquids: False if not
      */
     private static boolean hasLiquidBlocks(BlockState[] blocks) {
         // Check if it has liquid blocks
@@ -288,7 +279,7 @@ public class Localization extends Zone {
      *
      * @param p Player coordenates
      * 
-     * @return true if he is & false if not
+     * @return True if he is; False if not
      */
     private static boolean isInsideOfSubzone(Vector p, Zone z) {
         Vector max = Vector.getMaximum(z.getP1(), z.getP2());
@@ -304,9 +295,9 @@ public class Localization extends Zone {
     /**
      * Method for getting collidant chunks by location
      *
-     * @param l Location
+     * @param l Location to inspect
      *
-     * @return Chunk[]
+     * @return Array of collidant chunks
      */
     private static Chunk[] getCollidantChunks(Location l) {
         Chunk[] chunks = new Chunk[9];

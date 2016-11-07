@@ -17,13 +17,13 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
 import com.alternacraft.randomtps.Main.Manager;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import com.alternacraft.aclib.commands.SubCommandExecutor;
 
-public class InfoCommand implements ArgumentExecutor {
+public class InfoCommand implements SubCommandExecutor {
 
     @Override
     public boolean execute(CommandSender cs, String[] args) {

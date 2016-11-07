@@ -21,10 +21,10 @@ import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.CustomLinkedMap;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.Randomizer;
-import com.alternacraft.aclib.utils.Timer;
 import com.alternacraft.randomtps.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
+import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;
 import com.alternacraft.randomtps.Utils.Localization;
 import com.alternacraft.randomtps.Utils.Zone;
 import java.util.HashMap;
@@ -88,19 +88,13 @@ public class HandleTeleport implements Listener {
                         boolean resul = false;
 
                         // Here comes the hard part, to get the location...
-                        Timer et = new Timer() {
-                            {
-                                // Testing purposes
-                                this.start();
-                            }
-                        };
-
                         CustomLinkedMap<String, List<Zone>> subzones = new CustomLinkedMap();
                         subzones.putAll(localization.getSubzones());
 
                         int maxtries = 0;
 
                         if (subzones.isEmpty()) {
+                            PERFORMANCE.start("Teleport to zone");
                             // Destination world
                             int randWorld = Randomizer.rand(
                                     localization.getDestinations().size() - 1, 0);
@@ -121,8 +115,9 @@ public class HandleTeleport implements Listener {
                                 maxtries++;
                             } while (!resul && maxtries < MAX_TRIES);
 
-                            et.recordValue("Teleport to zone");
+                            PERFORMANCE.recordValue("Teleport to zone");
                         } else {
+                            PERFORMANCE.start("Teleport to subzone");
                             int previousworld = -1, randSubzone = -1;
 
                             do {
@@ -154,7 +149,7 @@ public class HandleTeleport implements Listener {
                                 maxtries++;
                             } while (!resul && maxtries < MAX_TRIES);
 
-                            et.recordValue("teleport to subzone");
+                            PERFORMANCE.recordValue("Teleport to subzone");
                         }
 
                         // Avoiding he falls for ever

@@ -46,7 +46,7 @@ public class BroadcastAsExp implements Listener, Broadcast {
     private final Map<UUID, Integer> counter = new HashMap();
 
     @Override
-    public int showBroadcast(final Player pl, int time) {
+    public int startBroadcast(final Player pl, int time) {
         experience.put(pl.getUniqueId(), pl.getLevel());
         pl.setLevel(time);
 

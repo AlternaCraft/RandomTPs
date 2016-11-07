@@ -17,14 +17,14 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import org.bukkit.command.CommandSender;
+import com.alternacraft.aclib.commands.SubCommandExecutor;
 
-public class PurgeCommand implements ArgumentExecutor {
+public class PurgeCommand implements SubCommandExecutor {
 
     @Override
     public boolean execute(CommandSender cs, String[] args) {

@@ -19,11 +19,11 @@ package com.alternacraft.randomtps.Utils;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.aclib.utils.Timer;
 import com.alternacraft.randomtps.Events.BuildCompletedEvent;
 import com.alternacraft.randomtps.Events.BuildStartedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
+import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -77,8 +77,8 @@ public class ZoneBuilder {
             z = p2.getBlockZ();
             minz = p1.getBlockZ();
         }
-
-        Timer et = new Timer() {{ this.start(); }};
+        
+        PERFORMANCE.start("Loading zone");
         
         for (int i = minx; i <= x; i++) {
             for (int j = miny; j <= y; j++) {
@@ -99,7 +99,7 @@ public class ZoneBuilder {
             }
         }
         
-        et.recordValue("Loading zone");
+        PERFORMANCE.recordValue("Loading zone");
     }
 
     public void show(CommandSender cs, final Material m) {

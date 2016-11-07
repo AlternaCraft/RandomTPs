@@ -17,15 +17,15 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import org.bukkit.command.CommandSender;
+import com.alternacraft.aclib.commands.SubCommandExecutor;
 
-public class ReloadCommand implements ArgumentExecutor {
+public class ReloadCommand implements SubCommandExecutor {
 
     @Override
     public boolean execute(CommandSender cs, String[] args) {

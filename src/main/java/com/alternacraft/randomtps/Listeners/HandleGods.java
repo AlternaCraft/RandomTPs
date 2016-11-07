@@ -76,7 +76,8 @@ public class HandleGods implements Listener {
         }
 
         Player pl = (Player) ev.player();
-        
+        Langs lang = Localizer.getLocale(pl);
+
         // Auto fix if something fails
         if (gods.contains(pl.getUniqueId())) {
             clearGod(pl);
@@ -86,32 +87,27 @@ public class HandleGods implements Listener {
         int time = l.getTime();
 
         // God
-        pl.setNoDamageTicks(0);
-        if (l.isInmortal()) {
-            pl.setNoDamageTicks(TPS * time);
-        }
-        
+        pl.setNoDamageTicks(TPS * time);
+        MessageManager.sendPlayer(pl, GameInfo.PLAYER_INVULNERABILITY.
+                getText(lang).replaceAll("%TIME%", String.valueOf(time)));
+
         // Effects
         Map<String, Integer> potions = l.getPotionEffects();
         for (Map.Entry<String, Integer> entry : potions.entrySet()) {
             String name = entry.getKey();
             Integer effect = entry.getValue();
-            
+
             pl.addPotionEffect(new PotionEffect(PotionEffectType.getByName(name),
                     TPS * time, effect));
         }
 
         gods.add(pl.getUniqueId());
 
-        Langs lang = Localizer.getLocale(pl);
-        MessageManager.sendPlayer(pl, GameInfo.PLAYER_INVULNERABILITY.
-                getText(lang).replaceAll("%TIME%", String.valueOf(time)));
-
         // Ending
         if (l.broadcastAsEXP()) {
             BroadcastManager.callBroadcast(BroadcastManager.TYPE.AS_EXP, pl, time);
         }
-        
+
         overtime(pl, time);
     }
     //</editor-fold>
@@ -130,7 +126,7 @@ public class HandleGods implements Listener {
             }
         }, TPS * time).getTaskId());
     }
-    
+
     private void clearGod(OfflinePlayer player) {
         // Broadcast
         if (BroadcastManager.BROADCASTERS.containsKey(player.getUniqueId())) {

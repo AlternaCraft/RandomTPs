@@ -58,7 +58,6 @@ public class ConfigDataStore {
 
     // Default extras
     protected int time = 10;
-    protected boolean inmortal = true;
     protected boolean broadcast_as_exp = true;
     protected List<String> potions_effects = new ArrayList();
 
@@ -180,14 +179,6 @@ public class ConfigDataStore {
 
     public void setTime(int time) {
         this.time = time;
-    }
-
-    public boolean isInmortal() {
-        return inmortal;
-    }
-
-    public void setInmortal(boolean inmortal) {
-        this.inmortal = inmortal;
     }
 
     public boolean isBroadcast_as_exp() {

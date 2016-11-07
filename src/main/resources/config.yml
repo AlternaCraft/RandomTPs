@@ -9,7 +9,7 @@ version: 1.0.1
 ############################################################
 
 # Customizable plugin prefix
-prefix: "&1[&bRandomTPs&1] &r"
+prefix: "&1[&bRandomTPs&1]"
 
 # Enable/Disable metrics
 metrics: true
@@ -59,7 +59,7 @@ selection:
 building:    
     instant: true
 
-# Limits
+# World limits (This don't affect subzones)
 coords:
     x:
         max: 10000
@@ -70,16 +70,15 @@ coords:
         max: 10000
         min: -5000
         
-# Extras
+# Default extras
+# You can put some extras inside of a localization by using the keyword, customExtras, to set custom extras
 defaultExtras:
     # Time of effects
     time: 10
-    # Enable or disable invulnerability
-    inmortal: true
     # Show time left
     broadcast:
         show_as_exp: true
     # Potion effects
     effects:
         potions:
-            - Speed 5
+        - Speed 5

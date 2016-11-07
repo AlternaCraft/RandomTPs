@@ -16,11 +16,11 @@
  */
 package com.alternacraft.randomtps.Commands;
 
-import com.alternacraft.aclib.arguments.ArgumentsInterface;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
 import com.alternacraft.randomtps.Langs.CommandInfo;
+import com.alternacraft.aclib.commands.SubCommandExecutor;
+import com.alternacraft.aclib.commands.registerer.SubCommandsInterface;
 
-public enum Arguments implements ArgumentsInterface {
+public enum Arguments implements SubCommandsInterface {
     NONE(
             "",
             "rtp",
@@ -50,19 +50,13 @@ public enum Arguments implements ArgumentsInterface {
             "rtp reload",
             CommandInfo.COMMAND_RELOAD_DESC,
             new ReloadCommand()
-    ),
-    STATS(
-            "stats",
-            "rtp stats",
-            CommandInfo.COMMAND_STATS_DESC,
-            new StatsCommand()
     );
 
     private final String arg, usage;
     private final Enum info;
-    private final ArgumentExecutor instance;
+    private final SubCommandExecutor instance;
 
-    Arguments(String argument, String usage, Enum description, ArgumentExecutor instance) {
+    Arguments(String argument, String usage, Enum description, SubCommandExecutor instance) {
         this.arg = argument;
         this.usage = usage;
         this.info = description;
@@ -70,7 +64,7 @@ public enum Arguments implements ArgumentsInterface {
     }
 
     @Override
-    public String getArgument() {
+    public String getSubCommand() {
         return arg;
     }
 
@@ -85,7 +79,7 @@ public enum Arguments implements ArgumentsInterface {
     }
 
     @Override
-    public ArgumentExecutor getInstance() {
+    public SubCommandExecutor getInstance() {
         return instance;
     }
 }

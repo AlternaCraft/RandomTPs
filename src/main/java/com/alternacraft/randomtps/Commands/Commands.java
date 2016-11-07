@@ -17,8 +17,7 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.PluginBase;
-import com.alternacraft.aclib.commands.ArgumentExecutor;
-import com.alternacraft.aclib.commands.CommandArgument;
+import com.alternacraft.aclib.commands.SubCommand;
 import com.alternacraft.aclib.commands.CommandListener;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
@@ -27,8 +26,9 @@ import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import com.alternacraft.aclib.commands.SubCommandExecutor;
 
-public class Commands implements ArgumentExecutor {
+public class Commands implements SubCommandExecutor {
 
     public static String USAGE = "rtp";
 
@@ -36,18 +36,18 @@ public class Commands implements ArgumentExecutor {
     public boolean execute(CommandSender cs, String[] args) {
         Langs lang = Localizer.getLocale(cs);
 
-        CommandListener cl = Manager.INSTANCE.getArgRegister().cmdListener();
+        CommandListener cl = Manager.INSTANCE.getMainCommand().cmdListener();
 
         cs.sendMessage("");
         cs.sendMessage(PluginBase.INSTANCE.pluginPrefix() + ChatColor.AQUA
                 + " v" + cl.plugin().getDescription().getVersion() + ChatColor.RESET);
 
-        for (Map.Entry<CommandArgument, ArgumentExecutor> entry : cl.arguments().entrySet()) {
-            CommandArgument key = entry.getKey();
+        for (Map.Entry<SubCommand, SubCommandExecutor> entry : cl.arguments().entrySet()) {
+            SubCommand key = entry.getKey();
 
             // Don't show if he does not have permission
-            if (cs instanceof Player && !key.getArgument().isEmpty()) { 
-                String permission = cl.prefix() + "." + key.getArgument();
+            if (cs instanceof Player && !key.getCommand().isEmpty()) { 
+                String permission = cl.prefix() + "." + key.getCommand();
                 if (!((Player) cs).hasPermission(permission)) {
                     continue;
                 }

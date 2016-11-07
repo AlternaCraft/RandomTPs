@@ -29,7 +29,7 @@ public interface Broadcast {
      *
      * @return Task id
      */
-    public int showBroadcast(final Player pl, int time);
+    public int startBroadcast(final Player pl, int time);
 
     /**
      * Method for stopping a broadcast

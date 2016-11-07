@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.Main;
 
-import com.alternacraft.aclib.utils.PluginLogs;
+import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.aclib.utils.Timer;
 import com.alternacraft.randomtps.Managers.MetricsManager;
 import com.alternacraft.randomtps.Managers.UpdaterManager;
@@ -30,13 +30,15 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class RandomTPs extends JavaPlugin {
 
+    public static final Timer PERFORMANCE = new Timer();
+    
     @Override
     public void onEnable() {
         Manager pluginManager = Manager.INSTANCE;
 
         // Set up before start
-        Manager.BASE.definePluginPrefix("&1[&bRandomTPs&1] &r");
-        PluginLogs.changeLogsFolderNameTo("logs");
+        Manager.BASE.definePluginPrefix("&1[&bRandomTPs&1]");
+        PluginLog.changeLogsFolderTo("logs");
         
         // Plugin manager init
         if (!pluginManager.setup(this)) {
@@ -44,6 +46,7 @@ public class RandomTPs extends JavaPlugin {
             return;
         }
 
+        // Later tasks
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             @Override
             public void run() {
@@ -59,7 +62,7 @@ public class RandomTPs extends JavaPlugin {
     @Override
     public void onDisable() {       
         /* METRICS CONFIGURATION */
-        Timer.reportAverage();
+        PERFORMANCE.saveToLog("performance.txt");
         
         // Sends disable message
         this.getLogger().info("RandomTPs has been disabled!");

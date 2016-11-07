@@ -17,13 +17,13 @@
 package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.PluginBase;
-import com.alternacraft.aclib.arguments.ArgumentsRegister;
-import com.alternacraft.aclib.hook.ExternalPluginRegister;
+import com.alternacraft.aclib.commands.registerer.SubCommandsRegisterer;
+import com.alternacraft.aclib.hook.ExternalPluginRegisterer;
 import com.alternacraft.aclib.hook.HookerInterface;
 import com.alternacraft.aclib.langs.CommandMessages;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
-import com.alternacraft.aclib.listeners.HandlersRegister;
+import com.alternacraft.aclib.listeners.HandlersRegisterer;
 import com.alternacraft.randomtps.Commands.Arguments;
 import com.alternacraft.randomtps.Database.ZonesDB;
 import com.alternacraft.randomtps.Database.ZonesFile;
@@ -42,13 +42,13 @@ public class Manager {
     public static Manager INSTANCE = new Manager();
 
     public static final PluginBase BASE = PluginBase.INSTANCE;
-    public static final ExternalPluginRegister HOOKS = ExternalPluginRegister.INSTANCE;
+    public static final ExternalPluginRegisterer HOOKS = ExternalPluginRegisterer.INSTANCE;
 
     /* DBs */
     private ZonesDB zonesdb;
     
     private List<Localization> localizations = new ArrayList();
-    private ArgumentsRegister mainCommand = null;
+    private SubCommandsRegisterer mainCommand = null;
 
     private final ConfigLoader loader;
 
@@ -77,12 +77,12 @@ public class Manager {
     }
 
     public void registerCommands() {
-        mainCommand = new ArgumentsRegister("randomtps", "rt");
+        mainCommand = new SubCommandsRegisterer("randomtps", "rtp");
         mainCommand.register(Arguments.class);
     }
 
     public void registerListeners() {
-        HandlersRegister.load(Handlers.class);
+        HandlersRegisterer.load(Handlers.class);
     }
 
     public void loadLanguages() {
@@ -109,7 +109,7 @@ public class Manager {
         return HOOKS.getHooker(name);
     }
 
-    public ArgumentsRegister getArgRegister() {
+    public SubCommandsRegisterer getMainCommand() {
         return mainCommand;
     }
 

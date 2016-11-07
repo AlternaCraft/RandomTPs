@@ -33,21 +33,9 @@ public enum CommandInfo implements LangInterface {
             "Información del plugin",
             "Plugin information"
     ),
-    COMMAND_DEFINE_DESC(
-            "Define una zona de teletransporte",
-            "Configure a teleport zone"
-    ),
-    COMMAND_REDEFINE_DESC(
-            "Redefinir la configuracion de una zona",
-            "Redefine the configuration of a zone"
-    ),
     COMMAND_ZONE_DESC(
             "Gestiona una region",
             "Manage a region"
-    ),
-    COMMAND_RESTOREALL_DESC(
-            "Restaura todas las regiones",
-            "Restore all regions"
     ),
     COMMAND_PURGE_DESC(
             "Para limpiar las zonas inactivas",
@@ -56,10 +44,6 @@ public enum CommandInfo implements LangInterface {
     COMMAND_RELOAD_DESC(
             "Para recargar el config del plugin",
             "Reload all the plugin"
-    ),
-    COMMAND_STATS_DESC(
-            "Para obtener informacion sobre el rendimiento del plugin",
-            "For getting information about plugin perfomance"
     );
     // </editor-fold>
 

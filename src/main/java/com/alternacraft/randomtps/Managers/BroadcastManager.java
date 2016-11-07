@@ -43,7 +43,7 @@ public class BroadcastManager {
                 return false;
         }
 
-        if (b.showBroadcast(pl, time) < 0) {
+        if (b.startBroadcast(pl, time) < 0) {
             return false;
         }
 
