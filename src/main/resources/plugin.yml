@@ -14,24 +14,29 @@ commands:
         description: Main command of the plugin
         usage: /<command>
         aliases: rtp
+        permission: rtp.help
 
 permissions:
     rtp.*:
       description: Get access to all commands
       children:
-        rt.info: true
-        rt.zone: true
-        rt.purge: true  
-        rt.reload: true            
+        rtp.help: true
+        rtp.info: true
+        rtp.zone: true
+        rtp.purge: true  
+        rtp.reload: true            
+    rtp.help:
+        description: Commands list
+        default: true
     rtp.info:
-        description: Show plugin commands
+        description: Plugin information
         default: true
     rtp.zone:
         description: Manage a region
         default: op     
     rtp.purge:
-        description: Clean configuration
+        description: Remove inactive zones
         default: op
     rtp.reload:
-        description: Reload the plugin
+        description: Reload the plugin configuration
         default: op
