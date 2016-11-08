@@ -44,7 +44,7 @@ public class MetricsManager {
             Graph graph = metrics.createGraph("General statistics");
 
             for (String report : reports) {
-                Pattern p = Pattern.compile("\\[ (.*) \\] ([0-9]+)");
+                Pattern p = Pattern.compile("(.*) \\- (\\d+)");
                 Matcher m = p.matcher(report);
 
                 String type = "";
@@ -58,6 +58,8 @@ public class MetricsManager {
                 addPlotter(graph, type, value);
             }
         }
+        
+        pl.delete();
     }
 
     public static void load(final JavaPlugin plugin) {

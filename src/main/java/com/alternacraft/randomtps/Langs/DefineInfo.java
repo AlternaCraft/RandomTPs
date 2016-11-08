@@ -30,8 +30,8 @@ public enum DefineInfo implements LangInterface {
             "&cYou are already defining a zone"
     ),
     REDEFINING(
-            "&cEsa zona ya existe por lo que se reajustaran los valores",
-            "&cThat zone already exists so you are defining again"
+            "&cEsa zona ya existe por lo que se creará de nuevo",
+            "&cThat zone already exists so you are redefining the zone"
     ),
     STOP_DEFINING(
             "&aCreación de zona cancelada",
@@ -41,13 +41,13 @@ public enum DefineInfo implements LangInterface {
             "&cNo está definiendo ninguna zona",
             "&cYou are not defining any zone"
     ),
-    SELECTION(
+    SELECTED(
             "&aBloque (%BLOCK_X%, %BLOCK_Y%, %BLOCK_Z%) seleccionado",
             "&aBlock (%BLOCK_X%, %BLOCK_Y%, %BLOCK_Z%) selected"
     ),
-    NO_SELECTED(
+    UNSELECTED(
             "&c¡No ha seleccionado ninguna coordenada!",
-            "&cYou haven not selected any coordenate!"
+            "&cYou haven not selected any coordinate!"
     ),
     INVALID_WORLD(
             "&c¡El mundo %WORLD% no existe!",
@@ -57,17 +57,17 @@ public enum DefineInfo implements LangInterface {
             "&6Recuerde que puede cancelar la creación de la zona escribiendo: \"%CANCEL%\"",
             "&6You remember you can cancel a zone creation by writing: \"%CANCEL%\""
     ),
-    POINT_1(
-            "&ePor favor, seleccione la primera coordenada y escriba: \"%SELECT%\"",
-            "&ePlease, you have to select the first coordenate and write: \"%SELECT%\""
+    COORD_1(
+            "&ePor favor, seleccione la primera coordenada con el click derecho y escriba: \"%SELECT%\"",
+            "&ePlease, select the first coordinate with right click of the mouse and write: \"%SELECT%\""
     ),
-    POINT_2(
+    COORD_2(
             "&eBien, ahora seleccione la segunda coordenada y escriba: \"%SELECT%\"",
-            "&eCool. Now, you have to select the second coordenate and write: \"%SELECT%\""
+            "&eCool. Now, you have to select the second coordinate and write: \"%SELECT%\""
     ),
     SUBZONE(
             "&e¿Quieres definir una subzona? (y/n)",
-            "&edo you want to define a subezone? (y/n)"
+            "&eDo you want to define a subzone? (y/n)"
     ),
     WORLDS(
             "&e¡Perfecto!. Ahora indique el mundo, o los mundos (<mundo1> <mundo2> etc), de destino",
@@ -75,7 +75,7 @@ public enum DefineInfo implements LangInterface {
     ),
     ZONE_CREATED(
             "&aZona creada con exito",
-            "&aZone created sucessfully"
+            "&aZone created successfully"
     );
     // </editor-fold>
 

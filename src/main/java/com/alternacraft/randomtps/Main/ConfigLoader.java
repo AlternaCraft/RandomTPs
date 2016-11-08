@@ -42,7 +42,7 @@ public class ConfigLoader extends ConfigDataStore implements ConfigDataInterface
         
         this.setInstant(fc.getBoolean("building.instant"));
 
-        // Coordenates
+        // Coordinates
         this.setX(new int[]{fc.getInt("coords.x.max"), fc.getInt("coords.x.min")});
         this.setY(fc.getInt("coords.y"));
         this.setZ(new int[]{fc.getInt("coords.z.max"), fc.getInt("coords.z.min")});

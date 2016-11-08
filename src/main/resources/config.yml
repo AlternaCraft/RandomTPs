@@ -49,7 +49,7 @@ defaultLang: EN
 # +------------------------------------------------------+ #
 ############################################################
 
-# Selection info
+# Selection commands
 selection:
     complete: add
     cancel: cancel
@@ -59,12 +59,12 @@ selection:
 building:    
     instant: true
 
-# World limits (This don't affect subzones)
+# World limits (This don't affect to the defined subzones)
 coords:
     x:
         max: 10000
         min: -5000        
-    # Specific coordenate
+    # Teleport height
     y: 150    
     z:
         max: 10000
@@ -75,10 +75,10 @@ coords:
 defaultExtras:
     # Time of effects
     time: 10
-    # Show remaining time
-    broadcast:
-        show_as_exp: true
     # Potion effects
     effects:
         potions:
         - Speed 5
+    # Show remaining time
+    broadcast:
+        show_as_exp: true

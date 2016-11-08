@@ -68,7 +68,7 @@ public class HandleZoneCreation implements Listener {
 
                 LOCATIONS.put(uuid, l);
                 MessageManager.sendPlayer(ev.getPlayer(),
-                        DefineInfo.SELECTION.getText(Localizer.getLocale(ev.getPlayer()))
+                        DefineInfo.SELECTED.getText(Localizer.getLocale(ev.getPlayer()))
                                 .replace("%BLOCK_X%", String.valueOf(l.getBlockX()))
                                 .replace("%BLOCK_Y%", String.valueOf(l.getBlockY()))
                                 .replace("%BLOCK_Z%", String.valueOf(l.getBlockZ()))
@@ -94,7 +94,7 @@ public class HandleZoneCreation implements Listener {
                         DefineInfo.HOW_TO_CANCEL.getText(lang)
                                 .replace("%CANCEL%", cancel));
                 MessageManager.sendPlayer(ev.player(),
-                        DefineInfo.POINT_1.getText(lang)
+                        DefineInfo.COORD_1.getText(lang)
                                 .replace("%SELECT%", selection));
 
                 DEFINERS.put(uuid, new PreLocalization(ev.getZoneName(), 
@@ -143,7 +143,7 @@ public class HandleZoneCreation implements Listener {
 
                 if (!LOCATIONS.containsKey(uuid)) {
                     MessageManager.sendPlayer(ev.getPlayer(),
-                            DefineInfo.NO_SELECTED.getText(lang));
+                            DefineInfo.UNSELECTED.getText(lang));
                     return;
                 }
 
@@ -160,7 +160,7 @@ public class HandleZoneCreation implements Listener {
 
                     String selection = Manager.INSTANCE.loader().getSelection();
                     MessageManager.sendPlayer(ev.getPlayer(),
-                            DefineInfo.POINT_2.getText(lang)
+                            DefineInfo.COORD_2.getText(lang)
                                     .replace("%SELECT%", selection));
                 } else if (!preloc.coord2Saved()) {
                     if (preloc.isSubzone()) {
@@ -210,7 +210,7 @@ public class HandleZoneCreation implements Listener {
 
                     String selection = Manager.INSTANCE.loader().getSelection();
                     MessageManager.sendPlayer(ev.getPlayer(),
-                            DefineInfo.POINT_1.getText(lang)
+                            DefineInfo.COORD_1.getText(lang)
                                     .replace("%SELECT%", selection));
                 } else if (answ.contains("n")) {
                     if (preloc.isSubzone()) {

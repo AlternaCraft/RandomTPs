@@ -141,7 +141,7 @@ public class Localization extends Zone {
     /**
      * Checks if a player is in a location.
      *
-     * @param p Player coordenates
+     * @param p Player coordinates
      * @return True if he is; False if not
      */
     public boolean isInsideOfMe(Vector p) {
@@ -284,7 +284,7 @@ public class Localization extends Zone {
     /**
      * Checks if a player is inside of a subzone.
      *
-     * @param p Player coordenates
+     * @param p Player coordinates
      *
      * @return True if he is; False if not
      */

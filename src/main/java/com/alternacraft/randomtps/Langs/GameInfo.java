@@ -38,8 +38,8 @@ public enum GameInfo implements LangInterface {
             "&bYou are invulnerable for %TIME% seconds"
     ),
     PLAYER_LOSES_PVP(
-            "&cNo puedes pegar a otros jugadores mientras estás protegido",
-            "&cYou can not hit other players while you are protected"
+            "&c¡No puedes pegar a otros jugadores mientras estás protegido!",
+            "&cYou can not hit other players while you are protected!"
     ),
     PLAYER_RECOVERS_PVP(
             "&cSe ha terminado tu protección",
@@ -59,7 +59,7 @@ public enum GameInfo implements LangInterface {
     ),
     ZONE_START_BUILD(
             "&6Costruyendo límites de la zona %NAME%...",
-            "&6Building the limits for %NAME% zone..."
+            "&6Building the limits of the zone %NAME%..."
     ),
     ZONE_END_BUILD(
             "&aConstrucción de %NAME% terminada en %TIME%",
@@ -102,8 +102,8 @@ public enum GameInfo implements LangInterface {
             "&cThat zone is in use, wait until it ends!"
     ),
     RESET_ZONES(
-            "&eRestaurando las zonas",
-            "&eRestoring zones"
+            "&eRestaurando las zonas...",
+            "&eRestoring zones..."
     ),
     NO_ZONES_TO_RESET(
             "&cNo hay zonas para restaurar",

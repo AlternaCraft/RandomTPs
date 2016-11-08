@@ -43,7 +43,7 @@ public enum CommandInfo implements LangInterface {
     ),
     COMMAND_RELOAD_DESC(
             "Para recargar el config del plugin",
-            "Reload all the plugin"
+            "Reload the plugin configuration"
     );
     // </editor-fold>
 

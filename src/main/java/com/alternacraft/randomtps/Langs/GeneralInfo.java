@@ -35,7 +35,7 @@ public enum GeneralInfo implements LangInterface {
     ),
     PLUGIN_RELOAD(
             "&aPlugin recargado correctamente",
-            "&aPlugin reloaded succesfully"
+            "&aPlugin reloaded successfully"
     ),
     PLUGIN_CLEANED(
             "&6Plugin limpiado correctamente",
