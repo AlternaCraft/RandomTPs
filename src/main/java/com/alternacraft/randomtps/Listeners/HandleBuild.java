@@ -22,7 +22,7 @@ import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.API.Events.BuildCompletedEvent;
 import com.alternacraft.randomtps.API.Events.BuildStartedEvent;
-import com.alternacraft.randomtps.API.ZoneBuilder;
+import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import java.util.HashMap;
 import java.util.Map;

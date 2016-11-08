@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.API;
+package com.alternacraft.randomtps.Managers;
 
-import com.alternacraft.randomtps.Utils.BroadcastAsExp;
+import com.alternacraft.randomtps.API.GMEffect;
+import com.alternacraft.randomtps.Utils.PotionEffects;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,41 +26,41 @@ import java.util.UUID;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-public class BroadcastManager {
+public class EffectManager {
 
     public enum TYPE {
-        AS_EXP
+        POTIONS
     }
 
-    public static final Map<UUID, List<GMBroadcast>> BROADCASTERS = new HashMap();
+    public static final Map<UUID, List<GMEffect>> EFFECTS = new HashMap();
 
-    public static boolean callBroadcast(TYPE type, Player pl, int time) {
-        GMBroadcast b;
+    public static boolean addEffect(TYPE type, Player pl, int time, Object v) {
+        GMEffect b;
 
         switch (type) {
-            case AS_EXP:
-                b = new BroadcastAsExp();
+            case POTIONS:
+                b = new PotionEffects();
                 break;
             default:
                 return false;
         }
 
-        if (b.startBroadcast(pl, time) >= 0) {
-            if (!BROADCASTERS.containsKey(pl.getUniqueId())) {
-                BROADCASTERS.put(pl.getUniqueId(), new ArrayList<GMBroadcast>());
+        if (b.start(pl, time, v)) {
+            if (!EFFECTS.containsKey(pl.getUniqueId())) {
+                EFFECTS.put(pl.getUniqueId(), new ArrayList<GMEffect>());
             }
-            BROADCASTERS.get(pl.getUniqueId()).add(b);
+            EFFECTS.get(pl.getUniqueId()).add(b);
             return true;
         }
-        
+
         return false;
     }
-
-    public static void stopBroadcasts(OfflinePlayer player) {
-        List<GMBroadcast> broadcasts = BROADCASTERS.get(player.getUniqueId());
-        for (GMBroadcast broadcast : broadcasts) {
-            broadcast.stopBroadcast(player);
+    
+    public static void removeEffects(OfflinePlayer player) {
+        List<GMEffect> effects = EFFECTS.get(player.getUniqueId());
+        for (GMEffect effect : effects) {
+            effect.stop(player);
         }
-        BROADCASTERS.remove(player.getUniqueId());
+        EFFECTS.remove(player.getUniqueId());
     }
 }

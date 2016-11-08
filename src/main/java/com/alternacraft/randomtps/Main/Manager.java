@@ -31,7 +31,7 @@ import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Listeners.Handlers;
-import com.alternacraft.randomtps.Utils.Localization;
+import com.alternacraft.randomtps.Localizations.Localization;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.plugin.java.JavaPlugin;

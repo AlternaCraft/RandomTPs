@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.API.Events;
 
-import com.alternacraft.randomtps.Utils.Localization;
+import com.alternacraft.randomtps.Localizations.Localization;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;

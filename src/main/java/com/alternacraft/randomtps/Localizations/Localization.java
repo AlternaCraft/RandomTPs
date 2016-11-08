@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Utils;
+package com.alternacraft.randomtps.Localizations;
 
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.NumbersUtils;

@@ -16,8 +16,8 @@
  */
 package com.alternacraft.randomtps.API;
 
-import com.alternacraft.randomtps.Utils.Localization;
-import com.alternacraft.randomtps.Utils.Zone;
+import com.alternacraft.randomtps.Localizations.Localization;
+import com.alternacraft.randomtps.Localizations.Zone;
 import java.util.List;
 import java.util.Map;
 

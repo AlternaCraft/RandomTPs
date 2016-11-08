@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.API.Events;
 
-import com.alternacraft.randomtps.API.ZoneBuilder;
+import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
