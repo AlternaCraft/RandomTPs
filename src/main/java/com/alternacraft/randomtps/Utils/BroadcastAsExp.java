@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Broadcasts;
+package com.alternacraft.randomtps.Utils;
 
 import static com.alternacraft.aclib.PluginBase.TPS;
+import com.alternacraft.randomtps.API.GMBroadcast;
 import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 
-public class BroadcastAsExp implements Listener, Broadcast {
+public class BroadcastAsExp implements Listener, GMBroadcast {
 
     //<editor-fold defaultstate="collapsed" desc="COUNTER FIX">
     @EventHandler

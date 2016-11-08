@@ -14,22 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Events;
+package com.alternacraft.randomtps.API.Events;
 
-import com.alternacraft.randomtps.Utils.ZoneBuilder;
+import com.alternacraft.randomtps.API.ZoneBuilder;
 import org.bukkit.command.CommandSender;
 
-public class BuildCompletedEvent extends BuildEvent {
-    
-    public BuildCompletedEvent(CommandSender cs, ZoneBuilder zb) {
+public class BuildStartedEvent extends BuildEvent {
+
+    public BuildStartedEvent(CommandSender cs, ZoneBuilder zb) {
         super(cs, zb);
-    }
-    
-    public long getElapsedtime() {
-        return this.zoneBuilder().elapsedTime();
-    }
-    
-    public int getElapsedtimeInSeconds() {
-        return (int)(getElapsedtime() / 1000);
     }
 }

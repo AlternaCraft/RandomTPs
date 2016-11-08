@@ -1,6 +1,6 @@
 ## Plugin YAML file
 name: RandomTPs
-version: 1.0.1
+version: 1.0.2
 description: Random teleport plugin
 database: false
 website: alternacraft.github.io/RandomTPs/
@@ -28,10 +28,10 @@ permissions:
         default: true
     rtp.zone:
         description: Manage a region
-        default: false     
+        default: op     
     rtp.purge:
         description: Clean configuration
-        default: false
+        default: op
     rtp.reload:
         description: Reload the plugin
-        default: false
+        default: op

@@ -17,10 +17,12 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.NumbersUtils;
-import com.alternacraft.randomtps.Events.DefineZoneEvent;
+import com.alternacraft.randomtps.API.Events.DefineZoneEvent;
+import com.alternacraft.randomtps.API.ZoneBuilder;
 import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
@@ -28,7 +30,6 @@ import com.alternacraft.randomtps.Listeners.HandleBuild;
 import static com.alternacraft.randomtps.Listeners.HandleBuild.DISABLED;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.Localization;
-import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import java.util.List;
 import java.util.Map;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -41,7 +42,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import com.alternacraft.aclib.commands.SubCommandExecutor;
 
 public class ZoneCommand implements SubCommandExecutor {
 
@@ -86,7 +86,7 @@ public class ZoneCommand implements SubCommandExecutor {
                 //<editor-fold defaultstate="collapsed" desc="TOGGLE CODE">
                 if (args.length > 2) {
                     String zone = args[2];
-                    if (Manager.INSTANCE.localizationExits(zone)) {
+                    if (Manager.INSTANCE.localizationExists(zone)) {
                         Manager.INSTANCE.disableLocation(zone);
                         MessageManager.sendCommandSender(cs, 
                                 GameInfo.ZONE_DISABLED.getText(lang));
@@ -139,7 +139,7 @@ public class ZoneCommand implements SubCommandExecutor {
                     if (args.length > 2) {
                         String zone = args[2];
 
-                        boolean exists = Manager.INSTANCE.localizationExits(zone);
+                        boolean exists = Manager.INSTANCE.localizationExists(zone);
 
                         if (exists) {
                             HandleBuild.DISABLED.put(zone, null);
@@ -148,7 +148,7 @@ public class ZoneCommand implements SubCommandExecutor {
                         }
                         
                         Bukkit.getServer().getPluginManager().callEvent(
-                                new DefineZoneEvent(player, zone));
+                                new DefineZoneEvent(player, zone, exists));
                     } else {
                         MessageManager.sendCommandSender(cs,
                                 "&cSyntax: /rt zone create <name> [redefine]");

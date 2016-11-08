@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Utils;
+package com.alternacraft.randomtps.API;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.randomtps.Events.BuildCompletedEvent;
-import com.alternacraft.randomtps.Events.BuildStartedEvent;
+import com.alternacraft.randomtps.API.Events.BuildCompletedEvent;
+import com.alternacraft.randomtps.API.Events.BuildStartedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;

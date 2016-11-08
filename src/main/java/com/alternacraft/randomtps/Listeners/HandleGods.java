@@ -20,11 +20,12 @@ import com.alternacraft.aclib.MessageManager;
 import static com.alternacraft.aclib.PluginBase.TPS;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.randomtps.Events.PlayerBecomesUselessEvent;
-import com.alternacraft.randomtps.Events.PlayerGodModeEvent;
+import com.alternacraft.randomtps.API.BroadcastManager;
+import com.alternacraft.randomtps.API.EffectManager;
+import com.alternacraft.randomtps.API.Events.PlayerBecomesUselessEvent;
+import com.alternacraft.randomtps.API.Events.PlayerGodModeEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
-import com.alternacraft.randomtps.Managers.BroadcastManager;
 import com.alternacraft.randomtps.Utils.Localization;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class HandleGods implements Listener {
@@ -71,7 +71,7 @@ public class HandleGods implements Listener {
     @EventHandler
     public void onPlayerBecomesGod(PlayerGodModeEvent ev) {
         if (!ev.player().isOnline()) {
-            // Lost your opportunity :)
+            // Lost the opportunity :)
             return;
         }
 
@@ -92,16 +92,10 @@ public class HandleGods implements Listener {
                 getText(lang).replaceAll("%TIME%", String.valueOf(time)));
 
         // Effects
-        Map<String, Integer> potions = l.getPotionEffects();
-        for (Map.Entry<String, Integer> entry : potions.entrySet()) {
-            String name = entry.getKey();
-            Integer effect = entry.getValue();
-
-            pl.addPotionEffect(new PotionEffect(PotionEffectType.getByName(name),
-                    TPS * time, effect));
+        if (!l.getPotionEffects().isEmpty()) {
+            EffectManager.addEffect(EffectManager.TYPE.POTIONS, pl, time,
+                    l.getPotionEffects());
         }
-
-        gods.add(pl.getUniqueId());
 
         // Ending
         if (l.broadcastAsEXP()) {
@@ -109,6 +103,8 @@ public class HandleGods implements Listener {
         }
 
         overtime(pl, time);
+
+        gods.add(pl.getUniqueId());
     }
     //</editor-fold>
 
@@ -130,7 +126,12 @@ public class HandleGods implements Listener {
     private void clearGod(OfflinePlayer player) {
         // Broadcast
         if (BroadcastManager.BROADCASTERS.containsKey(player.getUniqueId())) {
-            BroadcastManager.stopBroadcast(player);
+            BroadcastManager.stopBroadcasts(player);
+        }
+
+        // Effects
+        if (EffectManager.EFFECTS.containsKey(player.getUniqueId())) {
+            EffectManager.removeEffects(player);
         }
 
         // Players

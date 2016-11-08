@@ -16,9 +16,9 @@
  */
 package com.alternacraft.randomtps.Commands;
 
-import com.alternacraft.randomtps.Langs.CommandInfo;
 import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.aclib.commands.registerer.SubCommandsInterface;
+import com.alternacraft.randomtps.Langs.CommandInfo;
 
 public enum Arguments implements SubCommandsInterface {
     NONE(

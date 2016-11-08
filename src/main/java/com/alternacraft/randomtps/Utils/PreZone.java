@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.Utils;
 
-public class PreValues {
+public class PreZone {
 
     private boolean coord1 = false;
     private boolean coord2 = false;

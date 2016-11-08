@@ -14,28 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Broadcasts;
+package com.alternacraft.randomtps.API.Events;
 
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
+import com.alternacraft.randomtps.API.ZoneBuilder;
+import org.bukkit.command.CommandSender;
 
-public interface Broadcast {
-
-    /**
-     * Method for showing a broadcast
-     * 
-     * @param pl Player
-     * @param time Time in seconds
-     *
-     * @return Task id
-     */
-    public int startBroadcast(final Player pl, int time);
-
-    /**
-     * Method for stopping a broadcast
-     * 
-     * @param player OfflinePlayer
-     */
-    public void stopBroadcast(OfflinePlayer player);
+public class BuildCompletedEvent extends BuildEvent {
     
+    public BuildCompletedEvent(CommandSender cs, ZoneBuilder zb) {
+        super(cs, zb);
+    }
+    
+    public long getElapsedtime() {
+        return this.zoneBuilder().elapsedTime();
+    }
+    
+    public int getElapsedtimeInSeconds() {
+        return (int)(getElapsedtime() / 1000);
+    }
 }

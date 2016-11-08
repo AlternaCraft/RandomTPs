@@ -19,7 +19,7 @@ package com.alternacraft.randomtps.Listeners;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.randomtps.Events.DefineZoneEvent;
+import com.alternacraft.randomtps.API.Events.DefineZoneEvent;
 import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.PreLocalization;
@@ -69,9 +69,9 @@ public class HandleZoneCreation implements Listener {
                 LOCATIONS.put(uuid, l);
                 MessageManager.sendPlayer(ev.getPlayer(),
                         DefineInfo.SELECTION.getText(Localizer.getLocale(ev.getPlayer()))
-                        .replace("%BLOCK_X%", String.valueOf(l.getBlockX()))
-                        .replace("%BLOCK_Y%", String.valueOf(l.getBlockY()))
-                        .replace("%BLOCK_Z%", String.valueOf(l.getBlockZ()))
+                                .replace("%BLOCK_X%", String.valueOf(l.getBlockX()))
+                                .replace("%BLOCK_Y%", String.valueOf(l.getBlockY()))
+                                .replace("%BLOCK_Z%", String.valueOf(l.getBlockZ()))
                 );
             }
         }
@@ -89,15 +89,16 @@ public class HandleZoneCreation implements Listener {
             } else {
                 String cancel = Manager.INSTANCE.loader().getCancel();
                 String selection = Manager.INSTANCE.loader().getSelection();
-                
-                MessageManager.sendPlayer(ev.player(), 
+
+                MessageManager.sendPlayer(ev.player(),
                         DefineInfo.HOW_TO_CANCEL.getText(lang)
-                        .replace("%CANCEL%", cancel));
+                                .replace("%CANCEL%", cancel));
                 MessageManager.sendPlayer(ev.player(),
                         DefineInfo.POINT_1.getText(lang)
-                        .replace("%SELECT%", selection));
-                
-                DEFINERS.put(uuid, new PreLocalization(ev.getZoneName()));
+                                .replace("%SELECT%", selection));
+
+                DEFINERS.put(uuid, new PreLocalization(ev.getZoneName(), 
+                        ev.isRedefine()));
             }
         }
     }
@@ -115,12 +116,12 @@ public class HandleZoneCreation implements Listener {
         if (DEFINERS.containsKey(uuid) && answ.contains(Manager.INSTANCE.loader().getCancel())) {
             Langs lang = Localizer.getLocale(player);
             String zone = HandleZoneCreation.DEFINERS.get(uuid).getZoneName();
-            
+
             // Bye bye
             HandleBuild.DISABLED.remove(zone);
             MessageManager.sendPlayer(player,
-                    DefineInfo.STOP_DEFINING.getText(lang));    
-            
+                    DefineInfo.STOP_DEFINING.getText(lang));
+
             ev.setCancelled(true);
         }
     }
@@ -160,7 +161,7 @@ public class HandleZoneCreation implements Listener {
                     String selection = Manager.INSTANCE.loader().getSelection();
                     MessageManager.sendPlayer(ev.getPlayer(),
                             DefineInfo.POINT_2.getText(lang)
-                            .replace("%SELECT%", selection));
+                                    .replace("%SELECT%", selection));
                 } else if (!preloc.coord2Saved()) {
                     if (preloc.isSubzone()) {
                         preloc.addSubzone(LOCATIONS.get(uuid).getWorld().getName(),
@@ -210,7 +211,7 @@ public class HandleZoneCreation implements Listener {
                     String selection = Manager.INSTANCE.loader().getSelection();
                     MessageManager.sendPlayer(ev.getPlayer(),
                             DefineInfo.POINT_1.getText(lang)
-                            .replace("%SELECT%", selection));
+                                    .replace("%SELECT%", selection));
                 } else if (answ.contains("n")) {
                     if (preloc.isSubzone()) {
                         save(preloc, ev.getPlayer());
@@ -251,7 +252,7 @@ public class HandleZoneCreation implements Listener {
                     } else {
                         MessageManager.sendPlayer(ev.getPlayer(),
                                 DefineInfo.INVALID_WORLD.getText(lang)
-                                .replace("%WORLD%", w));
+                                        .replace("%WORLD%", w));
                         return;
                     }
                 }
@@ -265,12 +266,17 @@ public class HandleZoneCreation implements Listener {
         Langs lang = Localizer.getLocale(pl);
 
         Manager.INSTANCE.getZonesDB().saveLocalization(preloc.toLocalization());
-        Manager.INSTANCE.getZonesDB().enableLocalization(preloc.getZoneName());        
+        Manager.INSTANCE.getZonesDB().enableLocalization(preloc.getZoneName());
+
+        if (preloc.redefine()) {
+            Manager.INSTANCE.removeLocalization(preloc.getZoneName());
+        }        
         Manager.INSTANCE.addLocalization(preloc.getZoneName());
 
         DEFINERS.remove(pl.getUniqueId());
-        // If redefine
-        HandleBuild.DISABLED.remove(preloc.getZoneName());
+        if (preloc.redefine()) {
+            HandleBuild.DISABLED.remove(preloc.getZoneName());
+        }
 
         MessageManager.sendPlayer(pl,
                 DefineInfo.ZONE_CREATED.getText(lang));

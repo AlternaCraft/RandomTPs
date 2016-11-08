@@ -16,10 +16,7 @@
  */
 package com.alternacraft.randomtps.Utils;
 
-import com.alternacraft.aclib.langs.Langs;
-import com.alternacraft.aclib.utils.NumbersUtils;
 import com.alternacraft.aclib.utils.Randomizer;
-import com.alternacraft.randomtps.Langs.GameInfo;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
@@ -29,9 +26,6 @@ import org.bukkit.util.Vector;
  * @author Julian
  */
 public class Zone {
-
-    public static final short DISTANCE = 10;
-    private static final int CHUNK = 16;
 
     protected final Vector p1;
     protected final Vector p2;
@@ -49,68 +43,14 @@ public class Zone {
         return p2;
     }
 
-    public Location getVisitLocation(World w) {
-        Vector v = p1.getMidpoint(p2);
-
-        int distance = NumbersUtils.differenceBetween(p1.getBlockZ(), p2.getBlockZ());
-        do {
-            distance /= 2;
-        } while (distance > CHUNK * DISTANCE);
-        v.setZ((NumbersUtils.getLower(p1.getBlockZ(), p2.getBlockZ())) - distance);
-
-        return v.toLocation(w);
-    }
-
+    /**
+     * Gets a random location inside of the zone.
+     *
+     * @param world World
+     *
+     * @return The random location
+     */
     public Location randomLocation(World world) {
         return Randomizer.randBetweenVector(p1, p2).toLocation(world);
-    }
-
-    /*
-    public boolean isEmpty(World world) {
-        int x, z;
-        int minx, minz;
-
-        if (p1.getX() >= p2.getX()) {
-            x = p1.getBlockX();
-            minx = p2.getBlockX();
-        } else {
-            x = p2.getBlockX();
-            minx = p1.getBlockX();
-        }
-        if (p1.getZ() >= p2.getZ()) {
-            z = p1.getBlockZ();
-            minz = p2.getBlockZ();
-        } else {
-            z = p2.getBlockZ();
-            minz = p1.getBlockZ();
-        }
-
-        for (int i = minx; i <= x; i++) {
-            for (int j = 0; j <= 65; j++) {
-                for (int k = minz; k <= z; k++) {
-                    Location l = new Location(world, (i < 0) ? (i - 1) : i, j, (k < 0) ? (k - 1) : k);
-                    if (l.getBlock().isLiquid()) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-     */
-    public String toClickString(Langs l) {
-        String title = GameInfo.ZONE_GO_TITLE.getText(l);
-        String p1 = "*** P1 (" + this.p1.getBlockX() + ", " + this.getP1().getBlockY()
-                + ", " + this.getP1().getBlockZ() + ")";
-        String p2 = "*** P2 (" + this.getP2().getBlockX() + ", " + this.getP2().getBlockY()
-                + ", " + this.getP2().getBlockZ() + ")";
-        String info = GameInfo.ZONE_GO_CLICK.getText(l);
-
-        /*int longer = StringsUtils.getHigherLength(title, p1, p2, info);
-        String[] values = StringsUtils.copyLength(
-                longer, ' ', StringsUtils.POSITION.CENTER, title, p1, p2, info);
-
-        return values[0] + "\n" + values[1] + "\n" + values[2] + "\n" + values[3];*/
-        return title + "\n" + p1 + "\n" + p2 + "\n" + info;
     }
 }

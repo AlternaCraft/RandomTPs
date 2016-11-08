@@ -18,7 +18,6 @@ package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.aclib.utils.Timer;
-import com.alternacraft.randomtps.Managers.MetricsManager;
 import com.alternacraft.randomtps.Managers.UpdaterManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -49,8 +48,7 @@ public class RandomTPs extends JavaPlugin {
         // Later tasks
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             @Override
-            public void run() {
-                MetricsManager.load(Manager.BASE.plugin());
+            public void run() {                
                 UpdaterManager.testUpdate(Manager.BASE.plugin(), getFile());
             }
         });

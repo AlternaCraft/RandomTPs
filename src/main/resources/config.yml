@@ -1,5 +1,5 @@
 # DO NOT TOUCH #
-version: 1.0.1
+version: 1.0.2
 ################
 
 ############################################################
@@ -75,7 +75,7 @@ coords:
 defaultExtras:
     # Time of effects
     time: 10
-    # Show time left
+    # Show remaining time
     broadcast:
         show_as_exp: true
     # Potion effects

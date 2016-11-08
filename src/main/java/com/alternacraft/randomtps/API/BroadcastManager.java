@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Managers;
+package com.alternacraft.randomtps.API;
 
-import com.alternacraft.randomtps.Broadcasts.Broadcast;
-import com.alternacraft.randomtps.Broadcasts.BroadcastAsExp;
+import com.alternacraft.randomtps.Utils.BroadcastAsExp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.bukkit.OfflinePlayer;
@@ -30,10 +31,10 @@ public class BroadcastManager {
         AS_EXP
     }
 
-    public static final Map<UUID, Broadcast> BROADCASTERS = new HashMap();
+    public static final Map<UUID, List<GMBroadcast>> BROADCASTERS = new HashMap();
 
     public static boolean callBroadcast(TYPE type, Player pl, int time) {
-        Broadcast b;
+        GMBroadcast b;
 
         switch (type) {
             case AS_EXP:
@@ -43,17 +44,22 @@ public class BroadcastManager {
                 return false;
         }
 
-        if (b.startBroadcast(pl, time) < 0) {
-            return false;
+        if (b.startBroadcast(pl, time) >= 0) {
+            if (!BROADCASTERS.containsKey(pl.getUniqueId())) {
+                BROADCASTERS.put(pl.getUniqueId(), new ArrayList<GMBroadcast>());
+            }
+            BROADCASTERS.get(pl.getUniqueId()).add(b);
+            return true;
         }
-
-        BROADCASTERS.put(pl.getUniqueId(), b);
-
-        return true;
+        
+        return false;
     }
 
-    public static void stopBroadcast(OfflinePlayer player) {
-        BROADCASTERS.get(player.getUniqueId()).stopBroadcast(player);
+    public static void stopBroadcasts(OfflinePlayer player) {
+        List<GMBroadcast> broadcasts = BROADCASTERS.get(player.getUniqueId());
+        for (GMBroadcast broadcast : broadcasts) {
+            broadcast.stopBroadcast(player);
+        }
         BROADCASTERS.remove(player.getUniqueId());
     }
 }

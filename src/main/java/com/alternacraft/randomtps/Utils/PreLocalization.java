@@ -22,9 +22,10 @@ import java.util.List;
 import java.util.Map;
 import org.bukkit.util.Vector;
 
-public class PreLocalization extends PreValues {
+public class PreLocalization extends PreZone {
 
-    private final String zone;
+    private final String zone;    
+    private final boolean redefine;
 
     private Vector c1;
     private Vector c2;
@@ -35,12 +36,17 @@ public class PreLocalization extends PreValues {
     private final Map<String, List<Zone>> subzones = new HashMap();
     private Vector cs1;
 
-    public PreLocalization(String zone) {
+    public PreLocalization(String zone, boolean redefine) {
         this.zone = zone;
+        this.redefine = redefine;
     }
 
     public String getZoneName() {
         return zone;
+    }
+
+    public boolean redefine() {
+        return redefine;
     }
 
     public void setC1(Vector c1) {

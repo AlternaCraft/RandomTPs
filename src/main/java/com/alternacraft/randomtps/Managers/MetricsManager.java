@@ -17,15 +17,10 @@
 package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.utils.DateUtils;
 import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.randomtps.Main.Manager;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -42,7 +37,7 @@ public class MetricsManager {
         PluginLog pl = new PluginLog("performance.txt");
         pl.importLog();
 
-        Map<Date, List<String>> loginfo = parseLogFile(pl.getMessages());
+        Map<Date, List<String>> loginfo = PluginLog.getValuesPerDate(pl.getMessages());
 
         for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
             List<String> reports = entry.getValue();
@@ -78,28 +73,6 @@ public class MetricsManager {
     }
 
     //<editor-fold defaultstate="collapsed" desc="CLASS STUFF">
-    private static Map<Date, List<String>> parseLogFile(List<String> lines) {
-        Map<Date, List<String>> data = new HashMap<>();
-
-        Date lastdate = null;
-        DateFormat format = DateUtils.getDefaultDateFormat();
-
-        for (String line : lines) {
-            if (line.matches("### .* ###")) {
-                try {
-                    lastdate = format.parse(line.replace("### ", "").replace(" ###", ""));
-                    data.put(lastdate, new ArrayList());
-                } catch (ParseException ex) {
-                    MessageManager.logError(ex.getMessage());
-                }
-            } else if (!line.isEmpty() && lastdate != null && data.containsKey(lastdate)) {
-                data.get(lastdate).add(line);
-            }
-        }
-
-        return data;
-    }
-
     private static void addPlotter(Graph g, String plotter, final int number) {
         if (number == 0) {
             return;

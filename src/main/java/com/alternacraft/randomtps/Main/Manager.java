@@ -24,9 +24,8 @@ import com.alternacraft.aclib.langs.CommandMessages;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.listeners.HandlersRegisterer;
+import com.alternacraft.randomtps.API.ZonesDB;
 import com.alternacraft.randomtps.Commands.Arguments;
-import com.alternacraft.randomtps.Database.ZonesDB;
-import com.alternacraft.randomtps.Database.ZonesFile;
 import com.alternacraft.randomtps.Langs.CommandInfo;
 import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Langs.GameInfo;
@@ -132,7 +131,7 @@ public class Manager {
         return localizations;
     }
 
-    public boolean localizationExits(String zone) {
+    public boolean localizationExists(String zone) {
         return getLocalizationByName(zone) != null;
     }
 
@@ -146,7 +145,7 @@ public class Manager {
         this.removeLocalization(zone);
     }
 
-    public void addLocalization(String zone) {
+    public void addLocalization(String zone) {        
         localizations.add(zonesdb.getLocalization(zone));
     }
 

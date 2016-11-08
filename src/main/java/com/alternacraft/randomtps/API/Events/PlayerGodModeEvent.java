@@ -14,32 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Events;
+package com.alternacraft.randomtps.API.Events;
 
-import org.bukkit.entity.Player;
+import com.alternacraft.randomtps.Utils.Localization;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerDroppedEvent extends Event implements Cancellable {
+public class PlayerGodModeEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
 
     private boolean cancelled = false;
 
-    private final Player player;
-    private final String zone;
-
-    public PlayerDroppedEvent(Player player, String zone) {
+    private final OfflinePlayer player;
+    private final Localization localization;
+    
+    public PlayerGodModeEvent(OfflinePlayer player, Localization localization) {
         this.player = player;
-        this.zone = zone;
+        this.localization = localization;
     }
 
-    public Player player() {
+    public OfflinePlayer player() {
         return this.player;
     }
 
-    public String zoneName() {
-        return this.zone;
+    public Localization getLocalization() {
+        return localization;
     }
 
     @Override
@@ -59,6 +60,5 @@ public class PlayerDroppedEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean bln) {
         this.cancelled = bln;
-    }
-    
+    }    
 }

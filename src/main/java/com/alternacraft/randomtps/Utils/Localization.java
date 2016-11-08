@@ -16,18 +16,25 @@
  */
 package com.alternacraft.randomtps.Utils;
 
+import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.utils.NumbersUtils;
+import com.alternacraft.randomtps.Langs.GameInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import static org.bukkit.entity.EntityType.PLAYER;
 import org.bukkit.util.Vector;
 
 public class Localization extends Zone {
+
+    public static final short DISTANCE = 10;
+    private static final int CHUNK = 16;
 
     private String zoneName = null;
     private String origin = null;
@@ -132,7 +139,7 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if a player is in a location.
+     * Checks if a player is in a location.
      *
      * @param p Player coordenates
      * @return True if he is; False if not
@@ -142,7 +149,7 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if a zone meets the requirements.
+     * Checks if a zone meets the requirements.
      * <ul>
      * <li>Chunks has not liquids.</li>
      * <li>Chunks has not players.</li>
@@ -173,7 +180,7 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if a subzone meets the requirements
+     * Checks if a subzone meets the requirements.
      * <ul>
      * <li>Chunks has not liquids</li>
      * <li>Chunks has not players</li>
@@ -185,7 +192,7 @@ public class Localization extends Zone {
      */
     public static boolean isValidSubZone(Location l, Zone zone) {
         Chunk[] chunks = getCollidantChunks(l);
-        
+
         for (Chunk chunk : chunks) {
             boolean wasloaded = true;
             if (!chunk.isLoaded()) {
@@ -206,7 +213,7 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if there are players inside of a zone
+     * Checks if there are players inside of a zone.
      *
      * @param entities Entities
      * @param z Zone
@@ -223,7 +230,7 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if there are players inside of chunks
+     * Checks if there are players inside of chunks.
      *
      * @param entities Entities
      *
@@ -240,7 +247,7 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if there are liquids and It is inside of a zone
+     * Checks if there are liquids and It is inside of a zone.
      *
      * @param blocks BlockState array
      * @param z Zone
@@ -257,7 +264,7 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if there are liquids
+     * Checks if there are liquids.
      *
      * @param blocks BlockState array
      * @param z Zone
@@ -275,25 +282,25 @@ public class Localization extends Zone {
     }
 
     /**
-     * Method for checking if a player is inside of a subzone
+     * Checks if a player is inside of a subzone.
      *
      * @param p Player coordenates
-     * 
+     *
      * @return True if he is; False if not
      */
     private static boolean isInsideOfSubzone(Vector p, Zone z) {
         Vector max = Vector.getMaximum(z.getP1(), z.getP2());
         Vector min = Vector.getMinimum(z.getP1(), z.getP2());
-        
-        int xplayer = (p.getBlockX() < 0) ? p.getBlockX() + 1:p.getBlockX();
-        int zplayer = (p.getBlockZ() < 0) ? p.getBlockZ() + 1:p.getBlockZ();
-        
-        return ((xplayer <= max.getBlockX() && xplayer >= min.getBlockX()) 
+
+        int xplayer = (p.getBlockX() < 0) ? p.getBlockX() + 1 : p.getBlockX();
+        int zplayer = (p.getBlockZ() < 0) ? p.getBlockZ() + 1 : p.getBlockZ();
+
+        return ((xplayer <= max.getBlockX() && xplayer >= min.getBlockX())
                 && (zplayer <= max.getBlockZ() && zplayer >= min.getBlockZ()));
     }
 
     /**
-     * Method for getting collidant chunks by location
+     * Gets collidant chunks by location.
      *
      * @param l Location to inspect
      *
@@ -303,7 +310,7 @@ public class Localization extends Zone {
         Chunk[] chunks = new Chunk[9];
 
         Chunk origin = l.getChunk();
-        
+
         int xmin = origin.getX() - 1;
         int zmin = origin.getZ() - 1;
 
@@ -324,5 +331,42 @@ public class Localization extends Zone {
         }
 
         return chunks;
+    }
+
+    /**
+     * Gets the visit location.
+     * 
+     * @param w World
+     * 
+     * @return Location to visit
+     */
+    public Location getVisitLocation(World w) {
+        Vector v = p1.getMidpoint(p2);
+
+        int distance = NumbersUtils.differenceBetween(p1.getBlockZ(), p2.getBlockZ());
+        do {
+            distance /= 2;
+        } while (distance > CHUNK * DISTANCE);
+        v.setZ((NumbersUtils.getLower(p1.getBlockZ(), p2.getBlockZ())) - distance);
+
+        return v.toLocation(w);
+    }
+
+    /**
+     * Gets a formatted string.
+     * 
+     * @param l Player's language
+     * 
+     * @return The formatted string
+     */
+    public String toClickString(Langs l) {
+        String title = GameInfo.ZONE_GO_TITLE.getText(l);
+        String coord1 = "*** P1 (" + this.p1.getBlockX() + ", " + this.getP1().getBlockY()
+                + ", " + this.getP1().getBlockZ() + ")";
+        String coord2 = "*** P2 (" + this.getP2().getBlockX() + ", " + this.getP2().getBlockY()
+                + ", " + this.getP2().getBlockZ() + ")";
+        String info = GameInfo.ZONE_GO_CLICK.getText(l);
+
+        return title + "\n" + coord1 + "\n" + coord2 + "\n" + info;
     }
 }

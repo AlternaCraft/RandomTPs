@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Database;
+package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.utils.PluginFile;
-import com.alternacraft.randomtps.Main.Manager;
+import com.alternacraft.randomtps.API.ZonesDB;
 import com.alternacraft.randomtps.Utils.Localization;
 import com.alternacraft.randomtps.Utils.Zone;
 import java.util.ArrayList;
@@ -40,10 +40,10 @@ public class ZonesFile implements ZonesDB {
             public void createConfig() {
                 this.resetYamlConfiguration();
 
-                this.yamlFile.options().header(
-                        "###############\n"
-                        + "## ZONE LIST ##\n"
-                        + "###############"
+                this.yamlFile.options().header(""
+                        + "########################\n"
+                        + "## LOCALIZATIONS LIST ##\n"
+                        + "########################"
                 );
                 this.yamlFile.options().copyHeader(true);
 

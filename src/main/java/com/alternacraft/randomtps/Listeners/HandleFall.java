@@ -16,8 +16,8 @@
  */
 package com.alternacraft.randomtps.Listeners;
 
-import com.alternacraft.randomtps.Events.PlayerDroppedEvent;
-import com.alternacraft.randomtps.Events.PlayerGodModeEvent;
+import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
+import com.alternacraft.randomtps.API.Events.PlayerGodModeEvent;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.Localization;
 import java.util.HashMap;

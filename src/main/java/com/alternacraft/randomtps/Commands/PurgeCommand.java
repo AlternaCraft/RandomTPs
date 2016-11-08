@@ -17,12 +17,12 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import org.bukkit.command.CommandSender;
-import com.alternacraft.aclib.commands.SubCommandExecutor;
 
 public class PurgeCommand implements SubCommandExecutor {
 

@@ -21,7 +21,7 @@ import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.CustomLinkedMap;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.Randomizer;
-import com.alternacraft.randomtps.Events.PlayerDroppedEvent;
+import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;

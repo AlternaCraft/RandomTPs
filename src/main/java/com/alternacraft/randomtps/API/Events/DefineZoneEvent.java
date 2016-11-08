@@ -14,33 +14,43 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Events;
+package com.alternacraft.randomtps.API.Events;
 
-import com.alternacraft.randomtps.Utils.Localization;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerGodModeEvent extends Event implements Cancellable {
+public class DefineZoneEvent extends Event implements Cancellable {
+
     private static final HandlerList HANDLERS = new HandlerList();
 
+    private OfflinePlayer player = null;
+    private String zone = null;
+    private boolean redefine = false;
     private boolean cancelled = false;
 
-    private final OfflinePlayer player;
-    private final Localization localization;
-    
-    public PlayerGodModeEvent(OfflinePlayer player, Localization localization) {
+    public DefineZoneEvent(OfflinePlayer player, String zone, boolean redefine) {
         this.player = player;
-        this.localization = localization;
+        this.zone = zone;
+        this.redefine = redefine;
     }
 
-    public OfflinePlayer player() {
-        return this.player;
+    public OfflinePlayer offplayer() {
+        return player;
     }
 
-    public Localization getLocalization() {
-        return localization;
+    public Player player() {
+        return (Player) player;
+    }
+
+    public String getZoneName() {
+        return zone;
+    }
+
+    public boolean isRedefine() {
+        return redefine;
     }
 
     @Override
@@ -61,5 +71,4 @@ public class PlayerGodModeEvent extends Event implements Cancellable {
     public void setCancelled(boolean bln) {
         this.cancelled = bln;
     }
-    
 }

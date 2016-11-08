@@ -14,41 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Events;
+package com.alternacraft.randomtps.API.Events;
 
-import com.alternacraft.randomtps.Utils.ZoneBuilder;
-import org.bukkit.command.CommandSender;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class BuildEvent extends Event implements Cancellable {
+public class PlayerBecomesUselessEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
 
     private boolean cancelled = false;
 
-    private final CommandSender cs;
-    private final ZoneBuilder zb;
+    private final OfflinePlayer player;
 
-    public BuildEvent(CommandSender cs, ZoneBuilder zb) {
-        this.cs = cs;
-        this.zb = zb;
+    public PlayerBecomesUselessEvent(OfflinePlayer player) {
+        this.player = player;
     }
 
-    public CommandSender cs() {
-        return this.cs;
-    }
-    
-    public ZoneBuilder zoneBuilder() {
-        return this.zb;
-    }
-
-    public String zoneName() {
-        return this.zb.zoneName();
-    }
-    
-    public boolean isRollback() {
-        return this.zb.isRollback();
+    public OfflinePlayer player() {
+        return this.player;
     }
 
     @Override
@@ -68,6 +53,5 @@ public class BuildEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean bln) {
         this.cancelled = bln;
-    }
-    
+    }    
 }
