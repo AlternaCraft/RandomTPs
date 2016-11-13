@@ -17,6 +17,8 @@
 package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.aclib.utils.Metrics;
+import com.alternacraft.aclib.utils.Metrics.Graph;
 import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.randomtps.Main.Manager;
 import java.io.IOException;
@@ -26,8 +28,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
-import org.mcstats.Metrics.Graph;
 
 public class MetricsManager {
 
