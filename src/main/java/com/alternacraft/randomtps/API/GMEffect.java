@@ -24,23 +24,23 @@ import org.bukkit.entity.Player;
  * @author AlternaCraft
  */
 public interface GMEffect {
-    
+
     /**
-     * 
-     * @param player
-     * @param time 
-     * @param values 
-     * 
-     * @return  
+     * Set an effect to a player for 'x' seconds
+     *
+     * @param player Player
+     * @param time Time in seconds
+     * @param effect_data Extra data for the effect
+     *
+     * @return True if it works; False if not
      */
-    public boolean start(Player player, int time, Object values);
-    
+    public boolean start(Player player, int time, Object effect_data);
+
     /**
-     * 
-     * @param offlinePlayer
-     * 
-     * @return 
+     * Stops a player's effect
+     *
+     * @param offlinePlayer Offline player
      */
     public void stop(OfflinePlayer offlinePlayer);
-    
+
 }

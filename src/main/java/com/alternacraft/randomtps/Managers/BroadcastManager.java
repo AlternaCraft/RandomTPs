@@ -45,7 +45,7 @@ public class BroadcastManager {
                 return false;
         }
 
-        if (b.startBroadcast(pl, time) >= 0) {
+        if (b.start(pl, time) >= 0) {
             if (!BROADCASTERS.containsKey(pl.getUniqueId())) {
                 BROADCASTERS.put(pl.getUniqueId(), new ArrayList<GMBroadcast>());
             }
@@ -55,11 +55,25 @@ public class BroadcastManager {
         
         return false;
     }
+    
+    public static void stopBroadcast(OfflinePlayer player, TYPE type) {
+        List<GMBroadcast> broadcasts = BROADCASTERS.get(player.getUniqueId());
+        for (GMBroadcast broadcast : broadcasts) {
+            switch(type) {
+                case AS_EXP:
+                    if (broadcast instanceof BroadcastAsExp) {
+                        BROADCASTERS.get(player.getUniqueId()).remove(broadcast);
+                        return;
+                    }
+            }
+            broadcast.stop(player);
+        }
+    }
 
     public static void stopBroadcasts(OfflinePlayer player) {
         List<GMBroadcast> broadcasts = BROADCASTERS.get(player.getUniqueId());
         for (GMBroadcast broadcast : broadcasts) {
-            broadcast.stopBroadcast(player);
+            broadcast.stop(player);
         }
         BROADCASTERS.remove(player.getUniqueId());
     }

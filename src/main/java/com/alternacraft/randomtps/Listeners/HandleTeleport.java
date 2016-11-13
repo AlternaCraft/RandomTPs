@@ -46,6 +46,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
  */
 public class HandleTeleport implements Listener {
 
+    // This value is random
     private static final int MAX_TRIES = 10000;
 
     public static final HashSet<UUID> CANCELEDTP = new HashSet<>();
@@ -167,13 +168,13 @@ public class HandleTeleport implements Listener {
 
                         MessageManager.sendPlayer(player, GameInfo.PLAYER_TELEPORTED.getText(lang));
 
-                        // Let's to propagate the good new
+                        // Let's to propagate the good news
                         Bukkit.getServer().getPluginManager().callEvent(
                                 new PlayerDroppedEvent(player, localization.getZoneName()));
 
                         return;
                     }                                        
-                } catch (Exception ex) {
+                } catch (IllegalStateException ex) {
                     MessageManager.sendPlayer(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
                 }
             }

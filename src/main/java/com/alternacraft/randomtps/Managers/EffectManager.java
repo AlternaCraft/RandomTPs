@@ -56,6 +56,20 @@ public class EffectManager {
         return false;
     }
     
+    public static void removeEffect(OfflinePlayer player, TYPE type) {
+        List<GMEffect> effects = EFFECTS.get(player.getUniqueId());
+        for (GMEffect effect : effects) {
+            switch(type) {
+                case POTIONS:
+                    if (effect instanceof PotionEffects) {
+                        EFFECTS.get(player.getUniqueId()).remove(effect);
+                        return;
+                    }
+            }
+            effect.stop(player);
+        }
+    }
+    
     public static void removeEffects(OfflinePlayer player) {
         List<GMEffect> effects = EFFECTS.get(player.getUniqueId());
         for (GMEffect effect : effects) {

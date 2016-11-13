@@ -22,19 +22,19 @@ import org.bukkit.entity.Player;
 public interface GMBroadcast {
 
     /**
-     * Method for showing a broadcast
+     * Shows a broadcast to a player for 'x' seconds
      *
      * @param pl Player
      * @param time Time in seconds
      *
      * @return Task id
      */
-    public int startBroadcast(final Player pl, int time);
+    public int start(final Player pl, int time);
 
     /**
-     * Method for stopping a broadcast
+     * Stops the broadcast to a player
      *
      * @param player OfflinePlayer
      */
-    public void stopBroadcast(OfflinePlayer player);
+    public void stop(OfflinePlayer player);
 }

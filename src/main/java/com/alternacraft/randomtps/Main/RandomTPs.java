@@ -21,23 +21,17 @@ import com.alternacraft.randomtps.Managers.MetricsManager;
 import com.alternacraft.randomtps.Managers.UpdaterManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/**
- * Main class of the plugin.
- *
- * @author AlternaCraft
- * @version 1.0
- */
 public class RandomTPs extends JavaPlugin {
 
     public static final Timer PERFORMANCE = new Timer();
-    
+
     @Override
     public void onEnable() {
         Manager pluginManager = Manager.INSTANCE;
 
         // Set up before start
-        Manager.BASE.definePluginPrefix("&1[&bRandomTPs&1]");        
-        
+        Manager.BASE.definePluginPrefix("&1[&bRandomTPs&1]");
+
         // Plugin manager init
         if (!pluginManager.setup(this)) {
             this.setEnabled(false);
@@ -58,10 +52,10 @@ public class RandomTPs extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {       
+    public void onDisable() {
         /* METRICS CONFIGURATION */
         PERFORMANCE.saveToLog("performance.txt");
-        
+
         // Sends disable message
         this.getLogger().info("RandomTPs has been disabled!");
     }

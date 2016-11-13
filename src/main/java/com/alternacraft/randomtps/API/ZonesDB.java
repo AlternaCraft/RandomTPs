@@ -24,14 +24,14 @@ import java.util.Map;
 public interface ZonesDB {
 
     /**
-     * Method for getting all localizations
+     * Gets all localizations.
      * 
      * @return List
      */
     public List<Localization> getLocalizations();
 
     /**
-     * Method for getting a localization
+     * Gets a specified localization.
      * 
      * @param localization Localization name
      * 
@@ -40,7 +40,7 @@ public interface ZonesDB {
     public Localization getLocalization(String localization);
 
     /**
-     * Method for getting a subzone from a localization
+     * Gets a subzone from a localization.
      * 
      * @param localization Localization name
      * 
@@ -49,39 +49,39 @@ public interface ZonesDB {
     public Map<String, List<Zone>> getSubzones(String localization);
 
     /**
-     * Method for getting a zone (3D vector)
+     * Gets a zone (3D vector)
      * 
      * @param localization Localization name
      * 
-     * @return Zone (3D vector)
+     * @return Zone
      */
     public Zone getZone(String localization);
 
     /**
-     * Method for saving a zone
+     * Saves a localization.
      * 
      * @param l Localization
      */
     public void saveLocalization(Localization l);
 
     /**
-     * Method for setting a localization as active
+     * Sets a localization as active.
      * 
      * @param localization Localization name
      */
     public void enableLocalization(String localization);
 
     /**
-     * Method for setting a localization as inactive
+     * Sets a localization as inactive.
      * 
      * @param localization Localization name
      */
     public void disableLocalization(String localization);    
     
     /**
-     * Method for cleaning inactive localizations
+     * Cleans inactive localizations.
      * 
-     * @return Number of deleted records
+     * @return Number of deleted localizations
      */
     public int purge();
 }

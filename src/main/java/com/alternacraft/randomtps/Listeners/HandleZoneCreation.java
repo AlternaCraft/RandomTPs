@@ -270,13 +270,11 @@ public class HandleZoneCreation implements Listener {
 
         if (preloc.redefine()) {
             Manager.INSTANCE.removeLocalization(preloc.getZoneName());
+            HandleBuild.DISABLED.remove(preloc.getZoneName());
         }        
         Manager.INSTANCE.addLocalization(preloc.getZoneName());
 
         DEFINERS.remove(pl.getUniqueId());
-        if (preloc.redefine()) {
-            HandleBuild.DISABLED.remove(preloc.getZoneName());
-        }
 
         MessageManager.sendPlayer(pl,
                 DefineInfo.ZONE_CREATED.getText(lang));

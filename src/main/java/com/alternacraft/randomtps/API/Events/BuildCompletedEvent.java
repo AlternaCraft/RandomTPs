@@ -25,10 +25,20 @@ public class BuildCompletedEvent extends BuildEvent {
         super(cs, zb);
     }
     
+    /**
+     * Gets time between the start and the end.
+     * 
+     * @return Elapsed time in milliseconds
+     */
     public long getElapsedtime() {
         return this.zoneBuilder().elapsedTime();
     }
     
+    /**
+     * Gets elapsed time in seconds
+     * 
+     * @return Elapsed time in seconds
+     */
     public int getElapsedtimeInSeconds() {
         return (int)(getElapsedtime() / 1000);
     }

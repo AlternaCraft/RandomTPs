@@ -20,12 +20,12 @@ import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.aclib.commands.registerer.SubCommandsInterface;
 import com.alternacraft.randomtps.Langs.CommandInfo;
 
-public enum Arguments implements SubCommandsInterface {
+public enum SubCommands implements SubCommandsInterface {
     NONE(
             "",
             "rtp",
             CommandInfo.COMMAND_EMPTY,
-            new Commands()
+            new PluginCommands()
     ),
     INFO(
             "info",
@@ -56,7 +56,7 @@ public enum Arguments implements SubCommandsInterface {
     private final Enum info;
     private final SubCommandExecutor instance;
 
-    Arguments(String argument, String usage, Enum description, SubCommandExecutor instance) {
+    SubCommands(String argument, String usage, Enum description, SubCommandExecutor instance) {
         this.arg = argument;
         this.usage = usage;
         this.info = description;

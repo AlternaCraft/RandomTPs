@@ -47,7 +47,7 @@ public class BroadcastAsExp implements Listener, GMBroadcast {
     private final Map<UUID, Integer> counter = new HashMap();
 
     @Override
-    public int startBroadcast(final Player pl, int time) {
+    public int start(final Player pl, int time) {
         experience.put(pl.getUniqueId(), pl.getLevel());
         pl.setLevel(time);
 
@@ -64,7 +64,7 @@ public class BroadcastAsExp implements Listener, GMBroadcast {
     }
 
     @Override
-    public void stopBroadcast(OfflinePlayer player) {
+    public void stop(OfflinePlayer player) {
         UUID uuid = player.getUniqueId();
 
         Bukkit.getServer().getScheduler().cancelTask(this.counter.get(uuid));

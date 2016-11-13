@@ -49,6 +49,11 @@ public class DefineZoneEvent extends Event implements Cancellable {
         return zone;
     }
 
+    /**
+     * Gets if the localization is already defined
+     * 
+     * @return True if it exists; False if not
+     */
     public boolean isRedefine() {
         return redefine;
     }

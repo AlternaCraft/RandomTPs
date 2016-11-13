@@ -145,7 +145,6 @@ public class HandleGods implements Listener {
 
                 // God
                 pl.setNoDamageTicks(0);
-                pl.removePotionEffect(PotionEffectType.SPEED);
                 gods.remove(uuid);
             }
         }

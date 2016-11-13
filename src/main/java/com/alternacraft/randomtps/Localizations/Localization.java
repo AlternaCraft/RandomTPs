@@ -139,7 +139,7 @@ public class Localization extends Zone {
     }
 
     /**
-     * Checks if a player is in a location.
+     * Checks if a player is inside of a zone.
      *
      * @param p Player coordinates
      * @return True if he is; False if not
