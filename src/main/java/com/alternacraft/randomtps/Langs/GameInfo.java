@@ -23,6 +23,11 @@ import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
 
+/**
+ * Messages about game information.
+ * 
+ * @author AlternaCraft
+ */
 public enum GameInfo implements LangInterface {
     // <editor-fold defaultstate="collapsed" desc="MESSAGES">
     PLAYER_CANT_BE_TELEPORTED(

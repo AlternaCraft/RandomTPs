@@ -19,6 +19,11 @@ package com.alternacraft.randomtps.API.Events;
 import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Event thrown when a build starts.
+ * 
+ * @author AlternaCraft
+ */
 public class BuildStartedEvent extends BuildEvent {
 
     public BuildStartedEvent(CommandSender cs, ZoneBuilder zb) {

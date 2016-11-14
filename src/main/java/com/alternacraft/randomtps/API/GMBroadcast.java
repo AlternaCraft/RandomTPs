@@ -19,6 +19,11 @@ package com.alternacraft.randomtps.API;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+/**
+ * Behavior of broadcast when god mode is reached.
+ * 
+ * @author AlternaCraft
+ */
 public interface GMBroadcast {
 
     /**

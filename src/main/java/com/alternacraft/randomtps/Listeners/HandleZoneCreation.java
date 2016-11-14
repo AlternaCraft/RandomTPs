@@ -38,6 +38,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
+/**
+ * Handle zone creation.
+ * 
+ * @author AlternaCraft
+ */
 public class HandleZoneCreation implements Listener {
 
     public final static Map<UUID, PreLocalization> DEFINERS = new HashMap();

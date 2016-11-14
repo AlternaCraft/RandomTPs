@@ -29,6 +29,11 @@ import java.util.Map;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+/**
+ * Handle zone build.
+ * 
+ * @author AlternaCraft
+ */
 public class HandleBuild implements Listener {
 
     public static final Map<String, ZoneBuilder> DISABLED = new HashMap();

@@ -20,6 +20,11 @@ import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.aclib.commands.registerer.SubCommandsInterface;
 import com.alternacraft.randomtps.Langs.CommandInfo;
 
+/**
+ * List of all subcommands.
+ * 
+ * @author AlternaCraft
+ */
 public enum SubCommands implements SubCommandsInterface {
     NONE(
             "",

@@ -23,6 +23,11 @@ import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
 
+/**
+ * Messages about zone defining.
+ * 
+ * @author AlternaCraft
+ */
 public enum DefineInfo implements LangInterface {
     // <editor-fold defaultstate="collapsed" desc="MESSAGES">
     ALREADY_DEFINING(

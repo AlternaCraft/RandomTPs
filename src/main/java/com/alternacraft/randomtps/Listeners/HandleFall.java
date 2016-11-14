@@ -29,6 +29,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
+/**
+ * Handle player falling.
+ * 
+ * @author AlternaCraft
+ */
 public class HandleFall implements Listener {
 
     private static final Map<UUID, String> DROPPED = new HashMap();

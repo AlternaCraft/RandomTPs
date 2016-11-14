@@ -41,8 +41,9 @@ import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 /**
- *
- * @author Julián
+ * Handle player entering zone.
+ * 
+ * @author AlternaCraft
  */
 public class HandleTeleport implements Listener {
 

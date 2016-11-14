@@ -20,7 +20,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 /**
- *
+ * Behavior of effect when god mode is reached.
+ * 
  * @author AlternaCraft
  */
 public interface GMEffect {

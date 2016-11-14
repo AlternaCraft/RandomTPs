@@ -21,6 +21,11 @@ import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.randomtps.Utils.ConfigDataStore;
 import org.bukkit.configuration.file.FileConfiguration;
 
+/**
+ * Config loader.
+ * 
+ * @author AlternaCraft
+ */
 public class ConfigLoader extends ConfigDataStore implements ConfigDataInterface {
 
     @Override

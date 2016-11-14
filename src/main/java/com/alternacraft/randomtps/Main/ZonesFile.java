@@ -29,6 +29,11 @@ import java.util.Map;
 import java.util.Set;
 import org.bukkit.util.Vector;
 
+/**
+ * Database class.
+ * 
+ * @author AlternaCraft
+ */
 public class ZonesFile implements ZonesDB {
 
     //<editor-fold defaultstate="collapsed" desc="FILE">

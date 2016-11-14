@@ -22,6 +22,11 @@ import java.util.List;
 import java.util.Map;
 import org.bukkit.util.Vector;
 
+/**
+ * Localization incomplete.
+ * 
+ * @author AlternaCraft
+ */
 public class PreLocalization extends PreZone {
 
     private final String zone;    

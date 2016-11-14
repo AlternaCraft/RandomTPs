@@ -16,6 +16,11 @@
  */
 package com.alternacraft.randomtps.Localizations;
 
+/**
+ * Zone incomplete.
+ * 
+ * @author AlternaCraft
+ */
 public class PreZone {
 
     private boolean coord1 = false;

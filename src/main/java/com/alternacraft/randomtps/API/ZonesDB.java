@@ -21,6 +21,11 @@ import com.alternacraft.randomtps.Localizations.Zone;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Database management.
+ * 
+ * @author AlternaCraft
+ */
 public interface ZonesDB {
 
     /**

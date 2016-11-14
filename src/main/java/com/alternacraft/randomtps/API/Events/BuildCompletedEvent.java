@@ -19,6 +19,11 @@ package com.alternacraft.randomtps.API.Events;
 import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Event thrown when a build ends.
+ * 
+ * @author AlternaCraft
+ */
 public class BuildCompletedEvent extends BuildEvent {
     
     public BuildCompletedEvent(CommandSender cs, ZoneBuilder zb) {

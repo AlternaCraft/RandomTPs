@@ -43,6 +43,11 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Localization management.
+ * 
+ * @author AlternaCraft
+ */
 public class ZoneCommand implements SubCommandExecutor {
 
     @Override

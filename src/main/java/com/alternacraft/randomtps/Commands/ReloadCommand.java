@@ -25,6 +25,11 @@ import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Reload main configuration.
+ * 
+ * @author AlternaCraft
+ */
 public class ReloadCommand implements SubCommandExecutor {
 
     @Override

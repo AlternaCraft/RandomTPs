@@ -42,8 +42,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.potion.PotionEffectType;
 
+/**
+ * Handle player invulnerability.
+ * 
+ * @author AlternaCraft
+ */
 public class HandleGods implements Listener {
 
     // God players

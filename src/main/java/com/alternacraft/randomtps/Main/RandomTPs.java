@@ -18,9 +18,14 @@ package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.utils.Timer;
 import com.alternacraft.randomtps.Managers.MetricsManager;
-import com.alternacraft.randomtps.Managers.UpdaterManager;
+import com.alternacraft.randomtps.Managers.UpdatesManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Main class.
+ * 
+ * @author AlternaCraft
+ */
 public class RandomTPs extends JavaPlugin {
 
     public static final Timer PERFORMANCE = new Timer();
@@ -43,7 +48,7 @@ public class RandomTPs extends JavaPlugin {
             @Override
             public void run() {
                 MetricsManager.load(Manager.BASE.plugin());
-                UpdaterManager.testUpdate(Manager.BASE.plugin(), getFile());
+                UpdatesManager.testUpdate(Manager.BASE.plugin(), getFile());
             }
         });
 

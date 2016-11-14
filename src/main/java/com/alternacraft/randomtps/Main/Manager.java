@@ -36,6 +36,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Plugin management class.
+ * 
+ * @author AlternaCraft
+ */
 public class Manager {
 
     public static Manager INSTANCE = new Manager();

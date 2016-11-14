@@ -23,6 +23,11 @@ import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
 
+/**
+ * Messages about commands.
+ * 
+ * @author AlternaCraft
+ */
 public enum CommandInfo implements LangInterface {
     // <editor-fold defaultstate="collapsed" desc="MESSAGES">
     COMMAND_EMPTY(

@@ -23,6 +23,11 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Plugin information.
+ * 
+ * @author AlternaCraft
+ */
 public class InfoCommand implements SubCommandExecutor {
 
     @Override

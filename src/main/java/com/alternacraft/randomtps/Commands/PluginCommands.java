@@ -28,6 +28,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * Commands list.
+ * 
+ * @author AlternaCraft
+ */
 public class PluginCommands implements SubCommandExecutor {
 
     public static String USAGE = "rtp";

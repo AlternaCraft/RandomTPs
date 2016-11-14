@@ -31,6 +31,11 @@ import org.bukkit.entity.Entity;
 import static org.bukkit.entity.EntityType.PLAYER;
 import org.bukkit.util.Vector;
 
+/**
+ * Localization
+ * 
+ * @author AlternaCraft
+ */
 public class Localization extends Zone {
 
     public static final short DISTANCE = 10;

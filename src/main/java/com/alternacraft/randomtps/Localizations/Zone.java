@@ -22,8 +22,9 @@ import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 /**
- *
- * @author Julian
+ * Zone.
+ * 
+ * @author AlternaCraft
  */
 public class Zone {
 

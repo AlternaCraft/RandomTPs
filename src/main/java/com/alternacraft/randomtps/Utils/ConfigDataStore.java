@@ -20,6 +20,11 @@ import com.alternacraft.aclib.langs.Langs;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Configuration data.
+ * 
+ * @author AlternaCraft
+ */
 public class ConfigDataStore {
 
     // General

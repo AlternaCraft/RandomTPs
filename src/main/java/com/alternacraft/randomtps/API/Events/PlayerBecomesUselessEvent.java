@@ -21,6 +21,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Event thrown when a player loses the invulnerability.
+ * 
+ * @author AlternaCraft
+ */
 public class PlayerBecomesUselessEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
 

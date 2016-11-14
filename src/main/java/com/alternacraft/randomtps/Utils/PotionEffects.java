@@ -24,7 +24,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 /**
- *
+ * Custom effect.
+ * 
  * @author AlternaCraft
  */
 public class PotionEffects implements GMEffect {

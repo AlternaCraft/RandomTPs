@@ -24,6 +24,11 @@ import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Purge inactive zones.
+ * 
+ * @author AlternaCraft
+ */
 public class PurgeCommand implements SubCommandExecutor {
 
     @Override

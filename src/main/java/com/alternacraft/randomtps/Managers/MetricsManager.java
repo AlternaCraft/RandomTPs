@@ -29,6 +29,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Metrics manager.
+ * 
+ * @author AlternaCraft
+ */
 public class MetricsManager {
 
     private static Metrics metrics;

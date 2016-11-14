@@ -22,6 +22,10 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * 
+ * @author AlternaCraft
+ */
 public class BuildEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
 

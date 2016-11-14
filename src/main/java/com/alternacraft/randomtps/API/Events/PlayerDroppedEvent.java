@@ -21,6 +21,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Event thrown when the player starts to falling.
+ * 
+ * @author AlternaCraft
+ */
 public class PlayerDroppedEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
 

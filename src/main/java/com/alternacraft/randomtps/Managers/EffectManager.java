@@ -26,6 +26,11 @@ import java.util.UUID;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+/**
+ * Effects manager.
+ * 
+ * @author AlternaCraft
+ */
 public class EffectManager {
 
     public enum TYPE {

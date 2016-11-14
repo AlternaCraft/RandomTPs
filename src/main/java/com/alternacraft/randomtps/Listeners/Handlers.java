@@ -20,6 +20,11 @@ import com.alternacraft.aclib.listeners.HandlersInterface;
 import com.alternacraft.randomtps.Utils.BroadcastAsExp;
 import org.bukkit.event.Listener;
 
+/**
+ * List of handlers.
+ * 
+ * @author AlternaCraft
+ */
 public enum Handlers implements HandlersInterface {
 
     BUILD(new HandleBuild()),

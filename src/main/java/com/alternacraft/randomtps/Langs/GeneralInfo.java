@@ -23,6 +23,11 @@ import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
 
+/**
+ * Messages about general information.
+ * 
+ * @author AlternaCraft
+ */
 public enum GeneralInfo implements LangInterface {
     // <editor-fold defaultstate="collapsed" desc="MESSAGES">
     PLUGIN_ENABLED(

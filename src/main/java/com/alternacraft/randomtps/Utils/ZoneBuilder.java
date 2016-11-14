@@ -35,6 +35,11 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.Vector;
 
+/**
+ * Zone builder.
+ * 
+ * @author AlternaCraft
+ */
 public class ZoneBuilder {
 
     private final static long TPS = 20;

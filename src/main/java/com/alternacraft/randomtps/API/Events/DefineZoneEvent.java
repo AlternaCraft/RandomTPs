@@ -22,6 +22,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Event thrown when someone tries to define a localization.
+ * 
+ * @author AlternaCraft
+ */
 public class DefineZoneEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();

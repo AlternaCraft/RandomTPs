@@ -26,6 +26,11 @@ import java.util.UUID;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+/**
+ * Broadcasts manager.
+ * 
+ * @author AlternaCraft
+ */
 public class BroadcastManager {
 
     public enum TYPE {

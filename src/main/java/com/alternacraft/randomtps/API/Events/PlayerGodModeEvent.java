@@ -22,6 +22,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Event thrown when a player gets the invulnerability.
+ * 
+ * @author AlternaCraft
+ */
 public class PlayerGodModeEvent extends Event implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
 

@@ -29,6 +29,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 
+/**
+ * Custom broadcast.
+ * 
+ * @author AlternaCraft
+ */
 public class BroadcastAsExp implements Listener, GMBroadcast {
 
     //<editor-fold defaultstate="collapsed" desc="COUNTER FIX">
