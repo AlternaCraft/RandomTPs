@@ -1,0 +1,9 @@
+com.alternacraft.randomtps.Broadcasts
+com.alternacraft.randomtps.Commands
+com.alternacraft.randomtps.Events
+com.alternacraft.randomtps.Files
+com.alternacraft.randomtps.Langs
+com.alternacraft.randomtps.Listeners
+com.alternacraft.randomtps.Main
+com.alternacraft.randomtps.Managers
+com.alternacraft.randomtps.Utils
