@@ -30,7 +30,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 /**
- * Handle zone build.
+ * Handle zone construction.
  * 
  * @author AlternaCraft
  */

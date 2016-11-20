@@ -41,7 +41,7 @@ import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 /**
- * Handle player entering zone.
+ * Handle player location.
  * 
  * @author AlternaCraft
  */

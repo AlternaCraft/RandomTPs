@@ -52,6 +52,6 @@ public class Zone {
      * @return The random location
      */
     public Location randomLocation(World world) {
-        return Randomizer.randBetweenVector(p1, p2).toLocation(world);
+        return Randomizer.randBetweenVector(this.p1, this.p2).toLocation(world);
     }
 }
