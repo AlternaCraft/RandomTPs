@@ -1,0 +1,1 @@
+[{"groupId": "org.spigotmc", "artifactId": "spigot-api", "type": "jar", "version": "1.11-R0.1-SNAPSHOT", "scope": "provided"}, {"groupId": "com.alternacraft", "artifactId": "aclib", "type": "jar", "version": "1.0.4-SNAPSHOT", "scope": "compile"}]
