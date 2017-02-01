@@ -17,6 +17,7 @@
 package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.MessageManager;
+import static com.alternacraft.aclib.PluginBase.TPS;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.API.Events.BuildCompletedEvent;
@@ -37,12 +38,10 @@ import org.bukkit.util.Vector;
 
 /**
  * Zone builder.
- * 
+ *
  * @author AlternaCraft
  */
 public class ZoneBuilder {
-
-    private final static long TPS = 20;
 
     private BlocksReplacer run = null;
 
@@ -82,9 +81,9 @@ public class ZoneBuilder {
             z = p2.getBlockZ();
             minz = p1.getBlockZ();
         }
-        
+
         PERFORMANCE.start("Loading zone");
-        
+
         for (int i = minx; i <= x; i++) {
             for (int j = miny; j <= y; j++) {
                 for (int k = minz; k <= z; k++) {
@@ -103,14 +102,18 @@ public class ZoneBuilder {
                 }
             }
         }
-        
+
         PERFORMANCE.recordValue("Loading zone");
     }
 
     public void show(CommandSender cs, final Material m) {
         Langs l = Localizer.getLocale(cs);
 
-        run = new BlocksReplacer(new ArrayList() {{ add(m); }}, false, cs, this);
+        run = new BlocksReplacer(new ArrayList() {
+            {
+                add(m);
+            }
+        }, false, cs, this);
         Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), run, TPS);
 
         MessageManager.sendCommandSender(cs, GameInfo.ZONE_START_BUILD.getText(l)
@@ -163,7 +166,7 @@ public class ZoneBuilder {
             this.builder = builder;
             this.lastBlock = 0;
         }
-        
+
         public BlocksReplacer(boolean rollback, CommandSender cs, ZoneBuilder builder) {
             this(blocks.values(), rollback, cs, builder);
         }
@@ -198,12 +201,12 @@ public class ZoneBuilder {
                 this.lastBlock = n;
             }
         }
-        
+
         private void start() {
             this.stop = false;
             this.run();
         }
-        
+
         private void stop() {
             this.stop = true;
         }
@@ -229,7 +232,7 @@ public class ZoneBuilder {
     public void go() {
         this.run.start();
     }
-    
+
     public void stop() {
         this.run.stop();
     }

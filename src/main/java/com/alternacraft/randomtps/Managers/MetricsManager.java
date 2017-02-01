@@ -69,7 +69,7 @@ public class MetricsManager {
 
     public static void load(final JavaPlugin plugin) {
         try {
-            if (Manager.INSTANCE.loader().isMetrics() || true) {
+            if (Manager.INSTANCE.loader().isMetrics()) {
                 metrics = new Metrics(plugin);
                 setGraphs();
                 metrics.start();

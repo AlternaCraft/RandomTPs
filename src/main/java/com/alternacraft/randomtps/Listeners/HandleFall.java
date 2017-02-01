@@ -18,8 +18,8 @@ package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.API.Events.PlayerGodModeEvent;
-import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Localizations.Localization;
+import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

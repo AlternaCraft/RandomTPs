@@ -23,10 +23,10 @@ import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.Randomizer;
 import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
-import com.alternacraft.randomtps.Main.Manager;
-import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;
 import com.alternacraft.randomtps.Localizations.Localization;
 import com.alternacraft.randomtps.Localizations.Zone;
+import com.alternacraft.randomtps.Main.Manager;
+import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -135,8 +135,8 @@ public class HandleTeleport implements Listener {
                                 }
                                 randSubzone = trandSubzone;
 
-                                Zone zone = subzones.get(subzones
-                                        .getKey(previousworld)).get(randSubzone);
+                                Zone zone = subzones.get(subzones.getKey(previousworld))
+                                        .get(randSubzone);
 
                                 zone.getP1().setY(Manager.INSTANCE.loader().getY());
                                 zone.getP2().setY(Manager.INSTANCE.loader().getY());
