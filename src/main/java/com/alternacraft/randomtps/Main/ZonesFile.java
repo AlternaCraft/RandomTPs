@@ -19,7 +19,7 @@ package com.alternacraft.randomtps.Main;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.utils.PluginFile;
 import com.alternacraft.randomtps.API.ZonesDB;
-import com.alternacraft.randomtps.Localizations.Localization;
+import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import com.alternacraft.randomtps.Localizations.Zone;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,13 +74,13 @@ public class ZonesFile implements ZonesDB {
     //</editor-fold>
     
     @Override
-    public List<Localization> getLocalizations() {
-        List<Localization> zones = new ArrayList<>();
+    public List<LocalizationInfo> getLocalizations() {
+        List<LocalizationInfo> zones = new ArrayList<>();
         List<String> activeZones = (List<String>) ZONESFILE.getNode("activeZones");
 
         for (String activeZone : activeZones) {
             if (ZONESFILE.hasNode(activeZone)) {
-                Localization l = getLocalization(activeZone);
+                LocalizationInfo l = getLocalization(activeZone);
                 zones.add(l);
                 MessageManager.log("&eLocalization &b\"" + l.getZoneName() + "\" &eloaded correctly");
             }
@@ -90,17 +90,17 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public Localization getLocalization(String zoneName) {
+    public LocalizationInfo getLocalization(String zoneName) {
         Zone zone = getZone(zoneName);
-        Localization l;
+        LocalizationInfo l;
 
         String origin = (String) ZONESFILE.getNode(zoneName + ".origin.alias");
         if (ZONESFILE.getNode(zoneName + ".destination") instanceof List) {
             List<String> destinations = (List<String>) ZONESFILE.getNode(zoneName + ".destination");
-            l = new Localization(zoneName, zone, origin, destinations);
+            l = new LocalizationInfo(zoneName, zone, origin, destinations);
         } else {
             Map<String, List<Zone>> subzones = getSubzones(zoneName);
-            l = new Localization(zoneName, zone, origin, subzones);
+            l = new LocalizationInfo(zoneName, zone, origin, subzones);
         }
 
         // Custom options
@@ -172,7 +172,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public void saveLocalization(Localization l) {
+    public void saveLocalization(LocalizationInfo l) {
         String zone = l.getZoneName();
 
         ZONESFILE.setNode(zone + ".origin.alias", l.getOrigin());

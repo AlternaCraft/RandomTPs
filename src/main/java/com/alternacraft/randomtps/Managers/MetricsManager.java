@@ -16,13 +16,11 @@
  */
 package com.alternacraft.randomtps.Managers;
 
-import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.utils.Metrics;
-import com.alternacraft.aclib.utils.Metrics.Graph;
 import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.randomtps.Main.Manager;
-import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -39,57 +37,43 @@ public class MetricsManager {
     private static Metrics metrics;
 
     public static void setGraphs() {
-        PluginLog pl = new PluginLog("performance.txt");
-        pl.importLog();
-
-        Map<Date, List<String>> loginfo = PluginLog.getValuesPerDate(pl.getMessages());
-
-        for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
-            List<String> reports = entry.getValue();
-            Graph graph = metrics.createGraph("General statistics");
-
-            for (String report : reports) {
-                Pattern p = Pattern.compile("(.*) \\- (\\d+)");
-                Matcher m = p.matcher(report);
-
-                String type = "";
-                int value = 0;
-
-                if (m.find()) {
-                    type = m.group(1);
-                    value = Integer.valueOf(m.group(2));
-                }
-
-                addPlotter(graph, type, value);
-            }
-        }
-        
-        pl.delete();
-    }
-
-    public static void load(final JavaPlugin plugin) {
-        try {
-            if (Manager.INSTANCE.loader().isMetrics()) {
-                metrics = new Metrics(plugin);
-                setGraphs();
-                metrics.start();
-            }
-        } catch (IOException e) {
-            MessageManager.logError(e.getMessage());
-        }
-    }
-
-    //<editor-fold defaultstate="collapsed" desc="CLASS STUFF">
-    private static void addPlotter(Graph g, String plotter, final int number) {
-        if (number == 0) {
-            return;
-        }
-        g.addPlotter(new Metrics.Plotter(plotter) {
+        metrics.addCustomChart(new Metrics.AdvancedPie("General statistics") {
             @Override
-            public int getValue() {
-                return number;
+            public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
+                PluginLog pl = new PluginLog("performance.txt");
+                pl.importLog();
+                
+                Map<Date, List<String>> loginfo = PluginLog.getValuesPerDate(pl.getMessages());
+                
+                for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
+                    List<String> reports = entry.getValue();
+                    for (String report : reports) {
+                        Pattern p = Pattern.compile("(.*) \\- (\\d+)");
+                        Matcher m = p.matcher(report);
+
+                        String type = "";
+                        int value = 0;
+
+                        if (m.find()) {
+                            type = m.group(1);
+                            value = Integer.valueOf(m.group(2));
+                        }
+
+                        valueMap.put(type, value);
+                    }
+                }
+                
+                pl.delete();
+                
+                return valueMap;
             }
         });
     }
-    //</editor-fold>
+
+    public static void load(final JavaPlugin plugin) {
+        if (Manager.INSTANCE.loader().isMetrics()) {
+            metrics = new Metrics(plugin);
+            setGraphs();
+        }
+    }
 }

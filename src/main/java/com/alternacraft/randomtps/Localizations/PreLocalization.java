@@ -87,11 +87,11 @@ public class PreLocalization extends PreZone {
         this.subzones.get(w).add(z);
     }
 
-    public Localization toLocalization() {
+    public LocalizationInfo toLocalization() {
         if (this.askSubzone()) {
-            return new Localization(zone, new Zone(c1, c2), origin, subzones);
+            return new LocalizationInfo(zone, new Zone(c1, c2), origin, subzones);
         } else {
-            return new Localization(zone, new Zone(c1, c2), origin, dests);
+            return new LocalizationInfo(zone, new Zone(c1, c2), origin, dests);
         }
 
     }

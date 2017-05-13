@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.API;
 
-import com.alternacraft.randomtps.Localizations.Localization;
+import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import com.alternacraft.randomtps.Localizations.Zone;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +33,7 @@ public interface ZonesDB {
      * 
      * @return List
      */
-    public List<Localization> getLocalizations();
+    public List<LocalizationInfo> getLocalizations();
 
     /**
      * Gets a specified localization.
@@ -42,7 +42,7 @@ public interface ZonesDB {
      * 
      * @return Localization
      */
-    public Localization getLocalization(String localization);
+    public LocalizationInfo getLocalization(String localization);
 
     /**
      * Gets a subzone from a localization.
@@ -67,7 +67,7 @@ public interface ZonesDB {
      * 
      * @param l Localization
      */
-    public void saveLocalization(Localization l);
+    public void saveLocalization(LocalizationInfo l);
 
     /**
      * Sets a localization as active.

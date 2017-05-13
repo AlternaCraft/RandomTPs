@@ -19,10 +19,8 @@ package com.alternacraft.randomtps.Localizations;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.NumbersUtils;
 import com.alternacraft.randomtps.Langs.GameInfo;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import static com.alternacraft.randomtps.Localizations.LocalizationInfo.DISTANCE;
+import com.alternacraft.randomtps.Main.Manager;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -32,121 +30,22 @@ import static org.bukkit.entity.EntityType.PLAYER;
 import org.bukkit.util.Vector;
 
 /**
- * Localization
- * 
+ *
  * @author AlternaCraft
  */
 public class Localization extends Zone {
 
-    public static final short DISTANCE = 10;
-    private static final int CHUNK = 16;
+    public static final short DISTANCE = 10;    
+    public static final int CHUNK = 16;
     
-    private static final int MIN_HEIGHT = 50;
-    private static final int MAX_HEIGHT = 70;
-    private static final int STOP = 80;
+    private static final int MIN_HEIGHT = 60;
+    private static final int MAX_HEIGHT = 80;
+    private static final int OVER_HEIGHT = 100;
 
-    private String zoneName = null;
-    private String origin = null;
-    private final List<String> dests = new ArrayList();
-
-    private Map<String, List<Zone>> subzones = new HashMap();
-
-    // Basics    
-    private int time = 10;
-    // Broadcast
-    private boolean show_as_exp = true;
-    // Effects
-    private final Map<String, Integer> potion_effects = new HashMap();
-
-    public Localization(String zonename, Zone zone, String origin,
-            List<String> destinations) {
-        super(zone.getP1(), zone.getP2());
-
-        this.zoneName = zonename;
-        this.origin = origin;
-
-        this.dests.addAll(destinations);
+    public Localization(Vector p1, Vector p2) {
+        super(p1, p2);
     }
-
-    public Localization(String zonename, Zone zone, String origin,
-            Map<String, List<Zone>> subzones) {
-        super(zone.getP1(), zone.getP2());
-
-        this.zoneName = zonename;
-        this.origin = origin;
-
-        this.subzones = subzones;
-    }
-
-    public String getZoneName() {
-        return zoneName;
-    }
-
-    public void setZone(String zone) {
-        this.zoneName = zone;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
-    }
-
-    public List<String> getDestinations() {
-        return dests;
-    }
-
-    public void setDestination(List<String> arrives) {
-        this.dests.clear();
-        this.dests.addAll(arrives);
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int no_pvp) {
-        this.time = no_pvp;
-    }
-
-    public boolean broadcastAsEXP() {
-        return show_as_exp;
-    }
-
-    public void setBroadcastAsEXP(boolean show_as_exp) {
-        this.show_as_exp = show_as_exp;
-    }
-
-    public Map<String, Integer> getPotionEffects() {
-        return potion_effects;
-    }
-
-    public void setPotion_effects(List<String> effects) {
-        for (String effect : effects) {
-            String[] values = effect.split(" ");
-            potion_effects.put(values[0], Integer.valueOf(values[1]));
-        }
-    }
-
-    public void addSubzone(String w, Zone z) {
-        if (!this.subzones.containsKey(w)) {
-            if (this.subzones.get(w) == null) {
-                this.subzones.put(w, new ArrayList());
-            }
-            this.subzones.get(w).add(z);
-        }
-    }
-
-    public boolean hasSubzones() {
-        return this.subzones.size() > 0;
-    }
-
-    public Map<String, List<Zone>> getSubzones() {
-        return subzones;
-    }
-
+    
     /**
      * Checks if a player is inside of a zone.
      *
@@ -178,9 +77,9 @@ public class Localization extends Zone {
             }
 
             if (hasPlayers(chunk.getEntities()) 
-                    || (l.getChunk().equals(chunk) && !isSafePlace(chunk))
+                    || !isFallingSafe(chunk)
                     || hasLiquidBlocks(getChunkBlocks(chunk, 
-                            getMinHeight(chunk), MAX_HEIGHT))) {
+                            MIN_HEIGHT, MAX_HEIGHT))) {
                 if (!wasloaded) {
                     chunk.unload();
                 }
@@ -213,9 +112,9 @@ public class Localization extends Zone {
             }
 
             if (hasPlayersInto(chunk.getEntities(), zone) 
-                    || (l.getChunk().equals(chunk) && !isSafePlace(chunk))
+                    || !isFallingSafe(chunk)
                     || hasLiquidBlocksInto(getChunkBlocks(chunk, 
-                            getMinHeight(chunk), MAX_HEIGHT), zone)) {
+                            MIN_HEIGHT, MAX_HEIGHT), zone)) {
                 if (!isLoaded) {
                     chunk.unload();
                 }
@@ -303,31 +202,14 @@ public class Localization extends Zone {
      * 
      * @return True if it is; False if not
      */
-    private static boolean isSafePlace(Chunk chunk) {
+    private static boolean isFallingSafe(Chunk chunk) {
         // Safe place
-        for (Block b : getChunkBlocks(chunk, STOP, 128)) {
+        for (Block b : getChunkBlocks(chunk, OVER_HEIGHT, Manager.INSTANCE.loader().getY())) {
             if (!b.isEmpty()) {
                 return false;
             }
         }        
         return true;        
-    }
-    
-    /**
-     * Get the relative minimum height to inspect.
-     * 
-     * @param chunk Chunk to inspect.
-     * 
-     * @return Relative minimum height.
-     */
-    private static int getMinHeight(Chunk chunk) {
-        // Safe place
-        for (Block b : getChunkBlocks(chunk, MIN_HEIGHT, MIN_HEIGHT)) {
-            if (!b.isEmpty()) {
-                return MIN_HEIGHT;
-            }
-        }        
-        return 0; 
     }
     
     /**

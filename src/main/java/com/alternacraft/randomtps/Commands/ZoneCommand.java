@@ -27,7 +27,7 @@ import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Listeners.HandleBuild;
 import static com.alternacraft.randomtps.Listeners.HandleBuild.DISABLED;
-import com.alternacraft.randomtps.Localizations.Localization;
+import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.ZoneBuilder;
 import java.util.List;
@@ -68,8 +68,8 @@ public class ZoneCommand implements SubCommandExecutor {
                 cs.sendMessage(ChatColor.BLUE + "   Zone list");
                 cs.sendMessage(ChatColor.GRAY + "  ---------");
 
-                List<Localization> locs = Manager.INSTANCE.getLocalizations();
-                for (Localization loc : locs) {
+                List<LocalizationInfo> locs = Manager.INSTANCE.getLocalizations();
+                for (LocalizationInfo loc : locs) {
                     String zonename = "  - " + loc.getZoneName();
                     if (cs instanceof Player) {
                         TextComponent tc = new TextComponent();
@@ -113,7 +113,7 @@ public class ZoneCommand implements SubCommandExecutor {
                     Player player = (Player) cs;
 
                     if (args.length > 2) {
-                        Localization loc = Manager.INSTANCE.getLocalizationByName(args[2]);
+                        LocalizationInfo loc = Manager.INSTANCE.getLocalizationByName(args[2]);
 
                         if (loc != null) {
                             player.setGameMode(GameMode.CREATIVE);
@@ -206,7 +206,7 @@ public class ZoneCommand implements SubCommandExecutor {
                         MessageManager.sendCommandSender(cs, "&cYou have to indicate "
                                 + "a valid material (materialName|materialID)");
                     } else {
-                        Localization l = Manager.INSTANCE.getLocalizationByName(zone);
+                        LocalizationInfo l = Manager.INSTANCE.getLocalizationByName(zone);
 
                         if (l == null) {
                             MessageManager.sendCommandSender(cs,

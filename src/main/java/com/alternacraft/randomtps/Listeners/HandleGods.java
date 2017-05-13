@@ -19,17 +19,16 @@ package com.alternacraft.randomtps.Listeners;
 import com.alternacraft.aclib.MessageManager;
 import static com.alternacraft.aclib.PluginBase.TPS;
 import com.alternacraft.aclib.langs.Langs;
-import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.aclib.utils.Localizer;
+import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.randomtps.API.Events.PlayerBecomesUselessEvent;
 import com.alternacraft.randomtps.API.Events.PlayerGodModeEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
-import com.alternacraft.randomtps.Localizations.Localization;
+import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Managers.BroadcastManager;
 import com.alternacraft.randomtps.Managers.EffectManager;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +88,7 @@ public class HandleGods implements Listener {
             clearGod(pl);
         }
 
-        Localization l = ev.getLocalization();
+        LocalizationInfo l = ev.getLocalization();
         int time = l.getTime();
 
         // God

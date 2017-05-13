@@ -31,7 +31,7 @@ import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Listeners.Handlers;
-import com.alternacraft.randomtps.Localizations.Localization;
+import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,7 +51,7 @@ public class Manager {
     /* DBs */
     private ZonesDB zonesdb;
     
-    private List<Localization> localizations = new ArrayList();
+    private List<LocalizationInfo> localizations = new ArrayList();
     private SubCommandsRegisterer mainCommand = null;
 
     private final ConfigLoader loader;
@@ -122,8 +122,8 @@ public class Manager {
     }
     
     /* LOCALIZATIONS */
-    public Localization getLocalizationByName(String zone) {
-        for (Localization loc : localizations) {
+    public LocalizationInfo getLocalizationByName(String zone) {
+        for (LocalizationInfo loc : localizations) {
             if (loc.getZoneName().equals(zone)) {
                 return loc;
             }
@@ -132,7 +132,7 @@ public class Manager {
         return null;
     }
 
-    public List<Localization> getLocalizations() {
+    public List<LocalizationInfo> getLocalizations() {
         return localizations;
     }
 
@@ -155,7 +155,7 @@ public class Manager {
     }
 
     public void removeLocalization(String zone) {
-        Localization l = getLocalizationByName(zone);
+        LocalizationInfo l = getLocalizationByName(zone);
         this.localizations.remove(l);
     }
 }

@@ -19,12 +19,12 @@ package com.alternacraft.randomtps.Listeners;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.CustomLinkedMap;
-import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.aclib.utils.Localizer;
+import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.aclib.utils.Randomizer;
 import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
-import com.alternacraft.randomtps.Localizations.Localization;
+import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import com.alternacraft.randomtps.Localizations.Zone;
 import com.alternacraft.randomtps.Main.Manager;
 import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;
@@ -49,7 +49,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class HandleTeleport implements Listener {
 
     // This value is random
-    private static final int MAX_TRIES = 100;
+    private static final int MAX_TRIES = 10;
 
     public static final HashSet<UUID> CANCELEDTP = new HashSet<>();
     private final Map<UUID, Location> rollbackLocation = new HashMap();
@@ -60,13 +60,13 @@ public class HandleTeleport implements Listener {
     // <editor-fold defaultstate="collapsed" desc="PLAYER MOVE">
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        List<Localization> zones = Manager.INSTANCE.getLocalizations();
+        List<LocalizationInfo> zones = Manager.INSTANCE.getLocalizations();
 
         Player player = e.getPlayer();
         Langs lang = Localizer.getLocale(player);
 
         for (int i = 0; i < zones.size(); i++) {
-            Localization localization = zones.get(i);
+            LocalizationInfo localization = zones.get(i);
 
             if (HandleBuild.DISABLED.containsKey(localization.getZoneName())) {
                 continue; // Nothing to do
@@ -106,7 +106,7 @@ public class HandleTeleport implements Listener {
                                 location = new Location(destination,
                                         Randomizer.rand(max_x, min_x), y,
                                         Randomizer.rand(max_z, min_z));
-                                resul = Localization.isValidZone(location);
+                                resul = LocalizationInfo.isValidZone(location);
                                 maxtries++;
                             } while (!resul && maxtries < MAX_TRIES);
 
@@ -139,7 +139,7 @@ public class HandleTeleport implements Listener {
                                         subzones.getKey(previousworld));
 
                                 location = zone.randomLocation(destination);
-                                resul = Localization.isValidSubZone(location, zone);
+                                resul = LocalizationInfo.isValidSubZone(location, zone);
 
                                 maxtries++;
                             } while (!resul && maxtries < MAX_TRIES);
