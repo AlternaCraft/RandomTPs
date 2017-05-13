@@ -19,6 +19,7 @@ package com.alternacraft.randomtps.Listeners;
 import com.alternacraft.aclib.MessageManager;
 import static com.alternacraft.aclib.PluginBase.TPS;
 import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.API.Events.PlayerBecomesUselessEvent;
 import com.alternacraft.randomtps.API.Events.PlayerGodModeEvent;
@@ -28,6 +29,7 @@ import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Managers.BroadcastManager;
 import com.alternacraft.randomtps.Managers.EffectManager;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +95,7 @@ public class HandleGods implements Listener {
         // God
         pl.setNoDamageTicks(TPS * time);
         MessageManager.sendPlayer(pl, GameInfo.PLAYER_INVULNERABILITY.
-                getText(lang).replaceAll("%TIME%", String.valueOf(time)));
+                getText(lang).replace("%TIME%", String.valueOf(time)));
 
         // Effects
         if (!l.getPotionEffects().isEmpty()) {
@@ -169,8 +171,8 @@ public class HandleGods implements Listener {
                     Player player = Bukkit.getPlayer(uuid);
                     Langs lang = Localizer.getLocale(player);
 
-                    if (no_pvp.getUniqueId().equals(player.getUniqueId())) {
-                        MessageManager.sendPlayer(no_pvp, GameInfo.PLAYER_LOSES_PVP.getText(lang));
+                    if (no_pvp.getUniqueId().equals(uuid)) {
+                        MessageIntervals.sendMessage(player, GameInfo.PLAYER_LOSES_PVP, lang);
                         e.setCancelled(true);
                         break;
                     }

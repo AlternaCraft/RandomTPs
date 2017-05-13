@@ -108,7 +108,7 @@ public class HandleZoneCreation implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void cancel(AsyncPlayerChatEvent ev) {
         if (ev.isCancelled()) {
             return;
@@ -124,6 +124,8 @@ public class HandleZoneCreation implements Listener {
 
             // Bye bye
             HandleBuild.DISABLED.remove(zone);
+            DEFINERS.remove(uuid);
+            
             MessageManager.sendPlayer(player,
                     DefineInfo.STOP_DEFINING.getText(lang));
 
@@ -131,7 +133,7 @@ public class HandleZoneCreation implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void point(AsyncPlayerChatEvent ev) {
         if (ev.isCancelled()) {
             return;

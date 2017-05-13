@@ -26,7 +26,7 @@ import java.util.Map;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.BlockState;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import static org.bukkit.entity.EntityType.PLAYER;
 import org.bukkit.util.Vector;
@@ -40,6 +40,10 @@ public class Localization extends Zone {
 
     public static final short DISTANCE = 10;
     private static final int CHUNK = 16;
+    
+    private static final int MIN_HEIGHT = 50;
+    private static final int MAX_HEIGHT = 70;
+    private static final int STOP = 80;
 
     private String zoneName = null;
     private String origin = null;
@@ -173,7 +177,10 @@ public class Localization extends Zone {
                 chunk.load();
             }
 
-            if (hasPlayers(chunk.getEntities()) || hasLiquidBlocks(chunk.getTileEntities())) {
+            if (hasPlayers(chunk.getEntities()) 
+                    || (l.getChunk().equals(chunk) && !isSafePlace(chunk))
+                    || hasLiquidBlocks(getChunkBlocks(chunk, 
+                            getMinHeight(chunk), MAX_HEIGHT))) {
                 if (!wasloaded) {
                     chunk.unload();
                 }
@@ -197,17 +204,19 @@ public class Localization extends Zone {
      */
     public static boolean isValidSubZone(Location l, Zone zone) {
         Chunk[] chunks = getCollidantChunks(l);
-
+        
         for (Chunk chunk : chunks) {
-            boolean wasloaded = true;
+            boolean isLoaded = true;
             if (!chunk.isLoaded()) {
-                wasloaded = false;
+                isLoaded = false;
                 chunk.load();
             }
 
-            if (hasPlayersInto(chunk.getEntities(), zone)
-                    || hasLiquidBlocksInto(chunk.getTileEntities(), zone)) {
-                if (!wasloaded) {
+            if (hasPlayersInto(chunk.getEntities(), zone) 
+                    || (l.getChunk().equals(chunk) && !isSafePlace(chunk))
+                    || hasLiquidBlocksInto(getChunkBlocks(chunk, 
+                            getMinHeight(chunk), MAX_HEIGHT), zone)) {
+                if (!isLoaded) {
                     chunk.unload();
                 }
                 return false;
@@ -227,7 +236,7 @@ public class Localization extends Zone {
      */
     private static boolean hasPlayersInto(Entity[] entities, Zone z) {
         for (Entity e : entities) {
-            if (e.getType() == PLAYER && isInsideOfSubzone(e.getLocation().toVector(), z)) {
+            if (e.getType() == PLAYER && isInsideOfZone(e.getLocation().toVector(), z)) {
                 return true;
             }
         }
@@ -257,11 +266,11 @@ public class Localization extends Zone {
      * @param blocks BlockState array
      * @param z Zone
      *
-     * @return True if it has liquids and it is inside of a zone: False if not
+     * @return True if it has liquids and it is inside of a zone; False if not
      */
-    private static boolean hasLiquidBlocksInto(BlockState[] blocks, Zone z) {
-        for (BlockState b : blocks) {
-            if (b.getBlock().isLiquid() && isInsideOfSubzone(b.getLocation().toVector(), z)) {
+    private static boolean hasLiquidBlocksInto(Block[] blocks, Zone z) {
+        for (Block b : blocks) {
+            if (b.isLiquid() && isInsideOfZone(b.getLocation().toVector(), z)) {
                 return true;
             }
         }
@@ -274,26 +283,90 @@ public class Localization extends Zone {
      * @param blocks BlockState array
      * @param z Zone
      *
-     * @return True if it has liquids: False if not
+     * @return True if it has liquids; False if not
      */
-    private static boolean hasLiquidBlocks(BlockState[] blocks) {
+    private static boolean hasLiquidBlocks(Block[] blocks) {
         // Check if it has liquid blocks
-        for (BlockState b : blocks) {
-            if (b.getBlock().isLiquid()) {
+        for (Block b : blocks) {
+            if (b.isLiquid()) {
                 return true;
             }
         }
         return false;
     }
+    
+    /**
+     * Checks if it is a "safe place"
+     * <i>It means that it's not a mountain or a flying structure.</i>
+     * 
+     * @param chunk Chunk to inspect
+     * 
+     * @return True if it is; False if not
+     */
+    private static boolean isSafePlace(Chunk chunk) {
+        // Safe place
+        for (Block b : getChunkBlocks(chunk, STOP, 128)) {
+            if (!b.isEmpty()) {
+                return false;
+            }
+        }        
+        return true;        
+    }
+    
+    /**
+     * Get the relative minimum height to inspect.
+     * 
+     * @param chunk Chunk to inspect.
+     * 
+     * @return Relative minimum height.
+     */
+    private static int getMinHeight(Chunk chunk) {
+        // Safe place
+        for (Block b : getChunkBlocks(chunk, MIN_HEIGHT, MIN_HEIGHT)) {
+            if (!b.isEmpty()) {
+                return MIN_HEIGHT;
+            }
+        }        
+        return 0; 
+    }
+    
+    /**
+     * Gets the blocks of a chunk
+     * 
+     * @param chunk Chunk to inspect.
+     * @param min Minimum height.
+     * @param max Maximum height.
+     * 
+     * @return Blocks
+     */
+    private static Block[] getChunkBlocks(Chunk chunk, int min, int max) {
+        Block[] blocks = new Block[CHUNK*CHUNK*(max-min)];
+        
+        int cx = chunk.getX();
+        int cz = chunk.getZ();
+        
+        int counter = 0;
+        
+        for (int x = cx; x < cx + CHUNK; x++) {
+            for (int z = cz; z < cz + CHUNK; z++) {
+                for (int y = min; y < max; y++) {
+                    blocks[counter] = chunk.getBlock(x, y, z);
+                    counter++;
+                }
+            }
+        }
+        
+        return blocks;
+    }
 
     /**
-     * Checks if a player is inside of a subzone.
+     * Checks if a player is inside of a zone.
      *
      * @param p Player coordinates
      *
      * @return True if he is; False if not
      */
-    private static boolean isInsideOfSubzone(Vector p, Zone z) {
+    private static boolean isInsideOfZone(Vector p, Zone z) {
         Vector max = Vector.getMaximum(z.getP1(), z.getP2());
         Vector min = Vector.getMinimum(z.getP1(), z.getP2());
 
@@ -306,6 +379,11 @@ public class Localization extends Zone {
 
     /**
      * Gets collidant chunks by location.
+     * It returns something like this:
+     *   xxx
+     *   xox
+     *   xxx
+     * where 'o' is the location and 'x' are the collidant chunks.
      *
      * @param l Location to inspect
      *

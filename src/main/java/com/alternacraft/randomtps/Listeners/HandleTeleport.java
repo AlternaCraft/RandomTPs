@@ -19,6 +19,7 @@ package com.alternacraft.randomtps.Listeners;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.CustomLinkedMap;
+import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.Randomizer;
 import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
@@ -42,13 +43,13 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 /**
  * Handle player location.
- * 
+ *
  * @author AlternaCraft
  */
 public class HandleTeleport implements Listener {
 
     // This value is random
-    private static final int MAX_TRIES = 10000;
+    private static final int MAX_TRIES = 100;
 
     public static final HashSet<UUID> CANCELEDTP = new HashSet<>();
     private final Map<UUID, Location> rollbackLocation = new HashMap();
@@ -64,14 +65,6 @@ public class HandleTeleport implements Listener {
         Player player = e.getPlayer();
         Langs lang = Localizer.getLocale(player);
 
-        Location cLocation = new Location(player.getLocation().getWorld(),
-                player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1,
-                player.getLocation().getBlockZ());
-
-        if (!cLocation.getBlock().isEmpty()) {
-            rollbackLocation.put(player.getUniqueId(), player.getLocation());
-        }
-
         for (int i = 0; i < zones.size(); i++) {
             Localization localization = zones.get(i);
 
@@ -80,7 +73,7 @@ public class HandleTeleport implements Listener {
             }
 
             // Same world
-            if (player.getLocation().getWorld().getName().equalsIgnoreCase(localization.getOrigin())) {                
+            if (player.getLocation().getWorld().getName().equalsIgnoreCase(localization.getOrigin())) {
                 try {
                     Location location = null;
 
@@ -157,8 +150,7 @@ public class HandleTeleport implements Listener {
                         // Avoiding he falls for ever
                         if (!resul) {
                             CANCELEDTP.add(player.getUniqueId());
-                            MessageManager.sendPlayer(player,
-                                    GameInfo.PLAYER_CANT_BE_TELEPORTED.getText(lang));
+                            MessageIntervals.sendMessage(player, GameInfo.PLAYER_CANT_BE_TELEPORTED, lang);
                             player.teleport(rollbackLocation.get(player.getUniqueId()));
                             return;
                         }
@@ -174,11 +166,20 @@ public class HandleTeleport implements Listener {
                                 new PlayerDroppedEvent(player, localization.getZoneName()));
 
                         return;
-                    }                                        
+                    }
                 } catch (IllegalStateException ex) {
                     MessageManager.sendPlayer(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
                 }
             }
+        }
+
+        // At the end to prevent that the player gets stuck
+        Location cLocation = new Location(player.getLocation().getWorld(),
+                player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1,
+                player.getLocation().getBlockZ());
+
+        if (!cLocation.getBlock().isEmpty()) {
+            rollbackLocation.put(player.getUniqueId(), player.getLocation());
         }
     }
     // </editor-fold>

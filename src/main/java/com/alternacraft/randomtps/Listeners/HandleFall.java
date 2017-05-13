@@ -31,13 +31,13 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 /**
  * Handle player falling.
- * 
+ *
  * @author AlternaCraft
  */
 public class HandleFall implements Listener {
 
     private static final Map<UUID, String> DROPPED = new HashMap();
-    
+
     @EventHandler
     public void onPlayerDropped(PlayerDroppedEvent e) {
         UUID uuid = e.player().getUniqueId();
@@ -54,26 +54,20 @@ public class HandleFall implements Listener {
         if (!(e.getEntity() instanceof Player)) {
             return;
         }
-        
+
         Player p = (Player) e.getEntity();
-        
+
         // Avoiding instakill on tp
         if (HandleTeleport.CANCELEDTP.contains(p.getUniqueId())) {
             e.setCancelled(true);
             HandleTeleport.CANCELEDTP.remove(p.getUniqueId());
-            return;
-        }
-        
-        for (Map.Entry<UUID, String> entry : DROPPED.entrySet()) {
-            UUID player = entry.getKey();
-            String zone = entry.getValue();
-            if (player.equals(p.getUniqueId())) {
-                if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
-                    e.setCancelled(true);                    
-                    Localization loc = Manager.INSTANCE.getLocalizationByName(zone);
-                    Bukkit.getServer().getPluginManager().callEvent(new PlayerGodModeEvent(p, loc));
-                    break;
-                }
+        } else if (DROPPED.containsKey(p.getUniqueId())) {
+            String zone = DROPPED.get(p.getUniqueId());
+            if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+                e.setCancelled(true);
+                Localization loc = Manager.INSTANCE.getLocalizationByName(zone);
+                Bukkit.getServer().getPluginManager().callEvent(new PlayerGodModeEvent(p, loc));
+                DROPPED.remove(p.getUniqueId());
             }
         }
     }
