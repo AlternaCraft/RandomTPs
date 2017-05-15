@@ -24,10 +24,10 @@ import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.randomtps.API.Events.PlayerBecomesUselessEvent;
 import com.alternacraft.randomtps.API.Events.PlayerGodModeEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
-import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Managers.BroadcastManager;
 import com.alternacraft.randomtps.Managers.EffectManager;
+import com.alternacraft.randomtps.Zone.DefinedZone;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,21 +52,21 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class HandleGods implements Listener {
 
     // God players
-    private final List<UUID> gods = new ArrayList();
+    private static final List<UUID> GODS = new ArrayList();
     // Cancel delayed task
-    private final Map<UUID, Integer> overtime = new HashMap();
+    private static final Map<UUID, Integer> OVERTIME = new HashMap();
 
     //<editor-fold defaultstate="collapsed" desc="BAD EXIT">
     @EventHandler
     public void onPlayerFcking(PlayerQuitEvent e) {
-        if (gods.contains(e.getPlayer().getUniqueId())) {
+        if (GODS.contains(e.getPlayer().getUniqueId())) {
             clearGod(e.getPlayer());
         }
     }
 
     @EventHandler
     public void onAdminFcking(PlayerKickEvent e) {
-        if (gods.contains(e.getPlayer().getUniqueId())) {
+        if (GODS.contains(e.getPlayer().getUniqueId())) {
             clearGod(e.getPlayer());
         }
     }
@@ -84,11 +84,11 @@ public class HandleGods implements Listener {
         Langs lang = Localizer.getLocale(pl);
 
         // Auto fix if something fails
-        if (gods.contains(pl.getUniqueId())) {
+        if (GODS.contains(pl.getUniqueId())) {
             clearGod(pl);
         }
 
-        LocalizationInfo l = ev.getLocalization();
+        DefinedZone l = ev.getDefinedZone();
         int time = l.getTime();
 
         // God
@@ -109,13 +109,13 @@ public class HandleGods implements Listener {
 
         overtime(pl, time);
 
-        gods.add(pl.getUniqueId());
+        GODS.add(pl.getUniqueId());
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="END TASKS">
     private void overtime(final OfflinePlayer pl, final int time) {
-        overtime.put(pl.getUniqueId(), Bukkit.getServer().getScheduler().runTaskLater(Manager.BASE.plugin(), new Runnable() {
+        OVERTIME.put(pl.getUniqueId(), Bukkit.getServer().getScheduler().runTaskLater(Manager.BASE.plugin(), new Runnable() {
             @Override
             public void run() {
                 clearGod(pl);
@@ -140,9 +140,9 @@ public class HandleGods implements Listener {
         }
 
         // Players
-        if (gods.contains(player.getUniqueId())) {
-            Bukkit.getServer().getScheduler().cancelTask(overtime.get(player.getUniqueId()));
-            overtime.remove(player.getUniqueId());
+        if (GODS.contains(player.getUniqueId())) {
+            Bukkit.getServer().getScheduler().cancelTask(OVERTIME.get(player.getUniqueId()));
+            OVERTIME.remove(player.getUniqueId());
 
             if (player.isOnline()) {
                 Player pl = (Player) player;
@@ -150,13 +150,13 @@ public class HandleGods implements Listener {
 
                 // God
                 pl.setNoDamageTicks(0);
-                gods.remove(uuid);
+                GODS.remove(uuid);
             }
         }
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="HITS">
+    //<editor-fold defaultstate="collapsed" desc="AVOID PROBLEMS">
     @EventHandler
     public void onHit(EntityDamageEvent e) {
         if (e instanceof EntityDamageByEntityEvent) {
@@ -166,7 +166,7 @@ public class HandleGods implements Listener {
             if (damager instanceof Player) {
                 Player no_pvp = (Player) damager;
 
-                for (UUID uuid : gods) {
+                for (UUID uuid : GODS) {
                     Player player = Bukkit.getPlayer(uuid);
                     Langs lang = Localizer.getLocale(player);
 
@@ -178,6 +178,19 @@ public class HandleGods implements Listener {
                 }
             }
         }
-    }
+    } 
+
+    @EventHandler
+    public void onPlayerSmashed(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player)) {
+            return;
+        }
+        Player p = (Player) e.getEntity();
+        if (GODS.contains(p.getUniqueId())) {
+            if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+                e.setCancelled(true);                
+            }
+        }
+    }    
     //</editor-fold>
 }

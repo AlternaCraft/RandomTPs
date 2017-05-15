@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.API.Events;
 
-import com.alternacraft.randomtps.Localizations.LocalizationInfo;
+import com.alternacraft.randomtps.Zone.DefinedZone;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -33,19 +33,19 @@ public class PlayerGodModeEvent extends Event implements Cancellable {
     private boolean cancelled = false;
 
     private final OfflinePlayer player;
-    private final LocalizationInfo localization;
+    private final DefinedZone zone;
     
-    public PlayerGodModeEvent(OfflinePlayer player, LocalizationInfo localization) {
+    public PlayerGodModeEvent(OfflinePlayer player, DefinedZone zone) {
         this.player = player;
-        this.localization = localization;
+        this.zone = zone;
     }
 
     public OfflinePlayer player() {
         return this.player;
     }
 
-    public LocalizationInfo getLocalization() {
-        return localization;
+    public DefinedZone getDefinedZone() {
+        return zone;
     }
 
     @Override

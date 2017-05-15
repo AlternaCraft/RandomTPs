@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Localizations;
+package com.alternacraft.randomtps.Zone;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,11 +23,11 @@ import java.util.Map;
 import org.bukkit.util.Vector;
 
 /**
- * Localization incomplete.
+ * Pre defined zone.
  * 
  * @author AlternaCraft
  */
-public class PreLocalization extends PreZone {
+public class PreDefinedZone {
 
     private final String zone;    
     private final boolean redefine;
@@ -41,11 +41,21 @@ public class PreLocalization extends PreZone {
     private final Map<String, List<Zone>> subzones = new HashMap();
     private Vector cs1;
 
-    public PreLocalization(String zone, boolean redefine) {
+    // Prezone
+    private boolean coord1 = false;
+    private boolean coord2 = false;
+
+    private boolean subzone = false;
+
+    private boolean askWorld = false;    
+    private boolean askSubzone = false;
+    // End Prezone
+    
+    public PreDefinedZone(String zone, boolean redefine) {
         this.zone = zone;
         this.redefine = redefine;
-    }
-
+    }    
+    
     public String getZoneName() {
         return zone;
     }
@@ -85,15 +95,58 @@ public class PreLocalization extends PreZone {
             this.subzones.put(w, new ArrayList());
         }
         this.subzones.get(w).add(z);
+    }    
+    
+    public boolean coord1Saved() {
+        return coord1;
     }
 
-    public LocalizationInfo toLocalization() {
+    public void setCoord1(boolean coord1) {
+        this.coord1 = coord1;
+    }
+
+    public boolean coord2Saved() {
+        return coord2;
+    }
+
+    public void setCoord2(boolean coord2) {
+        this.coord2 = coord2;
+    }
+
+    public void setSubzone(boolean b) {
+        this.subzone = b;
+    }
+
+    public boolean isSubzone() {
+        return this.subzone;
+    }
+
+    public boolean askWorld() {
+        return askWorld;
+    }
+
+    public void askWorld(boolean world) {
+        this.askWorld = world;
+    }
+
+    public boolean askSubzone() {
+        return askSubzone;
+    }
+
+    public void askSubzone(boolean subzone) {
+        this.askSubzone = subzone;
+    }
+
+    public void resetValues() {
+        this.coord1 = false;
+        this.coord2 = false;
+    }    
+
+    public DefinedZone toLocalization() {
         if (this.askSubzone()) {
-            return new LocalizationInfo(zone, new Zone(c1, c2), origin, subzones);
+            return new DefinedZone(zone, new Zone(c1, c2), origin, subzones);
         } else {
-            return new LocalizationInfo(zone, new Zone(c1, c2), origin, dests);
+            return new DefinedZone(zone, new Zone(c1, c2), origin, dests);
         }
-
-    }
-
+    }    
 }

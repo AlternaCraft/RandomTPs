@@ -24,10 +24,11 @@ import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.aclib.utils.Randomizer;
 import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
-import com.alternacraft.randomtps.Localizations.LocalizationInfo;
-import com.alternacraft.randomtps.Localizations.Zone;
 import com.alternacraft.randomtps.Main.Manager;
 import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;
+import com.alternacraft.randomtps.Managers.ZoneManager;
+import com.alternacraft.randomtps.Zone.DefinedZone;
+import com.alternacraft.randomtps.Zone.Zone;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
@@ -49,7 +51,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 public class HandleTeleport implements Listener {
 
     // This value is random
-    private static final int MAX_TRIES = 10;
+    private static final int MAX_TRIES = 1000;
 
     public static final HashSet<UUID> CANCELEDTP = new HashSet<>();
     private final Map<UUID, Location> rollbackLocation = new HashMap();
@@ -60,116 +62,104 @@ public class HandleTeleport implements Listener {
     // <editor-fold defaultstate="collapsed" desc="PLAYER MOVE">
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        List<LocalizationInfo> zones = Manager.INSTANCE.getLocalizations();
+        List<DefinedZone> zones = Manager.INSTANCE.getLocalizations();
 
         Player player = e.getPlayer();
         Langs lang = Localizer.getLocale(player);
 
         for (int i = 0; i < zones.size(); i++) {
-            LocalizationInfo localization = zones.get(i);
+            DefinedZone definedZone = zones.get(i);
 
-            if (HandleBuild.DISABLED.containsKey(localization.getZoneName())) {
+            if (HandleBuild.DISABLED.containsKey(definedZone.getZoneName())
+                    || !player.getLocation().getWorld().getName().equalsIgnoreCase(definedZone.getOrigin())) {
                 continue; // Nothing to do
             }
 
-            // Same world
-            if (player.getLocation().getWorld().getName().equalsIgnoreCase(localization.getOrigin())) {
-                try {
-                    Location location = null;
+            try {
+                Location location = null;
 
-                    // Is the player in the zone?
-                    if (localization.isInsideOfMe(player.getLocation().toVector())) {
-                        // Check subzones to go
-                        boolean resul = false;
+                // Is the player in the zone?
+                if (definedZone.isInsideOfMe(player.getLocation().toVector())) {
+                    // Check subzones to go
+                    boolean resul = false;
 
-                        // Here comes the hard part, to get the location...
-                        CustomLinkedMap<String, List<Zone>> subzones = new CustomLinkedMap();
-                        subzones.putAll(localization.getSubzones());
+                    // Here comes the hard part, to get the location...
+                    CustomLinkedMap<String, List<Zone>> subzones = new CustomLinkedMap();
+                    subzones.putAll(definedZone.getSubzones());
 
-                        int maxtries = 0;
+                    int maxtries = 0;
 
-                        if (subzones.isEmpty()) {
-                            PERFORMANCE.start("Teleport to zone");
+                    // If there are not subzones
+                    if (subzones.isEmpty()) {
+                        PERFORMANCE.start("Teleport to zone");
+                        int max_x = definedZone.getMaxX();
+                        int min_x = definedZone.getMinX();
+                        int y = definedZone.getY();
+                        int max_z = definedZone.getMaxZ();
+                        int min_z = definedZone.getMinZ();
+
+                        do {
                             // Destination world
                             int randWorld = Randomizer.rand(
-                                    localization.getDestinations().size() - 1, 0);
+                                    definedZone.getDestinations().size() - 1, 0
+                            );
                             World destination = Bukkit.getServer().getWorld(
-                                    localization.getDestinations().get(randWorld));
+                                    definedZone.getDestinations().get(randWorld)
+                            );
+                            
+                            location = new Location(destination,
+                                    Randomizer.rand(max_x, min_x), y,
+                                    Randomizer.rand(max_z, min_z));
+                            resul = ZoneManager.validateZone(location,
+                                    definedZone.getValidations());
+                            maxtries++;
+                        } while (!resul && maxtries < MAX_TRIES);
+                        PERFORMANCE.recordValue("Teleport to zone");
+                    } else {
+                        PERFORMANCE.start("Teleport to subzone");
+                        do {
+                            int randworld = Randomizer.rand(subzones.size() - 1, 0);
+                            int randSubzone = Randomizer.rand(subzones.getValue(randworld).size() - 1, 0);
+                            Zone zone = subzones.get(subzones.getKey(randworld)).get(randSubzone);
 
-                            int max_x = Manager.INSTANCE.loader().getMaxX();
-                            int min_x = Manager.INSTANCE.loader().getMinX();
-                            int y = Manager.INSTANCE.loader().getY();
-                            int max_z = Manager.INSTANCE.loader().getMaxZ();
-                            int min_z = Manager.INSTANCE.loader().getMinZ();
+                            zone.getP1().setY(definedZone.getY());
+                            zone.getP2().setY(definedZone.getY());
 
-                            do {
-                                location = new Location(destination,
-                                        Randomizer.rand(max_x, min_x), y,
-                                        Randomizer.rand(max_z, min_z));
-                                resul = LocalizationInfo.isValidZone(location);
-                                maxtries++;
-                            } while (!resul && maxtries < MAX_TRIES);
+                            // Destination world
+                            World destination = Bukkit.getServer().getWorld(
+                                    subzones.getKey(randworld));
 
-                            PERFORMANCE.recordValue("Teleport to zone");
-                        } else {
-                            PERFORMANCE.start("Teleport to subzone");
-                            int previousworld = -1, randSubzone = -1;
+                            location = zone.randomLocation(destination);
+                            resul = ZoneManager.validateSubZone(location,
+                                    zone, definedZone.getValidations());
 
-                            do {
-                                int randworld = Randomizer.rand(subzones.size() - 1, 0);
-                                if (randworld == previousworld && subzones.size() > 1) {
-                                    continue; // No repeat
-                                }
-                                previousworld = randworld;
+                            maxtries++;
+                        } while (!resul && maxtries < MAX_TRIES);
+                        PERFORMANCE.recordValue("Teleport to subzone");
+                    }
 
-                                int trandSubzone = Randomizer.rand(subzones.getValue(randworld).size() - 1, 0);
-                                if (trandSubzone == randSubzone && subzones.getValue(randworld).size() > 1) {
-                                    continue; // No repeat
-                                }
-                                randSubzone = trandSubzone;
-
-                                Zone zone = subzones.get(subzones.getKey(previousworld))
-                                        .get(randSubzone);
-
-                                zone.getP1().setY(Manager.INSTANCE.loader().getY());
-                                zone.getP2().setY(Manager.INSTANCE.loader().getY());
-
-                                // Destination world
-                                World destination = Bukkit.getServer().getWorld(
-                                        subzones.getKey(previousworld));
-
-                                location = zone.randomLocation(destination);
-                                resul = LocalizationInfo.isValidSubZone(location, zone);
-
-                                maxtries++;
-                            } while (!resul && maxtries < MAX_TRIES);
-
-                            PERFORMANCE.recordValue("Teleport to subzone");
-                        }
-
-                        // Avoiding he falls for ever
-                        if (!resul) {
-                            CANCELEDTP.add(player.getUniqueId());
-                            MessageIntervals.sendMessage(player, GameInfo.PLAYER_CANT_BE_TELEPORTED, lang);
-                            player.teleport(rollbackLocation.get(player.getUniqueId()));
-                            return;
-                        }
-
-                        // We got it!!
-                        player.teleport(location);
-                        player.setGameMode(GameMode.SURVIVAL);
-
-                        MessageManager.sendPlayer(player, GameInfo.PLAYER_TELEPORTED.getText(lang));
-
-                        // Let's to propagate the good news
-                        Bukkit.getServer().getPluginManager().callEvent(
-                                new PlayerDroppedEvent(player, localization.getZoneName()));
-
+                    // Avoiding he falls for ever
+                    if (!resul) {
+                        CANCELEDTP.add(player.getUniqueId());
+                        MessageIntervals.sendMessage(player, GameInfo.PLAYER_CANT_BE_TELEPORTED, lang);
+                        player.teleport(rollbackLocation.get(player.getUniqueId()));
                         return;
                     }
-                } catch (IllegalStateException ex) {
-                    MessageManager.sendPlayer(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
+
+                    // We got it!!
+                    player.teleport(location);
+                    player.setGameMode(GameMode.SURVIVAL);
+
+                    MessageManager.sendPlayer(player, GameInfo.PLAYER_TELEPORTED.getText(lang));
+
+                    // Let's to propagate the "good news"
+                    Bukkit.getServer().getPluginManager().callEvent(
+                            new PlayerDroppedEvent(player, definedZone.getZoneName()));
+
+                    return;
                 }
+            } catch (IllegalStateException ex) {
+                MessageManager.sendPlayer(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
             }
         }
 
@@ -178,7 +168,9 @@ public class HandleTeleport implements Listener {
                 player.getLocation().getBlockX(), player.getLocation().getBlockY() - 1,
                 player.getLocation().getBlockZ());
 
-        if (!cLocation.getBlock().isEmpty()) {
+        if (!cLocation.getBlock().isEmpty() 
+                && !cLocation.getBlock().isLiquid()
+                && !cLocation.getBlock().getType().equals(Material.SLIME_BLOCK)) {
             rollbackLocation.put(player.getUniqueId(), player.getLocation());
         }
     }

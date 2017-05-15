@@ -23,7 +23,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Event thrown when someone tries to define a localization.
+ * Event thrown when someone tries to define a zone.
  * 
  * @author AlternaCraft
  */
@@ -55,7 +55,7 @@ public class DefineZoneEvent extends Event implements Cancellable {
     }
 
     /**
-     * Gets if the localization is already defined
+     * Gets if the zone is already defined
      * 
      * @return True if it exists; False if not
      */

@@ -27,9 +27,9 @@ import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Listeners.HandleBuild;
 import static com.alternacraft.randomtps.Listeners.HandleBuild.DISABLED;
-import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.ZoneBuilder;
+import com.alternacraft.randomtps.Zone.DefinedZone;
 import java.util.List;
 import java.util.Map;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -44,7 +44,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Localization management.
+ * Zone management.
  * 
  * @author AlternaCraft
  */
@@ -68,8 +68,8 @@ public class ZoneCommand implements SubCommandExecutor {
                 cs.sendMessage(ChatColor.BLUE + "   Zone list");
                 cs.sendMessage(ChatColor.GRAY + "  ---------");
 
-                List<LocalizationInfo> locs = Manager.INSTANCE.getLocalizations();
-                for (LocalizationInfo loc : locs) {
+                List<DefinedZone> locs = Manager.INSTANCE.getLocalizations();
+                for (DefinedZone loc : locs) {
                     String zonename = "  - " + loc.getZoneName();
                     if (cs instanceof Player) {
                         TextComponent tc = new TextComponent();
@@ -91,7 +91,7 @@ public class ZoneCommand implements SubCommandExecutor {
                 //<editor-fold defaultstate="collapsed" desc="TOGGLE CODE">
                 if (args.length > 2) {
                     String zone = args[2];
-                    if (Manager.INSTANCE.localizationExists(zone)) {
+                    if (Manager.INSTANCE.zoneExists(zone)) {
                         Manager.INSTANCE.disableLocation(zone);
                         MessageManager.sendCommandSender(cs, 
                                 GameInfo.ZONE_DISABLED.getText(lang));
@@ -113,7 +113,7 @@ public class ZoneCommand implements SubCommandExecutor {
                     Player player = (Player) cs;
 
                     if (args.length > 2) {
-                        LocalizationInfo loc = Manager.INSTANCE.getLocalizationByName(args[2]);
+                        DefinedZone loc = Manager.INSTANCE.getLocalizationByName(args[2]);
 
                         if (loc != null) {
                             player.setGameMode(GameMode.CREATIVE);
@@ -144,7 +144,7 @@ public class ZoneCommand implements SubCommandExecutor {
                     if (args.length > 2) {
                         String zone = args[2];
 
-                        boolean exists = Manager.INSTANCE.localizationExists(zone);
+                        boolean exists = Manager.INSTANCE.zoneExists(zone);
 
                         if (exists) {
                             HandleBuild.DISABLED.put(zone, null);
@@ -206,7 +206,7 @@ public class ZoneCommand implements SubCommandExecutor {
                         MessageManager.sendCommandSender(cs, "&cYou have to indicate "
                                 + "a valid material (materialName|materialID)");
                     } else {
-                        LocalizationInfo l = Manager.INSTANCE.getLocalizationByName(zone);
+                        DefinedZone l = Manager.INSTANCE.getLocalizationByName(zone);
 
                         if (l == null) {
                             MessageManager.sendCommandSender(cs,

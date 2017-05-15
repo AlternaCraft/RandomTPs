@@ -16,8 +16,8 @@
  */
 package com.alternacraft.randomtps.API;
 
-import com.alternacraft.randomtps.Localizations.LocalizationInfo;
-import com.alternacraft.randomtps.Localizations.Zone;
+import com.alternacraft.randomtps.Zone.DefinedZone;
+import com.alternacraft.randomtps.Zone.Zone;
 import java.util.List;
 import java.util.Map;
 
@@ -29,64 +29,64 @@ import java.util.Map;
 public interface ZonesDB {
 
     /**
-     * Gets all localizations.
+     * Gets all defined zones.
      * 
      * @return List
      */
-    public List<LocalizationInfo> getLocalizations();
+    public List<DefinedZone> getDefinedZone();
 
     /**
-     * Gets a specified localization.
+     * Gets a specific defined zone.
      * 
-     * @param localization Localization name
+     * @param zone defined zone name
      * 
-     * @return Localization
+     * @return defined zone
      */
-    public LocalizationInfo getLocalization(String localization);
+    public DefinedZone getDefinedZone(String zone);
 
     /**
-     * Gets a subzone from a localization.
+     * Gets a subzone from a defined zone.
      * 
-     * @param localization Localization name
+     * @param zone defined zone name
      * 
-     * @return Map with the available subzones for that localization
+     * @return Map with the available subzones for that defined zone
      */
-    public Map<String, List<Zone>> getSubzones(String localization);
+    public Map<String, List<Zone>> getSubzones(String zone);
 
     /**
      * Gets a zone (3D vector)
      * 
-     * @param localization Localization name
+     * @param zone Zone name
      * 
      * @return Zone
      */
-    public Zone getZone(String localization);
+    public Zone getZone(String zone);
 
     /**
-     * Saves a localization.
+     * Saves a defined zone.
      * 
-     * @param l Localization
+     * @param l defined zone
      */
-    public void saveLocalization(LocalizationInfo l);
+    public void saveLocalization(DefinedZone l);
 
     /**
-     * Sets a localization as active.
+     * Sets a defined zone as active.
      * 
-     * @param localization Localization name
+     * @param zone defined zone name
      */
-    public void enableLocalization(String localization);
+    public void enableLocalization(String zone);
 
     /**
-     * Sets a localization as inactive.
+     * Sets a defined zone as inactive.
      * 
-     * @param localization Localization name
+     * @param zone defined zone name
      */
-    public void disableLocalization(String localization);    
+    public void disableLocalization(String zone);    
     
     /**
-     * Cleans inactive localizations.
+     * Cleans inactive defined zones.
      * 
-     * @return Number of deleted localizations
+     * @return Number of deleted defined zones
      */
     public int purge();
 }

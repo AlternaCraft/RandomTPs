@@ -18,16 +18,19 @@ package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.API.Events.PlayerGodModeEvent;
-import com.alternacraft.randomtps.Localizations.LocalizationInfo;
 import com.alternacraft.randomtps.Main.Manager;
+import com.alternacraft.randomtps.Zone.DefinedZone;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 /**
  * Handle player falling.
@@ -65,7 +68,21 @@ public class HandleFall implements Listener {
             String zone = DROPPED.get(p.getUniqueId());
             if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
                 e.setCancelled(true);
-                LocalizationInfo loc = Manager.INSTANCE.getLocalizationByName(zone);
+                DefinedZone loc = Manager.INSTANCE.getLocalizationByName(zone);
+                Bukkit.getServer().getPluginManager().callEvent(new PlayerGodModeEvent(p, loc));
+                DROPPED.remove(p.getUniqueId());
+            }
+        }
+    }
+    
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent e) {
+        Player p = e.getPlayer();
+        if (DROPPED.containsKey(p.getUniqueId())) {
+            Block next = p.getWorld().getBlockAt(e.getTo().getBlockX(), e.getTo().getBlockY()-1, e.getTo().getBlockZ());
+            if (e.getTo().getBlock().isLiquid() || next.getType().equals(Material.SLIME_BLOCK)) {
+                String zone = DROPPED.get(p.getUniqueId());
+                DefinedZone loc = Manager.INSTANCE.getLocalizationByName(zone);
                 Bukkit.getServer().getPluginManager().callEvent(new PlayerGodModeEvent(p, loc));
                 DROPPED.remove(p.getUniqueId());
             }

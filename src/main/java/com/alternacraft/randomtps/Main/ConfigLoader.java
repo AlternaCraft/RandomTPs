@@ -42,19 +42,22 @@ public class ConfigLoader extends ConfigDataStore implements ConfigDataInterface
         this.setUpdate(fc.getBoolean("update"));
         
         // Building options
-        this.setSelection(fc.getString("selection.complete"));
+        this.setSelection(fc.getString("selection.add"));
         this.setCancel(fc.getString("selection.cancel"));
         
         this.setInstant(fc.getBoolean("building.instant"));
 
-        // Coordinates
-        this.setX(new int[]{fc.getInt("coords.x.max"), fc.getInt("coords.x.min")});
-        this.setY(fc.getInt("coords.y"));
-        this.setZ(new int[]{fc.getInt("coords.z.max"), fc.getInt("coords.z.min")});
-        
-        // Extras
-        this.setTime(fc.getInt("defaultExtras.time"));
-        this.setBroadcast_as_exp(fc.getBoolean("defaultExtras.broadcast.show_as_exp"));
-        this.setPotions_effects(fc.getStringList("defaultExtras.effects.potions"));
+        // EXTRAS
+        this.setX(new int[] {
+            fc.getInt("defaults.limits.x.max"), fc.getInt("defaults.limits.x.min")
+        });        
+        this.setZ(new int[] {
+            fc.getInt("defaults.limits.z.max"), fc.getInt("defaults.limits.z.min")
+        });
+        this.setY(fc.getInt("defaults.height"));
+        this.setTime(fc.getInt("defaults.time"));                
+        this.setBroadcast_as_exp(fc.getBoolean("defaults.broadcast.as_experience"));
+        this.setPotions_effects(fc.getStringList("defaults.effects.potions"));
+        this.setValidations(fc.getStringList("defaults.validations"));
     }
 }

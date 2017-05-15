@@ -31,7 +31,12 @@ import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Listeners.Handlers;
-import com.alternacraft.randomtps.Localizations.LocalizationInfo;
+import com.alternacraft.randomtps.Managers.ZoneManager;
+import com.alternacraft.randomtps.Managers.ZoneManager.DEFAULT_VALIDATIONS;
+import com.alternacraft.randomtps.Utils.FallingSafeValidation;
+import com.alternacraft.randomtps.Utils.FluidsValidation;
+import com.alternacraft.randomtps.Utils.PlayersValidation;
+import com.alternacraft.randomtps.Zone.DefinedZone;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,7 +56,7 @@ public class Manager {
     /* DBs */
     private ZonesDB zonesdb;
     
-    private List<LocalizationInfo> localizations = new ArrayList();
+    private List<DefinedZone> zones = new ArrayList();
     private SubCommandsRegisterer mainCommand = null;
 
     private final ConfigLoader loader;
@@ -72,6 +77,9 @@ public class Manager {
         this.loadExternalPlugins();
         this.loadLocalizations(); // Logic game
 
+        // Zone validations
+        this.registerDefaultValidations();
+        
         return true;
     }
     
@@ -101,7 +109,19 @@ public class Manager {
 
     public void loadLocalizations() {
         ZonesFile.load();
-        this.localizations = zonesdb.getLocalizations();
+        this.zones = zonesdb.getDefinedZone();
+    }
+    
+    public void registerDefaultValidations() {
+        ZoneManager.registerValidation(
+                DEFAULT_VALIDATIONS.FALLING.name(), new FallingSafeValidation()
+        );
+        ZoneManager.registerValidation(
+                DEFAULT_VALIDATIONS.FLUIDS.name(), new FluidsValidation()
+        );
+        ZoneManager.registerValidation(
+                DEFAULT_VALIDATIONS.PLAYERS.name(), new PlayersValidation()
+        );
     }
 
     /* GETTERS */
@@ -121,9 +141,9 @@ public class Manager {
         return this.zonesdb;
     }
     
-    /* LOCALIZATIONS */
-    public LocalizationInfo getLocalizationByName(String zone) {
-        for (LocalizationInfo loc : localizations) {
+    /* DEFINED ZONES */
+    public DefinedZone getLocalizationByName(String zone) {
+        for (DefinedZone loc : zones) {
             if (loc.getZoneName().equals(zone)) {
                 return loc;
             }
@@ -132,11 +152,11 @@ public class Manager {
         return null;
     }
 
-    public List<LocalizationInfo> getLocalizations() {
-        return localizations;
+    public List<DefinedZone> getLocalizations() {
+        return zones;
     }
 
-    public boolean localizationExists(String zone) {
+    public boolean zoneExists(String zone) {
         return getLocalizationByName(zone) != null;
     }
 
@@ -151,11 +171,11 @@ public class Manager {
     }
 
     public void addLocalization(String zone) {        
-        localizations.add(zonesdb.getLocalization(zone));
+        zones.add(zonesdb.getDefinedZone(zone));
     }
 
     public void removeLocalization(String zone) {
-        LocalizationInfo l = getLocalizationByName(zone);
-        this.localizations.remove(l);
+        DefinedZone l = getLocalizationByName(zone);
+        this.zones.remove(l);
     }
 }

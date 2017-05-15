@@ -50,22 +50,17 @@ public class ConfigDataStore {
     // Limits
     public static final short MAX = 0;
     public static final short MIN = 1;
-    
-    private static final int MAX_X = 10000;
-    private static final int MIN_X = -5000;
-    private static final int Y = 125;
-    private static final int MAX_Z = 10000;
-    private static final int MIN_Z = -5000;
 
-    protected int[] x = {MAX_X, MIN_X};
-    protected int y = Y;
-    protected int[] z = {MAX_Z, MIN_Z};
+    protected int[] x = {10000, -5000};
+    protected int y = 150;
+    protected int[] z = {10000, -5000};
 
     // Default extras
     protected int time = 10;
     protected boolean broadcast_as_exp = true;
     protected List<String> potions_effects = new ArrayList();
-
+    protected List<String> validations = new ArrayList();
+    
     public String getPluginPrefix() {
         return pluginPrefix;
     }
@@ -201,4 +196,12 @@ public class ConfigDataStore {
     public void setPotions_effects(List<String> potions_effects) {
         this.potions_effects = potions_effects;
     }
+
+    public List<String> getValidations() {
+        return validations;
+    }
+
+    public void setValidations(List<String> validations) {
+        this.validations = validations;
+    }    
 }

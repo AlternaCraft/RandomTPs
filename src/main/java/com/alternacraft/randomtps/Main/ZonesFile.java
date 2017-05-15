@@ -19,8 +19,8 @@ package com.alternacraft.randomtps.Main;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.utils.PluginFile;
 import com.alternacraft.randomtps.API.ZonesDB;
-import com.alternacraft.randomtps.Localizations.LocalizationInfo;
-import com.alternacraft.randomtps.Localizations.Zone;
+import com.alternacraft.randomtps.Zone.DefinedZone;
+import com.alternacraft.randomtps.Zone.Zone;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,9 +46,9 @@ public class ZonesFile implements ZonesDB {
                 this.resetYamlConfiguration();
 
                 this.yamlFile.options().header(""
-                        + "########################\n"
-                        + "## LOCALIZATIONS LIST ##\n"
-                        + "########################"
+                        + "###############\n"
+                        + "## ZONE LIST ##\n"
+                        + "###############"
                 );
                 this.yamlFile.options().copyHeader(true);
 
@@ -74,13 +74,13 @@ public class ZonesFile implements ZonesDB {
     //</editor-fold>
     
     @Override
-    public List<LocalizationInfo> getLocalizations() {
-        List<LocalizationInfo> zones = new ArrayList<>();
+    public List<DefinedZone> getDefinedZone() {
+        List<DefinedZone> zones = new ArrayList<>();
         List<String> activeZones = (List<String>) ZONESFILE.getNode("activeZones");
 
         for (String activeZone : activeZones) {
             if (ZONESFILE.hasNode(activeZone)) {
-                LocalizationInfo l = getLocalization(activeZone);
+                DefinedZone l = getDefinedZone(activeZone);
                 zones.add(l);
                 MessageManager.log("&eLocalization &b\"" + l.getZoneName() + "\" &eloaded correctly");
             }
@@ -90,35 +90,60 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public LocalizationInfo getLocalization(String zoneName) {
+    public DefinedZone getDefinedZone(String zoneName) {
         Zone zone = getZone(zoneName);
-        LocalizationInfo l;
+        DefinedZone l;
 
         String origin = (String) ZONESFILE.getNode(zoneName + ".origin.alias");
         if (ZONESFILE.getNode(zoneName + ".destination") instanceof List) {
             List<String> destinations = (List<String>) ZONESFILE.getNode(zoneName + ".destination");
-            l = new LocalizationInfo(zoneName, zone, origin, destinations);
+            l = new DefinedZone(zoneName, zone, origin, destinations);
         } else {
             Map<String, List<Zone>> subzones = getSubzones(zoneName);
-            l = new LocalizationInfo(zoneName, zone, origin, subzones);
+            l = new DefinedZone(zoneName, zone, origin, subzones);
         }
 
         // Custom options
+        l.setX(Manager.INSTANCE.loader().getX());
+        if (ZONESFILE.hasNode(zoneName + ".customExtras.limits.x.max")
+                && ZONESFILE.hasNode(zoneName + ".customExtras.limits.x.min")) {
+            l.setX(new int[] {
+                (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.x.max"), 
+                (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.x.min")
+            });
+        }
+        l.setY(Manager.INSTANCE.loader().getY());
+        if (ZONESFILE.hasNode(zoneName + ".customExtras.height")) {
+            l.setY((int) ZONESFILE.getNode(zoneName + ".customExtras.height"));
+        }        
+        l.setZ(Manager.INSTANCE.loader().getZ());
+        if (ZONESFILE.hasNode(zoneName + ".customExtras.limits.z.max")
+                && ZONESFILE.hasNode(zoneName + ".customExtras.limits.z.min")) {
+            l.setZ(new int[] {
+                (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.z.max"), 
+                (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.z.min")
+            });
+        }
         l.setTime(Manager.INSTANCE.loader().getTime());
         if (ZONESFILE.hasNode(zoneName + ".customExtras.time")) {
             l.setTime((int) ZONESFILE.getNode(zoneName + ".customExtras.time"));
         }
         l.setBroadcastAsEXP(Manager.INSTANCE.loader().isBroadcast_as_exp());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.broadcast.show_as_exp")) {
+        if (ZONESFILE.hasNode(zoneName + ".customExtras.broadcast.as_experience")) {
             l.setBroadcastAsEXP((boolean) ZONESFILE.getNode(zoneName
-                    + ".customExtras.broadcast.show_as_exp"));
+                    + ".customExtras.broadcast.as_experience"));
         }
         l.setPotion_effects(Manager.INSTANCE.loader().getPotions_effects());
         if (ZONESFILE.hasNode(zoneName + ".customExtras.effects.potions")) {
             l.setPotion_effects((List<String>) ZONESFILE.getNode(zoneName
                     + ".customExtras.effects.potions"));
         }
-
+        l.setValidations(Manager.INSTANCE.loader().getValidations());
+        if (ZONESFILE.hasNode(zoneName + ".customExtras.validations")) {
+            l.setValidations((List<String>) ZONESFILE.getNode(zoneName
+                    + ".customExtras.validations"));
+        }
+        
         return l;
     }
 
@@ -172,7 +197,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public void saveLocalization(LocalizationInfo l) {
+    public void saveLocalization(DefinedZone l) {
         String zone = l.getZoneName();
 
         ZONESFILE.setNode(zone + ".origin.alias", l.getOrigin());
@@ -235,11 +260,11 @@ public class ZonesFile implements ZonesDB {
         int n = 0;
 
         List<String> actives = ZONESFILE.yamlFile.getStringList("activeZones");
-        Set<String> localizations = ZONESFILE.getNodes("");
+        Set<String> zones = ZONESFILE.getNodes("");
 
-        for (String localization : localizations) {
-            if (!actives.contains(localization) && !localization.equals("activeZones")) {
-                ZONESFILE.setNode(localization, null);
+        for (String zone : zones) {
+            if (!actives.contains(zone) && !zone.equals("activeZones")) {
+                ZONESFILE.setNode(zone, null);
                 n++;
             }
         }

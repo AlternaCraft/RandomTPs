@@ -1,5 +1,5 @@
 # DO NOT TOUCH #
-version: 1.0.2
+version: 1.1.0
 ################
 
 ############################################################
@@ -45,40 +45,53 @@ defaultLang: EN
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                 ZONE CONFIGURATIONS                  | #
+# |                  ZONE CONFIGURATION                  | #
 # +------------------------------------------------------+ #
 ############################################################
 
 # Selection commands
 selection:
-    complete: add
+    add: add
     cancel: cancel
 
 # Building the edges of a zone (Block to block or instantly)
 # If you choose instantly you've to know that it will cause lag to the players who are near
 building:    
-    instant: true
-
-# World limits (This don't affect to the defined subzones)
-coords:
-    x:
-        max: 10000
-        min: -5000        
-    # Teleport height
-    y: 150    
-    z:
-        max: 10000
-        min: -5000
+    instant: true        
         
-# Default extras
-# You can put some extras inside of a localization by using the keyword, customExtras, to set custom extras
-defaultExtras:
+# Default extras. This is applied to all zones
+# You can set the properties below in each zone by using the keyword "customExtras"
+defaults:
+    # World limits (This don't affect to the defined subzones)
+    limits:
+        x:
+            max: 10000
+            min: -5000  
+        z:
+            max: 10000
+            min: -5000
+            
+    # Teleport height
+    height: 150
+    
     # Time of effects
     time: 10
+    
     # Potion effects
     effects:
         potions:
         - Speed 5
+        
     # Show remaining time
     broadcast:
-        show_as_exp: true
+        as_experience: true 
+        
+    ## Default validations ##
+    # falling_safe = Avoid falling in flying structures or very high mountains
+    # no_players   = Avoid falling near of players
+    # no_fluids    = Avoid falling near of fluids
+    ##
+    validations:    
+    - falling_safe    
+    - no_players    
+    - no_fluids    

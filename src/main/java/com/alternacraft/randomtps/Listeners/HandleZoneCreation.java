@@ -21,14 +21,15 @@ import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.API.Events.DefineZoneEvent;
 import com.alternacraft.randomtps.Langs.DefineInfo;
-import com.alternacraft.randomtps.Localizations.PreLocalization;
-import com.alternacraft.randomtps.Localizations.Zone;
 import com.alternacraft.randomtps.Main.Manager;
+import com.alternacraft.randomtps.Zone.PreDefinedZone;
+import com.alternacraft.randomtps.Zone.Zone;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -45,14 +46,21 @@ import org.bukkit.util.Vector;
  */
 public class HandleZoneCreation implements Listener {
 
-    public final static Map<UUID, PreLocalization> DEFINERS = new HashMap();
+    public final static Map<UUID, PreDefinedZone> DEFINERS = new HashMap();
     public final static Map<UUID, Location> LOCATIONS = new HashMap();
 
     @EventHandler
     public void saveLocation(PlayerInteractEvent ev) {
-        UUID uuid = ev.getPlayer().getUniqueId();
+        Player player = ev.getPlayer();
+        UUID uuid = player.getUniqueId();
+        
         if (DEFINERS.containsKey(uuid)) {
             if (ev.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                if (player.getInventory().getItemInMainHand() != null
+                        && player.getInventory().getItemInMainHand().getType() != Material.AIR) {
+                    ev.setCancelled(true); // It is not the time for building
+                }
+                
                 Location l = ev.getClickedBlock().getLocation();
                 if (l.getBlockX() < 0) { // Negative values
                     l.setX(l.getBlockX() + 1);
@@ -72,8 +80,8 @@ public class HandleZoneCreation implements Listener {
                 }
 
                 LOCATIONS.put(uuid, l);
-                MessageManager.sendPlayer(ev.getPlayer(),
-                        DefineInfo.SELECTED.getText(Localizer.getLocale(ev.getPlayer()))
+                MessageManager.sendPlayer(player,
+                        DefineInfo.SELECTED.getText(Localizer.getLocale(player))
                                 .replace("%BLOCK_X%", String.valueOf(l.getBlockX()))
                                 .replace("%BLOCK_Y%", String.valueOf(l.getBlockY()))
                                 .replace("%BLOCK_Z%", String.valueOf(l.getBlockZ()))
@@ -102,7 +110,7 @@ public class HandleZoneCreation implements Listener {
                         DefineInfo.COORD_1.getText(lang)
                                 .replace("%SELECT%", selection));
 
-                DEFINERS.put(uuid, new PreLocalization(ev.getZoneName(), 
+                DEFINERS.put(uuid, new PreDefinedZone(ev.getZoneName(), 
                         ev.isRedefine()));
             }
         }
@@ -146,7 +154,7 @@ public class HandleZoneCreation implements Listener {
             if (ev.getMessage().contains(Manager.INSTANCE.loader().getSelection())) {
                 ev.setCancelled(true);
 
-                PreLocalization preloc = DEFINERS.get(uuid);
+                PreDefinedZone preloc = DEFINERS.get(uuid);
 
                 if (!LOCATIONS.containsKey(uuid)) {
                     MessageManager.sendPlayer(ev.getPlayer(),
@@ -201,7 +209,7 @@ public class HandleZoneCreation implements Listener {
         UUID uuid = ev.getPlayer().getUniqueId();
 
         if (DEFINERS.containsKey(uuid)) {
-            PreLocalization preloc = DEFINERS.get(uuid);
+            PreDefinedZone preloc = DEFINERS.get(uuid);
 
             if (preloc.coord2Saved() && preloc.askSubzone()) {
                 ev.setCancelled(true);
@@ -247,7 +255,7 @@ public class HandleZoneCreation implements Listener {
         UUID uuid = ev.getPlayer().getUniqueId();
 
         if (DEFINERS.containsKey(uuid)) {
-            PreLocalization preloc = DEFINERS.get(uuid);
+            PreDefinedZone preloc = DEFINERS.get(uuid);
 
             if (preloc.coord2Saved() && preloc.askWorld()) {
                 ev.setCancelled(true);
@@ -269,7 +277,7 @@ public class HandleZoneCreation implements Listener {
         }
     }
 
-    private void save(PreLocalization preloc, Player pl) {
+    private void save(PreDefinedZone preloc, Player pl) {
         Langs lang = Localizer.getLocale(pl);
 
         Manager.INSTANCE.getZonesDB().saveLocalization(preloc.toLocalization());
