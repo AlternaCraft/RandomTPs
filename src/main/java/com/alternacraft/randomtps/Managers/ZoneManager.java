@@ -68,12 +68,12 @@ public class ZoneManager {
     public static boolean validateZone(Location l, List<String> todo) {
         boolean valid = true;
         
-        Chunk[] collidant_chunks = ZoneUtils.getCollidantChunks(l);
-        Chunk[] chunks_to_unload = load(collidant_chunks);
+        Chunk[] adjacent_chunks = ZoneUtils.getAdjacentChunks(l);
+        Chunk[] chunks_to_unload = load(adjacent_chunks);
         
         for (String v_name : todo) {
             if (VALIDATIONS.containsKey(v_name)) {
-                if (!VALIDATIONS.get(v_name).valid(l, collidant_chunks)) {
+                if (!VALIDATIONS.get(v_name).valid(l, adjacent_chunks)) {
                     valid = false;
                     break;
                 }
@@ -101,12 +101,12 @@ public class ZoneManager {
     public static boolean validateSubZone(Location l, Zone zone, List<String> todo) {
         boolean valid = true;
         
-        Chunk[] collidant_chunks = ZoneUtils.getCollidantChunks(l);
-        Chunk[] chunks_to_unload = load(collidant_chunks);
+        Chunk[] adjacent_chunks = ZoneUtils.getAdjacentChunks(l);
+        Chunk[] chunks_to_unload = load(adjacent_chunks);
         
         for (String v_name : todo) {
             if (VALIDATIONS.containsKey(v_name)) {
-                if (!VALIDATIONS.get(v_name).validInsideZone(l, collidant_chunks, zone)) {
+                if (!VALIDATIONS.get(v_name).validInsideZone(l, adjacent_chunks, zone)) {
                     valid = false;
                     break;
                 }

@@ -53,10 +53,13 @@ public class DefinedZone extends Zone {
     
     // Effect time    
     private int time = 10;
+    
     // Broadcast
     private boolean show_as_exp = true;
+    
     // Effects
     private final Map<String, Integer> potion_effects = new HashMap();
+    
     // Validations
     private final List<String> validations = new ArrayList();
 

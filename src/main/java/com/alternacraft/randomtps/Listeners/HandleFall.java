@@ -76,7 +76,7 @@ public class HandleFall implements Listener {
     }
     
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e) {
+    public void onPlayerFakeSmashed(PlayerMoveEvent e) {
         Player p = e.getPlayer();
         if (DROPPED.containsKey(p.getUniqueId())) {
             Block next = p.getWorld().getBlockAt(e.getTo().getBlockX(), e.getTo().getBlockY()-1, e.getTo().getBlockZ());

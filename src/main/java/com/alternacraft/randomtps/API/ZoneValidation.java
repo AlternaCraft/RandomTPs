@@ -31,6 +31,7 @@ public interface ZoneValidation {
      * 
      * @param l Location where player will be teleported
      * @param affected_chunks Array of chunks which should be checked
+     * 
      * @return True if is valid; False if not
      */
     public boolean valid(Location l, Chunk[] affected_chunks);
@@ -41,6 +42,7 @@ public interface ZoneValidation {
      * @param l Location where player will be teleported
      * @param affected_chunks Array of chunks which should be checked
      * @param zone Zone limits
+     * 
      * @return True if is valid; False if not
      */
     public boolean validInsideZone(Location l, Chunk[] affected_chunks, Zone zone);

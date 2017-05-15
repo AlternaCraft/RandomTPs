@@ -95,18 +95,18 @@ public class ZoneUtils {
     }    
     
     /**
-     * Gets collidant chunks by location.
+     * Gets adjacent chunks by location.
      * It returns something like this:
      *   xxx
      *   xox
      *   xxx
-     * where 'o' is the location and 'x' are the collidant chunks.
+     * where 'o' is the location and 'x' are the adjacent chunks.
      *
      * @param l Location to inspect
      *
-     * @return Array of collidant chunks
+     * @return Array of adjacent chunks
      */
-    public static Chunk[] getCollidantChunks(Location l) {
+    public static Chunk[] getAdjacentChunks(Location l) {
         Chunk[] chunks = new Chunk[9];
 
         Chunk origin = l.getChunk();
