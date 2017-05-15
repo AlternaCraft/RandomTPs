@@ -22,7 +22,7 @@ import org.bukkit.World;
 import org.bukkit.util.Vector;
 
 /**
- * Logic zone.
+ * Zone.
  * 
  * @author AlternaCraft
  */
