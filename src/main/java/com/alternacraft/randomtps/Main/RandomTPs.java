@@ -30,15 +30,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class RandomTPs extends JavaPlugin {
 
     public static final Timer METER = new Timer();
+    
     // Log files...
-    public static final PluginLog PERFORMANCE_FILE = new PluginLog("performance.txt");
+    public static PluginLog PERFORMANCE_FILE;
 
     @Override
     public void onEnable() {
         Manager pluginManager = Manager.INSTANCE;
 
         // Set up before start
-        Manager.BASE.definePluginPrefix("&1[&bRandomTPs&1]");
+        Manager.BASE.definePluginPrefix("&1[&bRandomTPs&1]");        
 
         // Plugin manager init
         if (!pluginManager.setup(this)) {
@@ -46,6 +47,9 @@ public class RandomTPs extends JavaPlugin {
             return;
         }
 
+        // Set up after init (Necessary to get the correct path)
+        PERFORMANCE_FILE = new PluginLog("performance.txt");
+        
         // Later tasks
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             @Override
