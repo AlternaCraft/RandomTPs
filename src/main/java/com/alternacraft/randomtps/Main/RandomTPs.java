@@ -16,7 +16,6 @@
  */
 package com.alternacraft.randomtps.Main;
 
-import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.aclib.utils.Recorder;
 import com.alternacraft.randomtps.Managers.MetricsManager;
 import com.alternacraft.randomtps.Managers.UpdatesManager;
@@ -32,7 +31,7 @@ public class RandomTPs extends JavaPlugin {
     public static final Recorder METER = new Recorder();
     
     // Log files...
-    public static PluginLog PERFORMANCE_FILE;
+    public static final String PERFORMANCE_FILE = "performance.txt";
 
     @Override
     public void onEnable() {
@@ -46,9 +45,6 @@ public class RandomTPs extends JavaPlugin {
             this.setEnabled(false);
             return;
         }
-
-        // Set up after init (Necessary to get the correct path)
-        PERFORMANCE_FILE = new PluginLog("performance.txt");
         
         // Later tasks
         this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {

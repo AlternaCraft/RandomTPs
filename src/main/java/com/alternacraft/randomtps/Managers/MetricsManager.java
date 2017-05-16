@@ -19,6 +19,7 @@ package com.alternacraft.randomtps.Managers;
 import com.alternacraft.aclib.utils.Metrics;
 import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.randomtps.Main.Manager;
+import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE_FILE;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,49 +30,47 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Metrics manager.
- * 
+ *
  * @author AlternaCraft
  */
 public class MetricsManager {
 
-    private static Metrics metrics;
+    public static void setGraphs(Metrics metrics) {
 
-    public static void setGraphs() {
-        
         metrics.addCustomChart(new Metrics.SimplePie("default_language") {
             @Override
             public String getValue() {
                 return Manager.INSTANCE.loader().getDefaultLang().name();
-            }            
+            }
         });
-        
+
         metrics.addCustomChart(new Metrics.SimplePie("cancel_command") {
             @Override
             public String getValue() {
                 return Manager.INSTANCE.loader().getCancel();
-            }            
+            }
         });
-        
+
         metrics.addCustomChart(new Metrics.SimplePie("add_command") {
             @Override
             public String getValue() {
                 return Manager.INSTANCE.loader().getSelection();
-            }            
+            }
         });
         metrics.addCustomChart(new Metrics.SimplePie("building_mode") {
             @Override
             public String getValue() {
-                return (Manager.INSTANCE.loader().doInstantly()) ? "Instant":"No instant";
-            }            
+                return (Manager.INSTANCE.loader().doInstantly()) ? "Instant" : "No instant";
+            }
         });
-        
+
         metrics.addCustomChart(new Metrics.SimplePie("teletransportation_height") {
             @Override
             public String getValue() {
                 return String.valueOf(Manager.INSTANCE.loader().getY());
-            }            
+            }
         });
-        
+
         metrics.addCustomChart(new Metrics.SimplePie("enabled_validations") {
             @Override
             public String getValue() {
@@ -83,18 +82,18 @@ public class MetricsManager {
                         result += ", ";
                     }
                 }
-                return (result.isEmpty()) ? "None":result;
-            }            
-        });        
-                
+                return (result.isEmpty()) ? "None" : result;
+            }
+        });
+
         metrics.addCustomChart(new Metrics.AdvancedPie("general_statistics") {
             @Override
             public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
-                PluginLog pl = new PluginLog("performance.txt");
+                PluginLog pl = new PluginLog(PERFORMANCE_FILE);
                 pl.importLog();
-                
+
                 Map<Date, List<String>> loginfo = PluginLog.getValuesPerDate(pl.getMessages());
-                
+
                 for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
                     List<String> reports = entry.getValue();
                     for (String report : reports) {
@@ -112,9 +111,9 @@ public class MetricsManager {
                         valueMap.put(type, value);
                     }
                 }
-                
+
                 pl.delete();
-                
+
                 return valueMap;
             }
         });
@@ -122,8 +121,8 @@ public class MetricsManager {
 
     public static void load(final JavaPlugin plugin) {
         if (Manager.INSTANCE.loader().isMetrics()) {
-            metrics = new Metrics(plugin);
-            setGraphs();
+            Metrics metrics = new Metrics(plugin);
+            setGraphs(metrics);
         }
     }
 }

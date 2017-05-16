@@ -26,7 +26,7 @@ import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Listeners.HandleTeleport;
 import static com.alternacraft.randomtps.Listeners.HandleTeleport.CANCELEDTP;
 import com.alternacraft.randomtps.Main.Manager;
-import com.alternacraft.randomtps.Main.RandomTPs;
+import static com.alternacraft.randomtps.Main.RandomTPs.METER;
 import com.alternacraft.randomtps.Managers.ZoneManager;
 import com.alternacraft.randomtps.Zone.DefinedZone;
 import com.alternacraft.randomtps.Zone.Zone;
@@ -36,7 +36,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import static com.alternacraft.randomtps.Main.RandomTPs.METER;
 
 /**
  * Management of validation.

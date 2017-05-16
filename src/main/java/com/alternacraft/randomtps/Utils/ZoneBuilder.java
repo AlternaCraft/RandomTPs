@@ -24,6 +24,7 @@ import com.alternacraft.randomtps.API.Events.BuildCompletedEvent;
 import com.alternacraft.randomtps.API.Events.BuildStartedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
+import static com.alternacraft.randomtps.Main.RandomTPs.METER;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -34,7 +35,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.Vector;
-import static com.alternacraft.randomtps.Main.RandomTPs.METER;
 
 /**
  * Zone builder.
