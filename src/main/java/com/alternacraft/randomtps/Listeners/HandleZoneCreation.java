@@ -17,6 +17,7 @@
 package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.aclib.exceptions.PluginException;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.API.Events.DefineZoneEvent;
@@ -278,20 +279,24 @@ public class HandleZoneCreation implements Listener {
     }
 
     private void save(PreDefinedZone preloc, Player pl) {
-        Langs lang = Localizer.getLocale(pl);
-
-        Manager.INSTANCE.getZonesDB().saveLocalization(preloc.toLocalization());
-        Manager.INSTANCE.getZonesDB().enableLocalization(preloc.getZoneName());
-
-        if (preloc.redefine()) {
-            Manager.INSTANCE.removeLocalization(preloc.getZoneName());
-            HandleBuild.DISABLED.remove(preloc.getZoneName());
-        }        
-        Manager.INSTANCE.addLocalization(preloc.getZoneName());
-
-        DEFINERS.remove(pl.getUniqueId());
-
-        MessageManager.sendPlayer(pl,
-                DefineInfo.ZONE_CREATED.getText(lang));
+        try {
+            Langs lang = Localizer.getLocale(pl);
+            
+            Manager.INSTANCE.getZonesDB().saveDefinedZone(preloc.toDefinedZone());
+            Manager.INSTANCE.getZonesDB().enableDefinedZone(preloc.getZoneName());
+            
+            if (preloc.redefine()) {
+                Manager.INSTANCE.removeDefinedZone(preloc.getZoneName());
+                HandleBuild.DISABLED.remove(preloc.getZoneName());
+            }
+            Manager.INSTANCE.addZone(preloc.getZoneName());
+            
+            DEFINERS.remove(pl.getUniqueId());
+            
+            MessageManager.sendPlayer(pl,
+                    DefineInfo.ZONE_CREATED.getText(lang));
+        } catch (PluginException ex) {
+            MessageManager.logArrayError(ex.getCustomStacktrace());
+        }
     }
 }

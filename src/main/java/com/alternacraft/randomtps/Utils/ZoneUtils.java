@@ -17,6 +17,7 @@
 package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.randomtps.Zone.Zone;
+import java.util.Arrays;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -27,23 +28,23 @@ import org.bukkit.util.Vector;
  * @author AlternaCraft
  */
 public class ZoneUtils {
-     
+    
     public static final int CHUNK = 16;
     
     public static final int MAX_HEIGHT = 100;
-    public static final int MAX_DIFF = 10;
-    
+    public static final int MAX_DIFF = 5;
+
     /**
      * Gets the blocks of a chunk
-     * 
+     *
      * @param chunk Chunk to inspect.
      * @param min Minimum height.
      * @param max Maximum height.
-     * 
+     *
      * @return Blocks
      */
     public static Block[] getChunkBlocks(Chunk chunk, int min, int max) {
-        Block[] blocks = new Block[CHUNK*CHUNK*(max-min)];
+        Block[] blocks = new Block[CHUNK * CHUNK * (max - min)];
         
         int cx = chunk.getX();
         int cz = chunk.getZ();
@@ -53,20 +54,58 @@ public class ZoneUtils {
         for (int x = cx; x < cx + CHUNK; x++) {
             for (int z = cz; z < cz + CHUNK; z++) {
                 for (int y = min; y < max; y++) {
-                    blocks[counter] = chunk.getBlock(x, y, z);
-                    counter++;
+                    blocks[counter++] = chunk.getBlock(x, y, z);
                 }
             }
         }
         
         return blocks;
-    }    
-    
+    }
+
     /**
-     * Returns the highest middle block of the chunk.
-     * 
+     * Gets the blocks of a chunk inside of a subzone
+     *
+     * @param chunk Chunk to inspect.
+     * @param min Minimum height.
+     * @param max Maximum height.
+     * @param zone Subzone
+     *
+     * @return Blocks
+     */
+    public static Block[] getChunkBlocksInsideZone(Chunk chunk, int min, int max, Zone zone) {        
+        Block[] blocks = new Block[CHUNK * CHUNK * (max - min)];
+        
+        int cx = chunk.getX();
+        int cz = chunk.getZ();
+        
+        int counter = 0, omitted = 0;
+        
+        for (int x = cx; x < cx + CHUNK; x++) {
+            for (int z = cz; z < cz + CHUNK; z++) {
+                for (int y = min; y < max; y++) {
+                    Block b = chunk.getBlock(x, y, z);
+                    if (isInsideOfSubzone(b.getLocation().toVector(), zone)) {
+                        blocks[counter++] = b;
+                    } else {
+                        omitted++;
+                    }
+                }
+            }
+        }
+        
+        // Avoid null values
+        if (omitted > 0) {
+            blocks = Arrays.copyOfRange(blocks, 0, (CHUNK * CHUNK * (max - min)) - omitted + 1);            
+        }
+        
+        return blocks;
+    }
+
+    /**
+     * Returns the height of the highest middle block of the chunk.
+     *
      * @param c Chunk
-     * 
+     *
      * @return Highest middle block
      */
     public static int getHighestMiddleBlockYAt(Chunk c) {
@@ -74,33 +113,42 @@ public class ZoneUtils {
         int cz = c.getZ() + (CHUNK / 2);
         return c.getWorld().getHighestBlockYAt(cx, cz);
     }
-    
+
     /**
-     * Checks if a player is inside of a zone.
+     * Returns the highest middle block of the chunk.
+     *
+     * @param c Chunk
+     *
+     * @return Highest middle block
+     */
+    public static Block getHighestMiddleBlockAt(Chunk c) {
+        int cx = c.getX() + (CHUNK / 2);
+        int cz = c.getZ() + (CHUNK / 2);
+        return c.getWorld().getHighestBlockAt(cx, cz);
+    }
+
+    /**
+     * Checks if a player is inside of a subzone (Ignoring height).
      *
      * @param p Player coordinates
      * @param z Zone name
      *
      * @return True if he is; False if not
      */
-    public static boolean isInsideOfZone(Vector p, Zone z) {
+    public static boolean isInsideOfSubzone(Vector p, Zone z) {
         Vector max = Vector.getMaximum(z.getP1(), z.getP2());
         Vector min = Vector.getMinimum(z.getP1(), z.getP2());
-
+        
         int xplayer = (p.getBlockX() < 0) ? p.getBlockX() + 1 : p.getBlockX();
         int zplayer = (p.getBlockZ() < 0) ? p.getBlockZ() + 1 : p.getBlockZ();
-
+        
         return ((xplayer <= max.getBlockX() && xplayer >= min.getBlockX())
                 && (zplayer <= max.getBlockZ() && zplayer >= min.getBlockZ()));
-    }    
-    
+    }
+
     /**
-     * Gets adjacent chunks by location.
-     * It returns something like this:
-     *   xxx
-     *   xox
-     *   xxx
-     * where 'o' is the location and 'x' are the adjacent chunks.
+     * Gets adjacent chunks by location. It returns something like this: xxx xox
+     * xxx where 'o' is the location and 'x' are the adjacent chunks.
      *
      * @param l Location to inspect
      *
@@ -108,17 +156,17 @@ public class ZoneUtils {
      */
     public static Chunk[] getAdjacentChunks(Location l) {
         Chunk[] chunks = new Chunk[9];
-
+        
         Chunk origin = l.getChunk();
-
+        
         int xmin = origin.getX() - 1;
         int zmin = origin.getZ() - 1;
-
+        
         int diff = 3;
-
+        
         int xtemp = xmin;
         int ztemp = zmin;
-
+        
         for (int i = 0; i < chunks.length; i++) {
             if (ztemp < zmin + diff) {
                 chunks[i] = l.getWorld().getChunkAt(xtemp, ztemp);
@@ -129,7 +177,7 @@ public class ZoneUtils {
                 i--;
             }
         }
-
+        
         return chunks;
     }
 }

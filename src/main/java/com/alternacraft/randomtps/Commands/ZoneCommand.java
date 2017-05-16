@@ -68,7 +68,7 @@ public class ZoneCommand implements SubCommandExecutor {
                 cs.sendMessage(ChatColor.BLUE + "   Zone list");
                 cs.sendMessage(ChatColor.GRAY + "  ---------");
 
-                List<DefinedZone> locs = Manager.INSTANCE.getLocalizations();
+                List<DefinedZone> locs = Manager.INSTANCE.getDefinedZones();
                 for (DefinedZone loc : locs) {
                     String zonename = "  - " + loc.getZoneName();
                     if (cs instanceof Player) {
@@ -92,12 +92,12 @@ public class ZoneCommand implements SubCommandExecutor {
                 if (args.length > 2) {
                     String zone = args[2];
                     if (Manager.INSTANCE.zoneExists(zone)) {
-                        Manager.INSTANCE.disableLocation(zone);
+                        Manager.INSTANCE.disableDefinedZone(zone);
                         MessageManager.sendCommandSender(cs, 
                                 GameInfo.ZONE_DISABLED.getText(lang));
                     }
                     else {
-                        Manager.INSTANCE.enableLocation(zone);
+                        Manager.INSTANCE.enableDefinedZone(zone);
                         MessageManager.sendCommandSender(cs,
                                 GameInfo.ZONE_ENABLED.getText(lang));
                     }
@@ -113,7 +113,7 @@ public class ZoneCommand implements SubCommandExecutor {
                     Player player = (Player) cs;
 
                     if (args.length > 2) {
-                        DefinedZone loc = Manager.INSTANCE.getLocalizationByName(args[2]);
+                        DefinedZone loc = Manager.INSTANCE.getDefinedZoneByName(args[2]);
 
                         if (loc != null) {
                             player.setGameMode(GameMode.CREATIVE);
@@ -206,7 +206,7 @@ public class ZoneCommand implements SubCommandExecutor {
                         MessageManager.sendCommandSender(cs, "&cYou have to indicate "
                                 + "a valid material (materialName|materialID)");
                     } else {
-                        DefinedZone l = Manager.INSTANCE.getLocalizationByName(zone);
+                        DefinedZone l = Manager.INSTANCE.getDefinedZoneByName(zone);
 
                         if (l == null) {
                             MessageManager.sendCommandSender(cs,

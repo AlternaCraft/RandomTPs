@@ -44,7 +44,7 @@ public class ReloadCommand implements SubCommandExecutor {
         // Other things
         Manager.INSTANCE.registerDBs();        
         Manager.INSTANCE.loadLanguages();
-        Manager.INSTANCE.loadLocalizations();
+        Manager.INSTANCE.loadDefinedZones();
 
         MessageManager.sendCommandSender(cs, GeneralInfo.PLUGIN_RELOAD.getText(lang));
         

@@ -57,7 +57,7 @@ selection:
 # Building the edges of a zone (Block to block or instantly)
 # If you choose instantly you've to know that it will cause lag to the players who are near
 building:    
-    instant: true        
+    instant: false        
         
 # Default extras. This is applied to all zones
 # You can set the properties below in each zone by using the keyword "customExtras"

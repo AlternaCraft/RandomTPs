@@ -18,6 +18,7 @@ package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.commands.SubCommandExecutor;
+import com.alternacraft.aclib.exceptions.PluginException;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.Langs.GameInfo;
@@ -36,9 +37,13 @@ public class PurgeCommand implements SubCommandExecutor {
 
         Langs lang = Localizer.getLocale(cs);
 
-        int n = Manager.INSTANCE.getZonesDB().purge();
-        MessageManager.sendCommandSender(cs, GameInfo.PURGE_ZONES.getText(lang)
-                .replace("%QUANT%", String.valueOf(n)));
+        try {
+            int n = Manager.INSTANCE.getZonesDB().purge();
+            MessageManager.sendCommandSender(cs, GameInfo.PURGE_ZONES.getText(lang)
+                    .replace("%QUANT%", String.valueOf(n)));            
+        } catch (PluginException ex) {
+            MessageManager.logArrayError(ex.getCustomStacktrace());
+        }        
 
         return true;
     }

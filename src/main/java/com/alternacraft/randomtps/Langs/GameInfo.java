@@ -115,8 +115,8 @@ public enum GameInfo implements LangInterface {
             "&cThere are no zones to restore"
     ),
     PURGE_ZONES(
-            "&eSe han eliminado %QUANT% zonas inactivas",
-            "&e%QUANT% inactive zones has been removed"
+            "&eSe ha/n eliminado %QUANT% zona/s inactiva/s",
+            "&e%QUANT% inactive zone/s has been removed"
     );
     // </editor-fold>
 

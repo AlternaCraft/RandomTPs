@@ -16,6 +16,7 @@
  */
 package com.alternacraft.randomtps.API;
 
+import com.alternacraft.aclib.exceptions.PluginException;
 import com.alternacraft.randomtps.Zone.DefinedZone;
 import com.alternacraft.randomtps.Zone.Zone;
 import java.util.List;
@@ -31,18 +32,20 @@ public interface ZonesDB {
     /**
      * Gets all defined zones.
      * 
-     * @return List
+     * @return List with the defined zones 
+     * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public List<DefinedZone> getDefinedZone();
+    public List<DefinedZone> getDefinedZone() throws PluginException;
 
     /**
      * Gets a specific defined zone.
      * 
      * @param zone defined zone name
      * 
-     * @return defined zone
+     * @return Defined zone
+     * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public DefinedZone getDefinedZone(String zone);
+    public DefinedZone getDefinedZone(String zone) throws PluginException;
 
     /**
      * Gets a subzone from a defined zone.
@@ -50,8 +53,9 @@ public interface ZonesDB {
      * @param zone defined zone name
      * 
      * @return Map with the available subzones for that defined zone
+     * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public Map<String, List<Zone>> getSubzones(String zone);
+    public Map<String, List<Zone>> getSubzones(String zone) throws PluginException;
 
     /**
      * Gets a zone (3D vector)
@@ -59,34 +63,39 @@ public interface ZonesDB {
      * @param zone Zone name
      * 
      * @return Zone
+     * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public Zone getZone(String zone);
+    public Zone getZone(String zone) throws PluginException;
 
     /**
      * Saves a defined zone.
      * 
-     * @param l defined zone
+     * @param dz defined zone
+     * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public void saveLocalization(DefinedZone l);
+    public void saveDefinedZone(DefinedZone dz) throws PluginException;
 
     /**
      * Sets a defined zone as active.
      * 
      * @param zone defined zone name
+     * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public void enableLocalization(String zone);
+    public void enableDefinedZone(String zone) throws PluginException;
 
     /**
      * Sets a defined zone as inactive.
      * 
      * @param zone defined zone name
+     * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public void disableLocalization(String zone);    
+    public void disableDefinedZone(String zone) throws PluginException;    
     
     /**
      * Cleans inactive defined zones.
      * 
      * @return Number of deleted defined zones
+     * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public int purge();
+    public int purge() throws PluginException;
 }

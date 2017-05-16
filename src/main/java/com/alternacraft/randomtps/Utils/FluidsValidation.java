@@ -29,19 +29,19 @@ import org.bukkit.block.Block;
 public class FluidsValidation implements ZoneValidation {
 
     @Override
-    public boolean valid(Location l, Chunk[] affected_chunks) {
+    public boolean isValid(Location l, Chunk[] affected_chunks) {
         for (Chunk chunk : affected_chunks) {
             int highest = ZoneUtils.getHighestMiddleBlockYAt(chunk);
             Block[] blocks = ZoneUtils.getChunkBlocks(chunk, highest, highest+1);
             for (Block b : blocks) {
-                Block selected = b;                
                 if (b.isEmpty()) {
-                    selected = chunk.getWorld().getHighestBlockAt(b.getLocation());
-                }   
-                Block under = selected.getWorld().getBlockAt(selected.getX(), 
-                        selected.getY()-1, selected.getZ());
-                if (selected.isLiquid() || under.isLiquid()) {
-                    return false;
+                    // highest block returns the first air block.
+                    Block highestBlock = chunk.getWorld().getHighestBlockAt(b.getLocation());
+                    Block underHighest = highestBlock.getWorld().getBlockAt(
+                            highestBlock.getX(), highestBlock.getY()-1, highestBlock.getZ());
+                    if (underHighest.isLiquid()) return false;
+                } else {
+                    if (b.isLiquid()) return false;
                 }
             }
         }
@@ -49,20 +49,20 @@ public class FluidsValidation implements ZoneValidation {
     }
 
     @Override
-    public boolean validInsideZone(Location l, Chunk[] affected_chunks, Zone zone) {
+    public boolean isValidInsideSubzone(Location l, Chunk[] affected_chunks, Zone zone) {
         for (Chunk chunk : affected_chunks) {
             int highest = ZoneUtils.getHighestMiddleBlockYAt(chunk);
-            Block[] blocks = ZoneUtils.getChunkBlocks(chunk, highest, highest+1);
+            Block[] blocks = ZoneUtils.getChunkBlocksInsideZone(chunk, 
+                    highest, highest+1, zone);
             for (Block b : blocks) {
-                Block selected = b;                
                 if (b.isEmpty()) {
-                    selected = chunk.getWorld().getHighestBlockAt(b.getLocation());
-                }    
-                Block under = selected.getWorld().getBlockAt(selected.getX(), 
-                        selected.getY()-1, selected.getZ());
-                if ((selected.isLiquid() || under.isLiquid())
-                        && ZoneUtils.isInsideOfZone(selected.getLocation().toVector(), zone)) {
-                    return false;
+                    // highest block returns the first air block.
+                    Block highestBlock = chunk.getWorld().getHighestBlockAt(b.getLocation());
+                    Block underHighest = highestBlock.getWorld().getBlockAt(
+                            highestBlock.getX(), highestBlock.getY()-1, highestBlock.getZ());
+                    if (underHighest.isLiquid()) return false;
+                } else {
+                    if (b.isLiquid()) return false;
                 }
             }
         }

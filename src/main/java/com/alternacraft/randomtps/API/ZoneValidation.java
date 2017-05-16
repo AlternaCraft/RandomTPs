@@ -34,7 +34,7 @@ public interface ZoneValidation {
      * 
      * @return True if is valid; False if not
      */
-    public boolean valid(Location l, Chunk[] affected_chunks);
+    public boolean isValid(Location l, Chunk[] affected_chunks);
     
     /**
      * Validate a location inside of a zone.
@@ -45,6 +45,6 @@ public interface ZoneValidation {
      * 
      * @return True if is valid; False if not
      */
-    public boolean validInsideZone(Location l, Chunk[] affected_chunks, Zone zone);
+    public boolean isValidInsideSubzone(Location l, Chunk[] affected_chunks, Zone zone);
     
 }

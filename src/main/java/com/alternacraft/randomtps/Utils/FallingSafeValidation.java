@@ -31,16 +31,16 @@ import org.bukkit.block.Block;
 public class FallingSafeValidation implements ZoneValidation {
 
     @Override
-    public boolean valid(Location l, Chunk[] affected_chunks) {
+    public boolean isValid(Location l, Chunk[] affected_chunks) {
         for (Chunk chunk : affected_chunks) {
-            int highest = ZoneUtils.getHighestMiddleBlockYAt(chunk);
-            if (highest <= MAX_HEIGHT) {
+            // Gets block under the highest because it's air
+            int highest = ZoneUtils.getHighestMiddleBlockYAt(chunk) - 1;
+            if (highest <= MAX_HEIGHT) {                
                 Block[] blocks = ZoneUtils.getChunkBlocks(chunk, highest, highest + 1);
                 for (Block b : blocks) {
-                    Block selected = b;
                     if (b.isEmpty()) {
-                        selected = chunk.getWorld().getHighestBlockAt(b.getLocation());
-                        if (Math.abs(selected.getY() - highest) > MAX_DIFF) {
+                        int selected = chunk.getWorld().getHighestBlockYAt(b.getLocation()) - 1;
+                        if (Math.abs(selected - highest) > MAX_DIFF) {
                             return false;
                         }
                     }
@@ -53,7 +53,26 @@ public class FallingSafeValidation implements ZoneValidation {
     }
 
     @Override
-    public boolean validInsideZone(Location l, Chunk[] affected_chunks, Zone zone) {
-        return this.valid(l, affected_chunks);
+    public boolean isValidInsideSubzone(Location l, Chunk[] affected_chunks, Zone zone) {
+        for (Chunk chunk : affected_chunks) {
+            int highest = ZoneUtils.getHighestMiddleBlockYAt(chunk) - 1;
+            Block highestBlock = ZoneUtils.getHighestMiddleBlockAt(chunk);
+            if (highest <= MAX_HEIGHT) {
+                Block[] blocks = ZoneUtils.getChunkBlocksInsideZone(chunk, 
+                        highest, highest + 1, zone);
+                for (Block b : blocks) {
+                    if (b.isEmpty()) {
+                        int selected = chunk.getWorld().getHighestBlockYAt(b.getLocation()) - 1;
+                        if (Math.abs(selected - highest) > MAX_DIFF) {
+                            return false;
+                        }
+                    }
+                }
+            } else if (ZoneUtils.isInsideOfSubzone(
+                    highestBlock.getLocation().toVector(), zone)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -30,7 +30,7 @@ import static org.bukkit.entity.EntityType.PLAYER;
 public class PlayersValidation implements ZoneValidation {
 
     @Override
-    public boolean valid(Location l, Chunk[] affected_chunks) {
+    public boolean isValid(Location l, Chunk[] affected_chunks) {
         for (Chunk chunk : affected_chunks) {
             for (Entity e : chunk.getEntities()) {
                 if (e.getType() == PLAYER) {
@@ -42,12 +42,12 @@ public class PlayersValidation implements ZoneValidation {
     }
 
     @Override
-    public boolean validInsideZone(Location l, Chunk[] affected_chunks, Zone zone) {
+    public boolean isValidInsideSubzone(Location l, Chunk[] affected_chunks, Zone zone) {
         // Search another player into the chunk
         for (Chunk chunk : affected_chunks) {
             for (Entity e : chunk.getEntities()) {
                 if (e.getType() == PLAYER
-                        && ZoneUtils.isInsideOfZone(e.getLocation().toVector(), zone)) {
+                        && ZoneUtils.isInsideOfSubzone(e.getLocation().toVector(), zone)) {
                     return false;
                 }
             }    

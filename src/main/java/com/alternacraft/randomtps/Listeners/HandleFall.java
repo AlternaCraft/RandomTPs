@@ -68,7 +68,7 @@ public class HandleFall implements Listener {
             String zone = DROPPED.get(p.getUniqueId());
             if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
                 e.setCancelled(true);
-                DefinedZone loc = Manager.INSTANCE.getLocalizationByName(zone);
+                DefinedZone loc = Manager.INSTANCE.getDefinedZoneByName(zone);
                 Bukkit.getServer().getPluginManager().callEvent(new PlayerGodModeEvent(p, loc));
                 DROPPED.remove(p.getUniqueId());
             }
@@ -82,7 +82,7 @@ public class HandleFall implements Listener {
             Block next = p.getWorld().getBlockAt(e.getTo().getBlockX(), e.getTo().getBlockY()-1, e.getTo().getBlockZ());
             if (e.getTo().getBlock().isLiquid() || next.getType().equals(Material.SLIME_BLOCK)) {
                 String zone = DROPPED.get(p.getUniqueId());
-                DefinedZone loc = Manager.INSTANCE.getLocalizationByName(zone);
+                DefinedZone loc = Manager.INSTANCE.getDefinedZoneByName(zone);
                 Bukkit.getServer().getPluginManager().callEvent(new PlayerGodModeEvent(p, loc));
                 DROPPED.remove(p.getUniqueId());
             }

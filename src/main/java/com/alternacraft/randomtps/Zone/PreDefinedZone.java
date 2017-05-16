@@ -142,7 +142,7 @@ public class PreDefinedZone {
         this.coord2 = false;
     }    
 
-    public DefinedZone toLocalization() {
+    public DefinedZone toDefinedZone() {
         if (this.askSubzone()) {
             return new DefinedZone(zone, new Zone(c1, c2), origin, subzones);
         } else {

@@ -17,6 +17,7 @@
 package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.MessageManager;
+import com.alternacraft.aclib.exceptions.PluginException;
 import com.alternacraft.aclib.utils.PluginFile;
 import com.alternacraft.randomtps.API.ZonesDB;
 import com.alternacraft.randomtps.Zone.DefinedZone;
@@ -74,7 +75,7 @@ public class ZonesFile implements ZonesDB {
     //</editor-fold>
     
     @Override
-    public List<DefinedZone> getDefinedZone() {
+    public List<DefinedZone> getDefinedZone() throws PluginException {
         List<DefinedZone> zones = new ArrayList<>();
         List<String> activeZones = (List<String>) ZONESFILE.getNode("activeZones");
 
@@ -90,7 +91,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public DefinedZone getDefinedZone(String zoneName) {
+    public DefinedZone getDefinedZone(String zoneName) throws PluginException {
         Zone zone = getZone(zoneName);
         DefinedZone l;
 
@@ -148,7 +149,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public Map<String, List<Zone>> getSubzones(String zone) {
+    public Map<String, List<Zone>> getSubzones(String zone) throws PluginException {
         Map<String, List<Zone>> subzones = new HashMap();
         Set<String> worlds = ZONESFILE.getNodes(zone + ".destination");
         if (worlds != null) {
@@ -178,7 +179,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public Zone getZone(String zone) {
+    public Zone getZone(String zone) throws PluginException {
         int x1, y1, z1;
         int x2, y2, z2;
 
@@ -197,7 +198,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public void saveLocalization(DefinedZone l) {
+    public void saveDefinedZone(DefinedZone l) throws PluginException {
         String zone = l.getZoneName();
 
         ZONESFILE.setNode(zone + ".origin.alias", l.getOrigin());
@@ -234,7 +235,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public void enableLocalization(String zone) {
+    public void enableDefinedZone(String zone) throws PluginException {
         List<String> actives = (List<String>) ZONESFILE.getNode("activeZones");
         if (!actives.contains(zone)) {
             actives.add(zone);
@@ -245,7 +246,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public void disableLocalization(String zone) {
+    public void disableDefinedZone(String zone) throws PluginException {
         List<String> actives = (List<String>) ZONESFILE.getNode("activeZones");
         if (actives.contains(zone)) {
             actives.remove(zone);
@@ -256,7 +257,7 @@ public class ZonesFile implements ZonesDB {
     }
 
     @Override
-    public int purge() {
+    public int purge() throws PluginException {
         int n = 0;
 
         List<String> actives = ZONESFILE.yamlFile.getStringList("activeZones");

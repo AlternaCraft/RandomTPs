@@ -16,14 +16,18 @@
  */
 package com.alternacraft.randomtps.Main;
 
+import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.PluginBase;
 import com.alternacraft.aclib.commands.registerer.SubCommandsRegisterer;
+import com.alternacraft.aclib.exceptions.ErrorManager;
+import com.alternacraft.aclib.exceptions.PluginException;
 import com.alternacraft.aclib.hook.ExternalPluginRegisterer;
 import com.alternacraft.aclib.hook.HookerInterface;
 import com.alternacraft.aclib.langs.CommandMessages;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.listeners.HandlersRegisterer;
+import com.alternacraft.randomtps.API.Errors.DBErrors;
 import com.alternacraft.randomtps.API.ZonesDB;
 import com.alternacraft.randomtps.Commands.SubCommands;
 import com.alternacraft.randomtps.Langs.CommandInfo;
@@ -73,9 +77,10 @@ public class Manager {
         this.registerCommands();
         this.registerListeners();
 
+        this.loadTestsBenchs(); // Analyze exceptions to find possible causes
         this.loadLanguages();
         this.loadExternalPlugins();
-        this.loadLocalizations(); // Logic game
+        this.loadDefinedZones(); // Logic game
 
         // Zone validations
         this.registerDefaultValidations();
@@ -97,6 +102,10 @@ public class Manager {
         HandlersRegisterer.load(Handlers.class);
     }
 
+    public void loadTestsBenchs() {
+        ErrorManager.registerTestsBenchs(DBErrors.class);
+    }
+    
     public void loadLanguages() {
         LangManager.setKeys(Langs.ES, Langs.EN);
         LangManager.saveMessages(CommandMessages.class, GeneralInfo.class,
@@ -107,9 +116,13 @@ public class Manager {
     public void loadExternalPlugins() {
     }
 
-    public void loadLocalizations() {
+    public void loadDefinedZones() {
         ZonesFile.load();
-        this.zones = zonesdb.getDefinedZone();
+        try {
+            this.zones = zonesdb.getDefinedZone();
+        } catch (PluginException ex) {
+            MessageManager.logArrayError(ex.getCustomStacktrace());
+        }
     }
     
     public void registerDefaultValidations() {
@@ -142,7 +155,7 @@ public class Manager {
     }
     
     /* DEFINED ZONES */
-    public DefinedZone getLocalizationByName(String zone) {
+    public DefinedZone getDefinedZoneByName(String zone) {
         for (DefinedZone loc : zones) {
             if (loc.getZoneName().equals(zone)) {
                 return loc;
@@ -152,30 +165,42 @@ public class Manager {
         return null;
     }
 
-    public List<DefinedZone> getLocalizations() {
+    public List<DefinedZone> getDefinedZones() {
         return zones;
     }
 
     public boolean zoneExists(String zone) {
-        return getLocalizationByName(zone) != null;
+        return getDefinedZoneByName(zone) != null;
     }
 
-    public void enableLocation(String zone) {
-        zonesdb.enableLocalization(zone);
-        this.addLocalization(zone);
+    public void enableDefinedZone(String zone) {
+        try {
+            zonesdb.enableDefinedZone(zone);
+            this.addZone(zone);
+        } catch (PluginException ex) {
+            MessageManager.logArrayError(ex.getCustomStacktrace());
+        }
     }
 
-    public void disableLocation(String zone) {
-        zonesdb.disableLocalization(zone);
-        this.removeLocalization(zone);
+    public void disableDefinedZone(String zone) {
+        try {
+            zonesdb.disableDefinedZone(zone);
+            this.removeDefinedZone(zone);
+        } catch (PluginException ex) {
+            MessageManager.logArrayError(ex.getCustomStacktrace());
+        }
     }
 
-    public void addLocalization(String zone) {        
-        zones.add(zonesdb.getDefinedZone(zone));
+    public void addZone(String zone) {        
+        try {
+            zones.add(zonesdb.getDefinedZone(zone));
+        } catch (PluginException ex) {
+            MessageManager.logArrayError(ex.getCustomStacktrace());
+        }
     }
 
-    public void removeLocalization(String zone) {
-        DefinedZone l = getLocalizationByName(zone);
+    public void removeDefinedZone(String zone) {
+        DefinedZone l = getDefinedZoneByName(zone);
         this.zones.remove(l);
     }
 }

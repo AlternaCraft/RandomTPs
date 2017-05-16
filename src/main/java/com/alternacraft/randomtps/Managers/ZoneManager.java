@@ -73,14 +73,14 @@ public class ZoneManager {
         
         for (String v_name : todo) {
             if (VALIDATIONS.containsKey(v_name)) {
-                if (!VALIDATIONS.get(v_name).valid(l, adjacent_chunks)) {
+                if (!VALIDATIONS.get(v_name).isValid(l, adjacent_chunks)) {
                     valid = false;
                     break;
                 }
             }
         }
         
-        unload(chunks_to_unload);
+        if (!valid) unload(chunks_to_unload);
         
         return valid;
     }    
@@ -106,14 +106,14 @@ public class ZoneManager {
         
         for (String v_name : todo) {
             if (VALIDATIONS.containsKey(v_name)) {
-                if (!VALIDATIONS.get(v_name).validInsideZone(l, adjacent_chunks, zone)) {
+                if (!VALIDATIONS.get(v_name).isValidInsideSubzone(l, adjacent_chunks, zone)) {
                     valid = false;
                     break;
                 }
             }
         }
 
-        unload(chunks_to_unload);
+        if (!valid) unload(chunks_to_unload);
         
         return valid;
     }    

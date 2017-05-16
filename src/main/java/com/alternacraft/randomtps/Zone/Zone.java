@@ -56,7 +56,7 @@ public class Zone {
     }
     
     /**
-     * Checks if a player is inside of a zone.
+     * Returns if a vector is inside of a zone.
      *
      * @param p Player coordinates
      * @return True if he is; False if not
