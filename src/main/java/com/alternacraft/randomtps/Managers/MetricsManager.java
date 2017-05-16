@@ -37,7 +37,57 @@ public class MetricsManager {
     private static Metrics metrics;
 
     public static void setGraphs() {
-        metrics.addCustomChart(new Metrics.AdvancedPie("General statistics") {
+        
+        metrics.addCustomChart(new Metrics.SimplePie("default_language") {
+            @Override
+            public String getValue() {
+                return Manager.INSTANCE.loader().getDefaultLang().name();
+            }            
+        });
+        
+        metrics.addCustomChart(new Metrics.SimplePie("cancel_command") {
+            @Override
+            public String getValue() {
+                return Manager.INSTANCE.loader().getCancel();
+            }            
+        });
+        
+        metrics.addCustomChart(new Metrics.SimplePie("add_command") {
+            @Override
+            public String getValue() {
+                return Manager.INSTANCE.loader().getSelection();
+            }            
+        });
+        metrics.addCustomChart(new Metrics.SimplePie("building_mode") {
+            @Override
+            public String getValue() {
+                return (Manager.INSTANCE.loader().doInstantly()) ? "Instant":"No instant";
+            }            
+        });
+        
+        metrics.addCustomChart(new Metrics.SimplePie("teletransportation_height") {
+            @Override
+            public String getValue() {
+                return String.valueOf(Manager.INSTANCE.loader().getY());
+            }            
+        });
+        
+        metrics.addCustomChart(new Metrics.SimplePie("enabled_validations") {
+            @Override
+            public String getValue() {
+                String result = "";
+                List<String> validations = Manager.INSTANCE.loader().getValidations();
+                for (int i = 0; i < validations.size(); i++) {
+                    result += validations.get(i);
+                    if (i < validations.size() - 1) {
+                        result += ", ";
+                    }
+                }
+                return (result.isEmpty()) ? "None":result;
+            }            
+        });        
+                
+        metrics.addCustomChart(new Metrics.AdvancedPie("general_statistics") {
             @Override
             public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
                 PluginLog pl = new PluginLog("performance.txt");

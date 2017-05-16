@@ -18,7 +18,6 @@ package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
-import com.alternacraft.aclib.utils.CustomLinkedMap;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.MessageIntervals;
 import com.alternacraft.aclib.utils.Randomizer;
@@ -77,11 +76,11 @@ public class ZoneChecker {
     //</editor-fold>
 
     public void runValidateTask() {
-        new ValidateTask().run();
+        new ValidateTask().prerun();
     }
 
     public void runValidateInZoneTask(CustomLinkedMap<String, List<Zone>> subzones) {
-        new ValidateInZoneTask(subzones).run();
+        new ValidateInZoneTask(subzones).prerun();
     }
 
     public Location randomLocation() {
@@ -153,7 +152,7 @@ public class ZoneChecker {
 
         @Override
         public void end() {
-            METER.recordValue("Teleport to zone");
+            METER.recordTime("Teleport to zone");
         }
     }
 
@@ -184,7 +183,7 @@ public class ZoneChecker {
 
         @Override
         public void end() {
-            METER.recordValue("Teleport to subzone");
+            METER.recordTime("Teleport to subzone");
         }
     }
 
@@ -213,7 +212,7 @@ public class ZoneChecker {
             }
         }
 
-        RandomTPs.PERFORMANCE_FILE.addMessage("Attempts to teleport - " + tries);
+        METER.recordNumber("Attempts to teleport", tries);
     }
 
     private class ValidatorTask implements Runnable {
@@ -235,7 +234,9 @@ public class ZoneChecker {
             if (stop) {
                 this.c.error();
             } else {
+                METER.start("Teleport validation");
                 this.finished = ZoneManager.validateZone(auxLocation, dz.getValidations());
+                METER.recordTime("Teleport validation");
                 if (this.finished) {
                     this.c.preend();
                 } else {

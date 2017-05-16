@@ -72,7 +72,7 @@ defaults:
             min: -5000
             
     # Teleport height
-    height: 150
+    height: 200
     
     # Time of effects
     time: 10
@@ -89,7 +89,7 @@ defaults:
     ## Default validations ##
     # falling_safe = Avoid falling in flying structures or very high mountains
     # no_players   = Avoid falling near of players
-    # no_fluids    = Avoid falling near of fluids
+    # no_fluids    = Avoid falling near of large amounts of fluids
     ##
     validations:    
     - falling_safe    

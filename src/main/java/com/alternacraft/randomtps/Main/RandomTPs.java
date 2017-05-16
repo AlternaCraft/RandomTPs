@@ -17,7 +17,7 @@
 package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.utils.PluginLog;
-import com.alternacraft.aclib.utils.Timer;
+import com.alternacraft.aclib.utils.Recorder;
 import com.alternacraft.randomtps.Managers.MetricsManager;
 import com.alternacraft.randomtps.Managers.UpdatesManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class RandomTPs extends JavaPlugin {
 
-    public static final Timer METER = new Timer();
+    public static final Recorder METER = new Recorder();
     
     // Log files...
     public static PluginLog PERFORMANCE_FILE;

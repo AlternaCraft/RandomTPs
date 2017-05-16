@@ -114,6 +114,7 @@ public class Manager {
     }
 
     public void loadExternalPlugins() {
+        // In the future
     }
 
     public void loadDefinedZones() {

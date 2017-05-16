@@ -91,12 +91,8 @@ public class ZonesFile implements ZonesDB {
             }
 
             return zones;
-        } catch (final NullPointerException | YAMLException ex) {
-            throw new PluginException(ex.getMessage()) {
-                {
-                    this.setStackTrace(ex.getStackTrace());
-                }
-            };
+        } catch (NullPointerException | YAMLException ex) {
+            throw new PluginException(ex);
         }
     }
 
@@ -158,12 +154,8 @@ public class ZonesFile implements ZonesDB {
             }
 
             return l;
-        } catch (final NullPointerException | YAMLException ex) {
-            throw new PluginException(ex.getMessage()) {
-                {
-                    this.setStackTrace(ex.getStackTrace());
-                }
-            };
+        } catch (NullPointerException | YAMLException ex) {
+            throw new PluginException(ex);
         }
     }
 
@@ -200,12 +192,8 @@ public class ZonesFile implements ZonesDB {
                 }
             }
             return subzones;
-        } catch (final Exception ex) {
-            throw new PluginException(ex.getMessage()) {
-                {
-                    this.setStackTrace(ex.getStackTrace());
-                }
-            };
+        } catch (Exception ex) {
+            throw new PluginException(ex);
         }
     }
 
@@ -227,12 +215,8 @@ public class ZonesFile implements ZonesDB {
             Vector p2 = new Vector(x2, y2, z2);
 
             return new Zone(p1, p2);
-        } catch (final Exception ex) {
-            throw new PluginException(ex.getMessage()) {
-                {
-                    this.setStackTrace(ex.getStackTrace());
-                }
-            };
+        } catch (Exception ex) {
+            throw new PluginException(ex);
         }
     }
 
@@ -276,12 +260,8 @@ public class ZonesFile implements ZonesDB {
             }
 
             ZONESFILE.saveConfiguration();
-        } catch (final Exception ex) {
-            throw new PluginException(ex.getMessage()) {
-                {
-                    this.setStackTrace(ex.getStackTrace());
-                }
-            };
+        } catch (Exception ex) {
+            throw new PluginException(ex);
         }
     }
 
@@ -294,12 +274,8 @@ public class ZonesFile implements ZonesDB {
                 ZONESFILE.setNode("activeZones", actives);
             }
             ZONESFILE.saveConfiguration();
-        } catch (final Exception ex) {
-            throw new PluginException(ex.getMessage()) {
-                {
-                    this.setStackTrace(ex.getStackTrace());
-                }
-            };
+        } catch (Exception ex) {
+            throw new PluginException(ex);
         }
     }
 
@@ -312,12 +288,8 @@ public class ZonesFile implements ZonesDB {
                 ZONESFILE.setNode("activeZones", actives);
             }
             ZONESFILE.saveConfiguration();
-        } catch (final Exception ex) {
-            throw new PluginException(ex.getMessage()) {
-                {
-                    this.setStackTrace(ex.getStackTrace());
-                }
-            };
+        } catch (Exception ex) {
+            throw new PluginException(ex);
         }
     }
 
@@ -339,12 +311,8 @@ public class ZonesFile implements ZonesDB {
             ZONESFILE.saveConfiguration();
 
             return n;
-        } catch (final Exception ex) {
-            throw new PluginException(ex.getMessage()) {
-                {
-                    this.setStackTrace(ex.getStackTrace());
-                }
-            };
+        } catch (Exception ex) {
+            throw new PluginException(ex);
         }
     }
 }

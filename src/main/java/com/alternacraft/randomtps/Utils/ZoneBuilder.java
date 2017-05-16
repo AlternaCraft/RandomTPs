@@ -103,7 +103,7 @@ public class ZoneBuilder {
             }
         }
 
-        METER.recordValue("Loading zone");
+        METER.recordTime("Loading zone");
     }
 
     public void show(CommandSender cs, final Material m) {
