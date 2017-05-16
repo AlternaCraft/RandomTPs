@@ -24,7 +24,6 @@ import com.alternacraft.randomtps.API.Events.BuildCompletedEvent;
 import com.alternacraft.randomtps.API.Events.BuildStartedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Main.Manager;
-import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -35,6 +34,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.Vector;
+import static com.alternacraft.randomtps.Main.RandomTPs.METER;
 
 /**
  * Zone builder.
@@ -82,7 +82,7 @@ public class ZoneBuilder {
             minz = p1.getBlockZ();
         }
 
-        PERFORMANCE.start("Loading zone");
+        METER.start("Loading zone");
 
         for (int i = minx; i <= x; i++) {
             for (int j = miny; j <= y; j++) {
@@ -103,7 +103,7 @@ public class ZoneBuilder {
             }
         }
 
-        PERFORMANCE.recordValue("Loading zone");
+        METER.recordValue("Loading zone");
     }
 
     public void show(CommandSender cs, final Material m) {

@@ -27,7 +27,7 @@ import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Listeners.HandleTeleport;
 import static com.alternacraft.randomtps.Listeners.HandleTeleport.CANCELEDTP;
 import com.alternacraft.randomtps.Main.Manager;
-import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE;
+import com.alternacraft.randomtps.Main.RandomTPs;
 import com.alternacraft.randomtps.Managers.ZoneManager;
 import com.alternacraft.randomtps.Zone.DefinedZone;
 import com.alternacraft.randomtps.Zone.Zone;
@@ -37,6 +37,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import static com.alternacraft.randomtps.Main.RandomTPs.METER;
 
 /**
  * Management of validation.
@@ -103,7 +104,7 @@ public class ZoneChecker {
     private class ValidateTask implements ZoneTask {
 
         public ValidateTask() {
-             PERFORMANCE.start("Teleport to zone");
+             METER.start("Teleport to zone");
         }
         
         @Override
@@ -131,7 +132,7 @@ public class ZoneChecker {
 
         @Override
         public void end() {
-            PERFORMANCE.recordValue("Teleport to zone");            
+            METER.recordValue("Teleport to zone");            
             endOfValidation(true);
         }
     }
@@ -142,7 +143,7 @@ public class ZoneChecker {
         
         public ValidateInZoneTask(CustomLinkedMap<String, List<Zone>> subzones) {
             this.subzones = subzones;
-            PERFORMANCE.start("Teleport to subzone");
+            METER.start("Teleport to subzone");
         }
         
         @Override
@@ -172,14 +173,14 @@ public class ZoneChecker {
 
         @Override
         public void end() {
-            PERFORMANCE.recordValue("Teleport to subzone");
+            METER.recordValue("Teleport to subzone");
             endOfValidation(true);
         }
     }    
     
     private void endOfValidation(boolean successfully) {
         Langs lang = Localizer.getLocale(player);
-
+        
         this.ended = true;
 
         if (!successfully) {
@@ -201,6 +202,8 @@ public class ZoneChecker {
                 MessageManager.sendPlayer(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
             }
         }        
+        
+        RandomTPs.PERFORMANCE_FILE.addMessage("Attempts to teleport - " + tries);
     }     
     
     private class ValidatorTask implements Runnable {

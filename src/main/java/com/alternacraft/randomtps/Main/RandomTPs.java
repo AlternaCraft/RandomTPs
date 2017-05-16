@@ -16,6 +16,7 @@
  */
 package com.alternacraft.randomtps.Main;
 
+import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.aclib.utils.Timer;
 import com.alternacraft.randomtps.Managers.MetricsManager;
 import com.alternacraft.randomtps.Managers.UpdatesManager;
@@ -28,7 +29,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class RandomTPs extends JavaPlugin {
 
-    public static final Timer PERFORMANCE = new Timer();
+    public static final Timer METER = new Timer();
+    // Log files...
+    public static final PluginLog PERFORMANCE_FILE = new PluginLog("performance.txt");
 
     @Override
     public void onEnable() {
@@ -59,7 +62,7 @@ public class RandomTPs extends JavaPlugin {
     @Override
     public void onDisable() {
         /* METRICS CONFIGURATION */
-        PERFORMANCE.saveToLog("performance.txt");
+        METER.saveToLog(PERFORMANCE_FILE);
 
         // Sends disable message
         this.getLogger().info("RandomTPs has been disabled!");
