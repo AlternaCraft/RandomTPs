@@ -18,6 +18,7 @@ package com.alternacraft.randomtps.API.Errors;
 
 import com.alternacraft.aclib.exceptions.ErrorExecutor;
 import com.alternacraft.aclib.exceptions.ErrorFormat;
+import java.util.Map;
 
 /**
  *
@@ -25,7 +26,7 @@ import com.alternacraft.aclib.exceptions.ErrorFormat;
  */
 public enum DBErrors implements ErrorFormat {
 
-    ;
+    NULL("There was an error with the database", new int[]{0,0}, new NullExecutor());
 
     private final String error_str;
     private final int[] error_code;
@@ -51,4 +52,14 @@ public enum DBErrors implements ErrorFormat {
     public ErrorExecutor getErrorExecutor() {
         return this.error_exe;
     }   
+    
+    //<editor-fold defaultstate="collapsed" desc="EXECUTORS">
+    static class NullExecutor implements ErrorExecutor {
+
+        @Override
+        public boolean matches(String msg, Map<String, Object> data, String c_error) {
+            return msg.contains("null");
+        }        
+    }    
+    //</editor-fold>    
 }

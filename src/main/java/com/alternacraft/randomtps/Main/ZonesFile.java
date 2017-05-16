@@ -29,10 +29,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.util.Vector;
+import org.yaml.snakeyaml.error.YAMLException;
 
 /**
  * Database class.
- * 
+ *
  * @author AlternaCraft
  */
 public class ZonesFile implements ZonesDB {
@@ -73,205 +74,277 @@ public class ZonesFile implements ZonesDB {
         };
     }
     //</editor-fold>
-    
+
     @Override
-    public List<DefinedZone> getDefinedZone() throws PluginException {
-        List<DefinedZone> zones = new ArrayList<>();
-        List<String> activeZones = (List<String>) ZONESFILE.getNode("activeZones");
+    public List<DefinedZone> getDefinedZones() throws PluginException {
+        try {
+            List<DefinedZone> zones = new ArrayList<>();
+            List<String> activeZones = (List<String>) ZONESFILE.getNode("activeZones");
 
-        for (String activeZone : activeZones) {
-            if (ZONESFILE.hasNode(activeZone)) {
-                DefinedZone l = getDefinedZone(activeZone);
-                zones.add(l);
-                MessageManager.log("&eLocalization &b\"" + l.getZoneName() + "\" &eloaded correctly");
+            for (String activeZone : activeZones) {
+                if (ZONESFILE.hasNode(activeZone)) {
+                    DefinedZone l = getDefinedZone(activeZone);
+                    zones.add(l);
+                    MessageManager.log("&eLocalization &b\"" + l.getZoneName()
+                            + "\" &eloaded correctly");
+                }
             }
-        }
 
-        return zones;
+            return zones;
+        } catch (final NullPointerException | YAMLException ex) {
+            throw new PluginException(ex.getMessage()) {
+                {
+                    this.setStackTrace(ex.getStackTrace());
+                }
+            };
+        }
     }
 
     @Override
     public DefinedZone getDefinedZone(String zoneName) throws PluginException {
-        Zone zone = getZone(zoneName);
-        DefinedZone l;
+        try {
+            Zone zone = getZone(zoneName);
+            DefinedZone l;
 
-        String origin = (String) ZONESFILE.getNode(zoneName + ".origin.alias");
-        if (ZONESFILE.getNode(zoneName + ".destination") instanceof List) {
-            List<String> destinations = (List<String>) ZONESFILE.getNode(zoneName + ".destination");
-            l = new DefinedZone(zoneName, zone, origin, destinations);
-        } else {
-            Map<String, List<Zone>> subzones = getSubzones(zoneName);
-            l = new DefinedZone(zoneName, zone, origin, subzones);
-        }
+            String origin = (String) ZONESFILE.getNode(zoneName + ".origin.alias");
+            if (ZONESFILE.getNode(zoneName + ".destination") instanceof List) {
+                List<String> destinations = (List<String>) ZONESFILE.getNode(zoneName
+                        + ".destination");
+                l = new DefinedZone(zoneName, zone, origin, destinations);
+            } else {
+                Map<String, List<Zone>> subzones = getSubzones(zoneName);
+                l = new DefinedZone(zoneName, zone, origin, subzones);
+            }
 
-        // Custom options
-        l.setX(Manager.INSTANCE.loader().getX());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.limits.x.max")
-                && ZONESFILE.hasNode(zoneName + ".customExtras.limits.x.min")) {
-            l.setX(new int[] {
-                (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.x.max"), 
-                (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.x.min")
-            });
+            // Custom options
+            l.setX(Manager.INSTANCE.loader().getX());
+            if (ZONESFILE.hasNode(zoneName + ".customExtras.limits.x.max")
+                    && ZONESFILE.hasNode(zoneName + ".customExtras.limits.x.min")) {
+                l.setX(new int[]{
+                    (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.x.max"),
+                    (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.x.min")
+                });
+            }
+            l.setY(Manager.INSTANCE.loader().getY());
+            if (ZONESFILE.hasNode(zoneName + ".customExtras.height")) {
+                l.setY((int) ZONESFILE.getNode(zoneName + ".customExtras.height"));
+            }
+            l.setZ(Manager.INSTANCE.loader().getZ());
+            if (ZONESFILE.hasNode(zoneName + ".customExtras.limits.z.max")
+                    && ZONESFILE.hasNode(zoneName + ".customExtras.limits.z.min")) {
+                l.setZ(new int[]{
+                    (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.z.max"),
+                    (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.z.min")
+                });
+            }
+            l.setTime(Manager.INSTANCE.loader().getTime());
+            if (ZONESFILE.hasNode(zoneName + ".customExtras.time")) {
+                l.setTime((int) ZONESFILE.getNode(zoneName + ".customExtras.time"));
+            }
+            l.setBroadcastAsEXP(Manager.INSTANCE.loader().isBroadcast_as_exp());
+            if (ZONESFILE.hasNode(zoneName + ".customExtras.broadcast.as_experience")) {
+                l.setBroadcastAsEXP((boolean) ZONESFILE.getNode(zoneName
+                        + ".customExtras.broadcast.as_experience"));
+            }
+            l.setPotion_effects(Manager.INSTANCE.loader().getPotions_effects());
+            if (ZONESFILE.hasNode(zoneName + ".customExtras.effects.potions")) {
+                l.setPotion_effects((List<String>) ZONESFILE.getNode(zoneName
+                        + ".customExtras.effects.potions"));
+            }
+            l.setValidations(Manager.INSTANCE.loader().getValidations());
+            if (ZONESFILE.hasNode(zoneName + ".customExtras.validations")) {
+                l.setValidations((List<String>) ZONESFILE.getNode(zoneName
+                        + ".customExtras.validations"));
+            }
+
+            return l;
+        } catch (final NullPointerException | YAMLException ex) {
+            throw new PluginException(ex.getMessage()) {
+                {
+                    this.setStackTrace(ex.getStackTrace());
+                }
+            };
         }
-        l.setY(Manager.INSTANCE.loader().getY());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.height")) {
-            l.setY((int) ZONESFILE.getNode(zoneName + ".customExtras.height"));
-        }        
-        l.setZ(Manager.INSTANCE.loader().getZ());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.limits.z.max")
-                && ZONESFILE.hasNode(zoneName + ".customExtras.limits.z.min")) {
-            l.setZ(new int[] {
-                (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.z.max"), 
-                (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.z.min")
-            });
-        }
-        l.setTime(Manager.INSTANCE.loader().getTime());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.time")) {
-            l.setTime((int) ZONESFILE.getNode(zoneName + ".customExtras.time"));
-        }
-        l.setBroadcastAsEXP(Manager.INSTANCE.loader().isBroadcast_as_exp());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.broadcast.as_experience")) {
-            l.setBroadcastAsEXP((boolean) ZONESFILE.getNode(zoneName
-                    + ".customExtras.broadcast.as_experience"));
-        }
-        l.setPotion_effects(Manager.INSTANCE.loader().getPotions_effects());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.effects.potions")) {
-            l.setPotion_effects((List<String>) ZONESFILE.getNode(zoneName
-                    + ".customExtras.effects.potions"));
-        }
-        l.setValidations(Manager.INSTANCE.loader().getValidations());
-        if (ZONESFILE.hasNode(zoneName + ".customExtras.validations")) {
-            l.setValidations((List<String>) ZONESFILE.getNode(zoneName
-                    + ".customExtras.validations"));
-        }
-        
-        return l;
     }
 
     @Override
     public Map<String, List<Zone>> getSubzones(String zone) throws PluginException {
-        Map<String, List<Zone>> subzones = new HashMap();
-        Set<String> worlds = ZONESFILE.getNodes(zone + ".destination");
-        if (worlds != null) {
-            for (String w : worlds) {
-                List<Zone> zones = new ArrayList();
+        try {
+            Map<String, List<Zone>> subzones = new HashMap();
+            Set<String> worlds = ZONESFILE.getNodes(zone + ".destination");
+            if (worlds != null) {
+                for (String w : worlds) {
+                    List<Zone> zones = new ArrayList();
 
-                Set<String> szs = ZONESFILE.getNodes(zone + ".destination." + w);
-                for (String subzone : szs) {
-                    Vector v1 = new Vector(
-                            (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p1.x"),
-                            0, // I dont need it
-                            (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p1.z")
-                    );
-                    Vector v2 = new Vector(
-                            (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p2.x"),
-                            0, // I dont need it
-                            (int) ZONESFILE.getNode(zone + ".destination." + w + "." + subzone + ".p2.z")
-                    );
+                    Set<String> szs = ZONESFILE.getNodes(zone + ".destination." + w);
+                    for (String subzone : szs) {
+                        Vector v1 = new Vector(
+                                (int) ZONESFILE.getNode(zone + ".destination."
+                                        + w + "." + subzone + ".p1.x"),
+                                0, // I dont need it
+                                (int) ZONESFILE.getNode(zone + ".destination."
+                                        + w + "." + subzone + ".p1.z")
+                        );
+                        Vector v2 = new Vector(
+                                (int) ZONESFILE.getNode(zone + ".destination."
+                                        + w + "." + subzone + ".p2.x"),
+                                0, // I dont need it
+                                (int) ZONESFILE.getNode(zone + ".destination."
+                                        + w + "." + subzone + ".p2.z")
+                        );
 
-                    zones.add(new Zone(v1, v2));
+                        zones.add(new Zone(v1, v2));
+                    }
+
+                    subzones.put(w, zones);
                 }
-
-                subzones.put(w, zones);
             }
+            return subzones;
+        } catch (final Exception ex) {
+            throw new PluginException(ex.getMessage()) {
+                {
+                    this.setStackTrace(ex.getStackTrace());
+                }
+            };
         }
-        return subzones;
     }
 
     @Override
     public Zone getZone(String zone) throws PluginException {
-        int x1, y1, z1;
-        int x2, y2, z2;
+        try {
+            int x1, y1, z1;
+            int x2, y2, z2;
 
-        x1 = (int) ZONESFILE.getNode(zone + ".origin.p1.x");
-        y1 = (int) ZONESFILE.getNode(zone + ".origin.p1.y");
-        z1 = (int) ZONESFILE.getNode(zone + ".origin.p1.z");
+            x1 = (int) ZONESFILE.getNode(zone + ".origin.p1.x");
+            y1 = (int) ZONESFILE.getNode(zone + ".origin.p1.y");
+            z1 = (int) ZONESFILE.getNode(zone + ".origin.p1.z");
 
-        x2 = (int) ZONESFILE.getNode(zone + ".origin.p2.x");
-        y2 = (int) ZONESFILE.getNode(zone + ".origin.p2.y");
-        z2 = (int) ZONESFILE.getNode(zone + ".origin.p2.z");
+            x2 = (int) ZONESFILE.getNode(zone + ".origin.p2.x");
+            y2 = (int) ZONESFILE.getNode(zone + ".origin.p2.y");
+            z2 = (int) ZONESFILE.getNode(zone + ".origin.p2.z");
 
-        Vector p1 = new Vector(x1, y1, z1);
-        Vector p2 = new Vector(x2, y2, z2);
+            Vector p1 = new Vector(x1, y1, z1);
+            Vector p2 = new Vector(x2, y2, z2);
 
-        return new Zone(p1, p2);
+            return new Zone(p1, p2);
+        } catch (final Exception ex) {
+            throw new PluginException(ex.getMessage()) {
+                {
+                    this.setStackTrace(ex.getStackTrace());
+                }
+            };
+        }
     }
 
     @Override
     public void saveDefinedZone(DefinedZone l) throws PluginException {
-        String zone = l.getZoneName();
+        try {
+            String zone = l.getZoneName();
 
-        ZONESFILE.setNode(zone + ".origin.alias", l.getOrigin());
+            ZONESFILE.setNode(zone + ".origin.alias", l.getOrigin());
 
-        ZONESFILE.setNode(zone + ".origin.p1.x", l.getP1().getBlockX());
-        ZONESFILE.setNode(zone + ".origin.p1.y", l.getP1().getBlockY());
-        ZONESFILE.setNode(zone + ".origin.p1.z", l.getP1().getBlockZ());
+            ZONESFILE.setNode(zone + ".origin.p1.x", l.getP1().getBlockX());
+            ZONESFILE.setNode(zone + ".origin.p1.y", l.getP1().getBlockY());
+            ZONESFILE.setNode(zone + ".origin.p1.z", l.getP1().getBlockZ());
 
-        ZONESFILE.setNode(zone + ".origin.p2.x", l.getP2().getBlockX());
-        ZONESFILE.setNode(zone + ".origin.p2.y", l.getP2().getBlockY());
-        ZONESFILE.setNode(zone + ".origin.p2.z", l.getP2().getBlockZ());
+            ZONESFILE.setNode(zone + ".origin.p2.x", l.getP2().getBlockX());
+            ZONESFILE.setNode(zone + ".origin.p2.y", l.getP2().getBlockY());
+            ZONESFILE.setNode(zone + ".origin.p2.z", l.getP2().getBlockZ());
 
-        if (l.hasSubzones()) {
-            Map<String, List<Zone>> subzones = l.getSubzones();
-            for (Map.Entry<String, List<Zone>> entry : subzones.entrySet()) {
-                String world = entry.getKey();
-                List<Zone> zones = entry.getValue();
-                int i = 1;
-                for (Zone z : zones) {
-                    ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p1.x", z.getP1().getBlockX());
-                    ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p1.z", z.getP1().getBlockZ());
+            if (l.hasSubzones()) {
+                Map<String, List<Zone>> subzones = l.getSubzones();
+                for (Map.Entry<String, List<Zone>> entry : subzones.entrySet()) {
+                    String world = entry.getKey();
+                    List<Zone> zones = entry.getValue();
+                    int i = 1;
+                    for (Zone z : zones) {
+                        ZONESFILE.setNode(zone + ".destination." + world + ".sz"
+                                + i + ".p1.x", z.getP1().getBlockX());
+                        ZONESFILE.setNode(zone + ".destination." + world + ".sz"
+                                + i + ".p1.z", z.getP1().getBlockZ());
 
-                    ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p2.x", z.getP2().getBlockX());
-                    ZONESFILE.setNode(zone + ".destination." + world + ".sz" + i + ".p2.z", z.getP2().getBlockZ());
+                        ZONESFILE.setNode(zone + ".destination." + world + ".sz"
+                                + i + ".p2.x", z.getP2().getBlockX());
+                        ZONESFILE.setNode(zone + ".destination." + world + ".sz"
+                                + i + ".p2.z", z.getP2().getBlockZ());
 
-                    i++;
+                        i++;
+                    }
                 }
+            } else {
+                ZONESFILE.setNode(zone + ".destination", l.getDestinations());
             }
-        } else {
-            ZONESFILE.setNode(zone + ".destination", l.getDestinations());
-        }
 
-        ZONESFILE.saveConfiguration();
+            ZONESFILE.saveConfiguration();
+        } catch (final Exception ex) {
+            throw new PluginException(ex.getMessage()) {
+                {
+                    this.setStackTrace(ex.getStackTrace());
+                }
+            };
+        }
     }
 
     @Override
     public void enableDefinedZone(String zone) throws PluginException {
-        List<String> actives = (List<String>) ZONESFILE.getNode("activeZones");
-        if (!actives.contains(zone)) {
-            actives.add(zone);
-            ZONESFILE.setNode("activeZones", actives);
+        try {
+            List<String> actives = (List<String>) ZONESFILE.getNode("activeZones");
+            if (!actives.contains(zone)) {
+                actives.add(zone);
+                ZONESFILE.setNode("activeZones", actives);
+            }
+            ZONESFILE.saveConfiguration();
+        } catch (final Exception ex) {
+            throw new PluginException(ex.getMessage()) {
+                {
+                    this.setStackTrace(ex.getStackTrace());
+                }
+            };
         }
-
-        ZONESFILE.saveConfiguration();
     }
 
     @Override
     public void disableDefinedZone(String zone) throws PluginException {
-        List<String> actives = (List<String>) ZONESFILE.getNode("activeZones");
-        if (actives.contains(zone)) {
-            actives.remove(zone);
-            ZONESFILE.setNode("activeZones", actives);
+        try {
+            List<String> actives = (List<String>) ZONESFILE.getNode("activeZones");
+            if (actives.contains(zone)) {
+                actives.remove(zone);
+                ZONESFILE.setNode("activeZones", actives);
+            }
+            ZONESFILE.saveConfiguration();
+        } catch (final Exception ex) {
+            throw new PluginException(ex.getMessage()) {
+                {
+                    this.setStackTrace(ex.getStackTrace());
+                }
+            };
         }
-
-        ZONESFILE.saveConfiguration();
     }
 
     @Override
     public int purge() throws PluginException {
-        int n = 0;
+        try {
+            int n = 0;
 
-        List<String> actives = ZONESFILE.yamlFile.getStringList("activeZones");
-        Set<String> zones = ZONESFILE.getNodes("");
+            List<String> actives = ZONESFILE.yamlFile.getStringList("activeZones");
+            Set<String> zones = ZONESFILE.getNodes("");
 
-        for (String zone : zones) {
-            if (!actives.contains(zone) && !zone.equals("activeZones")) {
-                ZONESFILE.setNode(zone, null);
-                n++;
+            for (String zone : zones) {
+                if (!actives.contains(zone) && !zone.equals("activeZones")) {
+                    ZONESFILE.setNode(zone, null);
+                    n++;
+                }
             }
+
+            ZONESFILE.saveConfiguration();
+
+            return n;
+        } catch (final Exception ex) {
+            throw new PluginException(ex.getMessage()) {
+                {
+                    this.setStackTrace(ex.getStackTrace());
+                }
+            };
         }
-
-        ZONESFILE.saveConfiguration();
-
-        return n;
     }
 }

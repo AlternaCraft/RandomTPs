@@ -43,144 +43,154 @@ import static com.alternacraft.randomtps.Main.RandomTPs.METER;
  * Management of validation.
  * <i>This class is useful to avoid stress the main thread.</i>
  * By using a task called each 'x' seconds once the previous task is finished.
- * 
+ *
  * @author AlternaCraft
  */
 public class ZoneChecker {
-    
+
     //<editor-fold defaultstate="collapsed" desc="VARIABLES + CONSTRUCTOR">
     private static final int MAX_TRIES = 50;
-    
+    private static final int TASK_DELAY = 1;
+
     private ValidatorTask run = null;
-    
+
     private final int max_x, min_x, max_z, min_z, y;
     private final DefinedZone dz;
     private final Player player;
-    
+
     private int tries = 0;
-    
+
     private Location auxLocation = null;
-    
+
     private boolean ended = false;
-    
+
     public ZoneChecker(DefinedZone dz, Player player) {
         this.max_x = dz.getMaxX();
         this.min_x = dz.getMinX();
         this.y = dz.getY();
         this.max_z = dz.getMaxZ();
         this.min_z = dz.getMinZ();
-        
+
         this.dz = dz;
-        this.player = player;        
+        this.player = player;
     }
     //</editor-fold>
 
     public void runValidateTask() {
         new ValidateTask().run();
     }
-    
+
     public void runValidateInZoneTask(CustomLinkedMap<String, List<Zone>> subzones) {
         new ValidateInZoneTask(subzones).run();
     }
-    
+
     public Location randomLocation() {
         return this.auxLocation;
     }
-    
+
     public boolean hasEnded() {
         return this.ended;
     }
-    
+
     public void stop() {
         this.run.stop();
     }
-    
-    //<editor-fold defaultstate="collapsed" desc="INNER CODE">
-    private interface ZoneTask {
-        public void run();
-        public void end();
-    }
-    
-    private class ValidateTask implements ZoneTask {
 
-        public ValidateTask() {
-             METER.start("Teleport to zone");
-        }
-        
-        @Override
-        public void run() {
+    //<editor-fold defaultstate="collapsed" desc="INNER CODE">
+    private abstract class ZoneTask {
+
+        public void prerun() {
             if (tries <= MAX_TRIES) {
                 tries++;
-                
-                int randWorld = Randomizer.rand(
-                        dz.getDestinations().size() - 1, 0
-                );
-                World destination = Bukkit.getServer().getWorld(
-                        dz.getDestinations().get(randWorld)
-                );
-
-                auxLocation = new Location(destination,
-                        Randomizer.rand(max_x, min_x), y,
-                        Randomizer.rand(max_z, min_z));
-
-                run = new ValidatorTask(this);
-                Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), run, 1);            
+                this.run();
+                this.postrun();
             } else {
-                endOfValidation(false);
+                this.error();
             }
-        }        
+        }
 
-        @Override
-        public void end() {
-            METER.recordValue("Teleport to zone");            
+        public void preend() {
+            this.end();
+            this.postend();
+        }
+
+        public void error() {
+            endOfValidation(false);
+        }
+        
+        public abstract void run();
+        public abstract void end();
+
+        public void postrun() {
+            run = new ValidatorTask(this);
+            Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), run, TASK_DELAY);
+        }
+
+        public void postend() {
             endOfValidation(true);
         }
     }
-    
-    private class ValidateInZoneTask implements ZoneTask {
+
+    private class ValidateTask extends ZoneTask {
+
+        public ValidateTask() {
+            METER.start("Teleport to zone");
+        }
+
+        @Override
+        public void run() {
+            int randWorld = Randomizer.rand(
+                    dz.getDestinations().size() - 1, 0
+            );
+            World destination = Bukkit.getServer().getWorld(
+                    dz.getDestinations().get(randWorld)
+            );
+
+            auxLocation = new Location(destination,
+                    Randomizer.rand(max_x, min_x), y,
+                    Randomizer.rand(max_z, min_z));
+        }
+
+        @Override
+        public void end() {
+            METER.recordValue("Teleport to zone");
+        }
+    }
+
+    private class ValidateInZoneTask extends ZoneTask {
 
         private final CustomLinkedMap<String, List<Zone>> subzones;
-        
+
         public ValidateInZoneTask(CustomLinkedMap<String, List<Zone>> subzones) {
             this.subzones = subzones;
             METER.start("Teleport to subzone");
         }
-        
+
         @Override
         public void run() {
-            if (tries <= MAX_TRIES) {
-                tries++;
-                
-                int randworld = Randomizer.rand(subzones.size() - 1, 0);
-                int randSubzone = Randomizer.rand(subzones.getValue(randworld).size() - 1, 0);
-                Zone zone = subzones.get(subzones.getKey(randworld)).get(randSubzone);
+            int randworld = Randomizer.rand(subzones.size() - 1, 0);
+            int randSubzone = Randomizer.rand(subzones.getValue(randworld).size() - 1, 0);
+            Zone zone = subzones.get(subzones.getKey(randworld)).get(randSubzone);
 
-                zone.getP1().setY(dz.getY());
-                zone.getP2().setY(dz.getY());
+            zone.getP1().setY(dz.getY());
+            zone.getP2().setY(dz.getY());
 
-                // Destination world
-                World destination = Bukkit.getServer().getWorld(
-                        subzones.getKey(randworld));
+            // Destination world
+            World destination = Bukkit.getServer().getWorld(
+                    subzones.getKey(randworld));
 
-                auxLocation = zone.randomLocation(destination);
-
-                run = new ValidatorTask(this);            
-                Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), run, 1); 
-            } else {
-                endOfValidation(false);
-            }                
+            auxLocation = zone.randomLocation(destination);
         }
 
         @Override
         public void end() {
             METER.recordValue("Teleport to subzone");
-            endOfValidation(true);
         }
-    }    
-    
+    }
+
     private void endOfValidation(boolean successfully) {
         Langs lang = Localizer.getLocale(player);
-        
+
         this.ended = true;
 
         if (!successfully) {
@@ -197,25 +207,25 @@ public class ZoneChecker {
             try {
                 // Let's to propagate the "good news"
                 Bukkit.getServer().getPluginManager().callEvent(
-                        new PlayerDroppedEvent(player, dz.getZoneName()));            
+                        new PlayerDroppedEvent(player, dz.getZoneName()));
             } catch (IllegalStateException ex) {
                 MessageManager.sendPlayer(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
             }
-        }        
-        
+        }
+
         RandomTPs.PERFORMANCE_FILE.addMessage("Attempts to teleport - " + tries);
-    }     
-    
+    }
+
     private class ValidatorTask implements Runnable {
 
-        private final long starttime;        
+        private final long starttime;
         private boolean finished, stop;
-        
+
         private ZoneTask c = null;
 
         public ValidatorTask(ZoneTask c) {
             this.starttime = System.currentTimeMillis(); // Boot time            
-            this.finished = false;    
+            this.finished = false;
             this.stop = false;
             this.c = c;
         }
@@ -223,20 +233,21 @@ public class ZoneChecker {
         @Override
         public void run() {
             if (stop) {
-                this.c.end();
+                this.c.error();
             } else {
                 this.finished = ZoneManager.validateZone(auxLocation, dz.getValidations());
-                if (this.finished)
-                    this.c.end();
-                else
-                    this.c.run();
+                if (this.finished) {
+                    this.c.preend();
+                } else {
+                    this.c.prerun();
+                }
             }
         }
 
         public long elapsedInMillis() {
             return System.currentTimeMillis() - this.starttime;
         }
-        
+
         public void stop() {
             this.stop = true;
         }

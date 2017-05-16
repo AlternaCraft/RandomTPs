@@ -119,7 +119,7 @@ public class Manager {
     public void loadDefinedZones() {
         ZonesFile.load();
         try {
-            this.zones = zonesdb.getDefinedZone();
+            this.zones = zonesdb.getDefinedZones();
         } catch (PluginException ex) {
             MessageManager.logArrayError(ex.getCustomStacktrace());
         }

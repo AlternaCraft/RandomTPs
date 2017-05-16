@@ -35,7 +35,7 @@ public interface ZonesDB {
      * @return List with the defined zones 
      * @throws com.alternacraft.aclib.exceptions.PluginException
      */
-    public List<DefinedZone> getDefinedZone() throws PluginException;
+    public List<DefinedZone> getDefinedZones() throws PluginException;
 
     /**
      * Gets a specific defined zone.
