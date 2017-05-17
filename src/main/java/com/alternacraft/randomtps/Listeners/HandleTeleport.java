@@ -16,6 +16,7 @@
  */
 package com.alternacraft.randomtps.Listeners;
 
+import static com.alternacraft.aclib.PluginBase.TPS;
 import com.alternacraft.randomtps.Main.Manager;
 import com.alternacraft.randomtps.Utils.CustomLinkedMap;
 import com.alternacraft.randomtps.Utils.ZoneChecker;
@@ -30,7 +31,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
 
 /**
  * Handle player location.
@@ -41,12 +44,42 @@ public class HandleTeleport implements Listener {
 
     public static final HashSet<UUID> CANCELEDTP = new HashSet<>();
     public static final Map<UUID, Location> ROLLBACK_LOCATION = new HashMap();
+
     public static final Map<UUID, ZoneChecker> TELEPORTING = new HashMap();
-    
+
+    public enum COLLISION_EFFECT {
+        NONE((short) 1), 
+        SLOW_DOWN((short) 0), 
+        BOUNCE((short) -5), 
+        SPEED_UP((short) 5);
+        
+        private short mvm;
+
+        COLLISION_EFFECT(short mvm) {
+            this.mvm = mvm;
+        }
+
+        public short velocity() {
+            return this.mvm;
+        }
+    }
+
     public HandleTeleport() {
     }
 
-    // <editor-fold defaultstate="collapsed" desc="PLAYER MOVE">
+    @EventHandler
+    public void onPlayerSmashed(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player)) {
+            return;
+        }
+        Player p = (Player) e.getEntity();
+        if (TELEPORTING.containsKey(p.getUniqueId())) {
+            if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+                e.setCancelled(true);
+            }
+        }
+    }
+
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
         List<DefinedZone> zones = Manager.INSTANCE.getDefinedZones();
@@ -57,17 +90,12 @@ public class HandleTeleport implements Listener {
 
         if (TELEPORTING.containsKey(uuid)) {
             if (TELEPORTING.get(uuid).hasEnded()) {
+                player.setNoDamageTicks(0);
                 TELEPORTING.remove(uuid);
-            } else {
-                // Allowing camera movement
-                /*e.getTo().setX(e.getFrom().getX());
-                e.getTo().setY(e.getFrom().getY());
-                e.getTo().setZ(e.getFrom().getZ());*/
-                e.setCancelled(true);
             }
             return;
         }
-        
+
         for (int i = 0; i < zones.size(); i++) {
             DefinedZone definedZone = zones.get(i);
 
@@ -78,7 +106,7 @@ public class HandleTeleport implements Listener {
 
             // Is the player in the zone?
             if (definedZone.isInsideOfMe(player.getLocation().toVector())) {
-                
+
                 // Here comes the hard part, to get the location...
                 CustomLinkedMap<String, List<Zone>> subzones = new CustomLinkedMap();
                 subzones.putAll(definedZone.getSubzones());
@@ -91,7 +119,15 @@ public class HandleTeleport implements Listener {
                     zc.runValidateInZoneTask(subzones);
                 }
 
+                player.setNoDamageTicks(TPS * 3600);
                 TELEPORTING.put(uuid, zc);
+
+                // Slow down
+                Vector vec = player.getLocation().getDirection();
+                player.setVelocity(new Vector(vec.getX(),
+                        player.getVelocity().getY() * definedZone
+                                .getCollisionEffect().velocity(), vec.getZ()));
+
                 nextStep = false;
             }
         }
@@ -109,5 +145,4 @@ public class HandleTeleport implements Listener {
             }
         }
     }
-    // </editor-fold>
 }

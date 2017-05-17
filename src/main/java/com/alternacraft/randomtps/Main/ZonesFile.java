@@ -133,6 +133,10 @@ public class ZonesFile implements ZonesDB {
                     (int) ZONESFILE.getNode(zoneName + ".customExtras.limits.z.min")
                 });
             }
+            l.setCollisionEffect(Manager.INSTANCE.loader().getCollisionEffect());
+            if (ZONESFILE.hasNode(zoneName + ".customExtras.collision")) {
+                l.setCollisionEffect((String) ZONESFILE.getNode(zoneName + ".customExtras.collision"));
+            }
             l.setTime(Manager.INSTANCE.loader().getTime());
             if (ZONESFILE.hasNode(zoneName + ".customExtras.time")) {
                 l.setTime((int) ZONESFILE.getNode(zoneName + ".customExtras.time"));

@@ -55,6 +55,7 @@ public class ConfigLoader extends ConfigDataStore implements ConfigDataInterface
             fc.getInt("defaults.limits.z.max"), fc.getInt("defaults.limits.z.min")
         });
         this.setY(fc.getInt("defaults.height"));
+        this.setCollisionEffect(fc.getString("defaults.collision"));
         this.setTime(fc.getInt("defaults.time"));                
         this.setBroadcast_as_exp(fc.getBoolean("defaults.broadcast.as_experience"));
         this.setPotions_effects(fc.getStringList("defaults.effects.potions"));

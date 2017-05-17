@@ -17,6 +17,7 @@
 package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.randomtps.Listeners.HandleTeleport.COLLISION_EFFECT;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class ConfigDataStore {
     protected int[] z = {10000, -5000};
 
     // Default extras
+    protected COLLISION_EFFECT coll = COLLISION_EFFECT.SLOW_DOWN;
     protected int time = 10;
     protected boolean broadcast_as_exp = true;
     protected List<String> potions_effects = new ArrayList();
@@ -171,6 +173,16 @@ public class ConfigDataStore {
 
     public void setZ(int[] z) {
         this.z = z;
+    }
+
+    public COLLISION_EFFECT getCollisionEffect() {
+        return coll;
+    }
+
+    public void setCollisionEffect(String coll) {
+        if (COLLISION_EFFECT.valueOf(coll) != null) {
+            this.coll = COLLISION_EFFECT.valueOf(coll);
+        }
     }
 
     public int getTime() {

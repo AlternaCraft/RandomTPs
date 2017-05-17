@@ -19,6 +19,7 @@ package com.alternacraft.randomtps.Zone;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.NumbersUtils;
 import com.alternacraft.randomtps.Langs.GameInfo;
+import com.alternacraft.randomtps.Listeners.HandleTeleport.COLLISION_EFFECT;
 import com.alternacraft.randomtps.Managers.ZoneManager;
 import static com.alternacraft.randomtps.Utils.ConfigDataStore.MAX;
 import static com.alternacraft.randomtps.Utils.ConfigDataStore.MIN;
@@ -51,15 +52,14 @@ public class DefinedZone extends Zone {
     protected int y = 150;
     protected int[] z = {10000, -5000};
     
+    private COLLISION_EFFECT coll = COLLISION_EFFECT.SLOW_DOWN;
+    
     // Effect time    
-    private int time = 10;
-    
+    private int time = 10;    
     // Broadcast
-    private boolean show_as_exp = true;
-    
+    private boolean show_as_exp = true;    
     // Effects
-    private final Map<String, Integer> potion_effects = new HashMap();
-    
+    private final Map<String, Integer> potion_effects = new HashMap();    
     // Validations
     private final List<String> validations = new ArrayList();
 
@@ -107,6 +107,60 @@ public class DefinedZone extends Zone {
         this.dests.clear();
         this.dests.addAll(arrives);
     }
+    
+    public int[] getX() {
+        return x;
+    }
+    
+    public int getMaxX() {
+        return x[MAX];
+    }
+
+    public int getMinX() {
+        return x[MIN];
+    }    
+
+    public void setX(int[] x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int[] getZ() {
+        return z;
+    }
+    
+    public int getMaxZ() {
+        return z[MAX];
+    }
+
+    public int getMinZ() {
+        return z[MIN];
+    }    
+
+    public void setZ(int[] z) {
+        this.z = z;
+    }
+
+    public COLLISION_EFFECT getCollisionEffect() {
+        return coll;
+    }
+
+    public void setCollisionEffect(COLLISION_EFFECT coll) {
+        this.coll = coll;
+    }    
+    
+    public void setCollisionEffect(String coll) {
+        if (COLLISION_EFFECT.valueOf(coll) != null) {
+            this.coll = COLLISION_EFFECT.valueOf(coll);
+        }
+    }    
 
     public int getTime() {
         return time;
@@ -161,46 +215,6 @@ public class DefinedZone extends Zone {
                     this.validations.add(validation);
             }
         }
-    }
-
-    public int[] getX() {
-        return x;
-    }
-    
-    public int getMaxX() {
-        return x[MAX];
-    }
-
-    public int getMinX() {
-        return x[MIN];
-    }    
-
-    public void setX(int[] x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int[] getZ() {
-        return z;
-    }
-    
-    public int getMaxZ() {
-        return z[MAX];
-    }
-
-    public int getMinZ() {
-        return z[MIN];
-    }    
-
-    public void setZ(int[] z) {
-        this.z = z;
     }
     
     public void addSubzone(String w, Zone z) {

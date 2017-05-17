@@ -63,29 +63,30 @@ building:
 # You can set the properties below in each zone by using the keyword "customExtras"
 defaults:
     # World limits (This don't affect to the defined subzones)
+    # Be careful with this values if you don't want that the world "fattening" too much.
     limits:
         x:
             max: 10000
             min: -5000  
         z:
             max: 10000
-            min: -5000
-            
+            min: -5000              
     # Teleport height
     height: 200
+
+    # Effect when a player enters a defined zone.
+    # OPTIONS: NONE, SLOW_DOWN, BOUNCE, SPEED_UP
+    collision: SLOW_DOWN
     
     # Time of effects
-    time: 10
-    
+    time: 10    
     # Potion effects
     effects:
         potions:
-        - Speed 5
-        
+        - Speed 5        
     # Show remaining time
     broadcast:
-        as_experience: true 
-        
+        as_experience: true         
     ## Default validations ##
     # falling_safe = Avoid falling in flying structures or very high mountains
     # no_players   = Avoid falling near of players
