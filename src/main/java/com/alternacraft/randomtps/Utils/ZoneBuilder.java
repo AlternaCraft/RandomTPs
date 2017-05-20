@@ -138,9 +138,9 @@ public class ZoneBuilder {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Build runnable">
-    class BlocksReplacer implements Runnable {
+    public class BlocksReplacer implements Runnable {
 
-        private final short TIMEPERBLOCK = (Manager.INSTANCE.loader().doInstantly()) ? (short) 0 : (short) 1;
+        private boolean instantly = Manager.INSTANCE.loader().doInstantly();
 
         private final Collection mats;
         private final boolean rollback;
@@ -149,7 +149,10 @@ public class ZoneBuilder {
         private final ZoneBuilder builder;
 
         private long starttime;
+        private long endtime;
+        
         private boolean stop;
+        
         private int lastBlock;
         private boolean finished;
 
@@ -181,19 +184,24 @@ public class ZoneBuilder {
                 final Object[] locs = blocks.keySet().toArray();
                 final Object[] materials = mats.toArray();
 
-                // Get the material
+                // Get the material and change
                 final Material mat = (n >= mats.size()) ? (Material) materials[0]
-                        : (Material) materials[n];
-                Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), new Runnable() {
-                    @Override
-                    public void run() {
-                        ((Location) locs[n]).getBlock().setType(mat);
-                        recursiveTask(n + 1, total);
-                    }
-                }, TIMEPERBLOCK);
+                        : (Material) materials[n];                
+                ((Location) locs[n]).getBlock().setType(mat);
+                
+                if (!instantly) {
+                    Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), new Runnable() {
+                        @Override
+                        public void run() {
+                            recursiveTask(n + 1, total);
+                        }
+                    }, 1L);                    
+                } else {
+                    recursiveTask(n + 1, total);
+                }               
             } else if (!stop) {
-                this.starttime = System.currentTimeMillis() - this.starttime;
                 this.finished = true;
+                this.endtime = System.currentTimeMillis();
 
                 Bukkit.getServer().getPluginManager().callEvent(new BuildCompletedEvent(
                         cs, builder));
@@ -209,6 +217,10 @@ public class ZoneBuilder {
 
         private void stop() {
             this.stop = true;
+        }
+        
+        public void forceInstant() {
+            this.instantly = true;
         }
     }
     //</editor-fold>
@@ -226,7 +238,7 @@ public class ZoneBuilder {
     }
 
     public long elapsedTime() {
-        return run.starttime;
+        return run.endtime - run.starttime;
     }
 
     public void go() {
@@ -235,5 +247,9 @@ public class ZoneBuilder {
 
     public void stop() {
         this.run.stop();
+    }
+    
+    public Runnable getRunnable() {
+        return this.run;
     }
 }
