@@ -1,0 +1,13 @@
+com.alternacraft:RandomTPs:jar:1.1.0
++- org.spigotmc:spigot-api:jar:1.11-R0.1-SNAPSHOT:provided
+|  +- commons-lang:commons-lang:jar:2.6:provided
+|  +- com.googlecode.json-simple:json-simple:jar:1.1.1:provided
+|  |  \- junit:junit:jar:4.10:provided
+|  |     \- org.hamcrest:hamcrest-core:jar:1.1:provided
+|  +- com.google.guava:guava:jar:17.0:provided
+|  +- com.google.code.gson:gson:jar:2.2.4:provided
+|  +- org.avaje:ebean:jar:2.8.1:provided
+|  |  \- javax.persistence:persistence-api:jar:1.0:provided
+|  +- org.yaml:snakeyaml:jar:1.17:provided
+|  \- net.md-5:bungeecord-chat:jar:1.10-SNAPSHOT:provided
+\- com.alternacraft:aclib:jar:1.2.0-SNAPSHOT:compile

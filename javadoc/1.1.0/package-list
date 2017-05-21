@@ -1,0 +1,10 @@
+com.alternacraft.randomtps.API
+com.alternacraft.randomtps.API.Errors
+com.alternacraft.randomtps.API.Events
+com.alternacraft.randomtps.Commands
+com.alternacraft.randomtps.Langs
+com.alternacraft.randomtps.Listeners
+com.alternacraft.randomtps.Main
+com.alternacraft.randomtps.Managers
+com.alternacraft.randomtps.Utils
+com.alternacraft.randomtps.Zone
