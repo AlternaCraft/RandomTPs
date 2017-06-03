@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,45 +36,51 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class MetricsManager {
 
+    //<editor-fold defaultstate="collapsed" desc="CUSTOM GRAPHS">
     public static void setGraphs(Metrics metrics) {
-
-        metrics.addCustomChart(new Metrics.SimplePie("default_language") {
+        metrics.addCustomChart(new Metrics.SimplePie("default_language",
+                new Callable<String>() {
             @Override
-            public String getValue() {
+            public String call() {
                 return Manager.INSTANCE.loader().getDefaultLang().name();
             }
-        });
+        }));
 
-        metrics.addCustomChart(new Metrics.SimplePie("cancel_command") {
+        metrics.addCustomChart(new Metrics.SimplePie("cancel_command",
+                new Callable<String>() {
             @Override
-            public String getValue() {
+            public String call() {
                 return Manager.INSTANCE.loader().getCancel();
             }
-        });
+        }));
 
-        metrics.addCustomChart(new Metrics.SimplePie("add_command") {
+        metrics.addCustomChart(new Metrics.SimplePie("add_command",
+                new Callable<String>() {
             @Override
-            public String getValue() {
+            public String call() {
                 return Manager.INSTANCE.loader().getSelection();
             }
-        });
-        metrics.addCustomChart(new Metrics.SimplePie("building_mode") {
+        }));
+        metrics.addCustomChart(new Metrics.SimplePie("building_mode",
+                new Callable<String>() {
             @Override
-            public String getValue() {
+            public String call() {
                 return (Manager.INSTANCE.loader().doInstantly()) ? "Instant" : "No instant";
             }
-        });
+        }));
 
-        metrics.addCustomChart(new Metrics.SimplePie("teletransportation_height") {
+        metrics.addCustomChart(new Metrics.SimplePie("teletransportation_height",
+                new Callable<String>() {
             @Override
-            public String getValue() {
+            public String call() {
                 return String.valueOf(Manager.INSTANCE.loader().getY());
             }
-        });
+        }));
 
-        metrics.addCustomChart(new Metrics.SimplePie("enabled_validations") {
+        metrics.addCustomChart(new Metrics.SimplePie("enabled_validations",
+                new Callable<String>() {
             @Override
-            public String getValue() {
+            public String call() {
                 String result = "";
                 List<String> validations = Manager.INSTANCE.loader().getValidations();
                 for (int i = 0; i < validations.size(); i++) {
@@ -84,14 +91,16 @@ public class MetricsManager {
                 }
                 return (result.isEmpty()) ? "None" : result;
             }
-        });
+        }));
 
-        metrics.addCustomChart(new Metrics.AdvancedPie("general_statistics") {
+        metrics.addCustomChart(new Metrics.AdvancedPie("general_statistics",
+                new Callable<Map<String, Integer>>() {
             @Override
-            public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap) {
+            public Map<String, Integer> call() {
                 PluginLog pl = new PluginLog(PERFORMANCE_FILE);
                 pl.importLog();
 
+                Map<String, Integer> valueMap = new HashMap<>();                
                 Map<Date, List<String>> loginfo = PluginLog.getValuesPerDate(pl.getMessages());
 
                 for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
@@ -116,8 +125,9 @@ public class MetricsManager {
 
                 return valueMap;
             }
-        });
+        }));
     }
+    //</editor-fold>        
 
     public static void load(final JavaPlugin plugin) {
         if (Manager.INSTANCE.loader().isMetrics()) {
