@@ -17,7 +17,7 @@
 package com.alternacraft.randomtps.Zone;
 
 import com.alternacraft.aclib.langs.Langs;
-import com.alternacraft.aclib.utils.NumbersUtils;
+import com.alternacraft.aclib.extras.NumbersUtils;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Listeners.HandleTeleport.COLLISION_EFFECT;
 import com.alternacraft.randomtps.Managers.ZoneManager;

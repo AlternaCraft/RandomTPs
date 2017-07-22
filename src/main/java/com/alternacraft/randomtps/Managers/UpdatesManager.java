@@ -17,9 +17,9 @@
 package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.utils.Updater;
-import com.alternacraft.aclib.utils.Updater.UpdateResult;
-import com.alternacraft.aclib.utils.Updater.UpdateType;
+import com.alternacraft.aclib.extras.Updater;
+import com.alternacraft.aclib.extras.Updater.UpdateResult;
+import com.alternacraft.aclib.extras.Updater.UpdateType;
 import com.alternacraft.randomtps.Main.Manager;
 import java.io.File;
 import org.bukkit.ChatColor;

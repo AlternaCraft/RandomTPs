@@ -19,7 +19,7 @@ package com.alternacraft.randomtps.Commands;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.randomtps.Main.Manager;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 

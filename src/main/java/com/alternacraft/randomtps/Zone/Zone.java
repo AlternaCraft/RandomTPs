@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.Zone;
 
-import com.alternacraft.aclib.utils.Randomizer;
+import com.alternacraft.aclib.extras.Randomizer;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;

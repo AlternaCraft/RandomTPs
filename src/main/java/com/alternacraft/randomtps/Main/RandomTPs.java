@@ -18,7 +18,7 @@ package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.aclib.utils.Recorder;
+import com.alternacraft.aclib.extras.Recorder;
 import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import static com.alternacraft.randomtps.Listeners.HandleBuild.DISABLED;
@@ -56,12 +56,9 @@ public class RandomTPs extends JavaPlugin {
         }
 
         // Later tasks
-        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-            @Override
-            public void run() {
-                MetricsManager.load(Manager.BASE.plugin());
-                UpdatesManager.testUpdate(Manager.BASE.plugin(), getFile());
-            }
+        this.getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+            MetricsManager.load(Manager.BASE.plugin());
+            UpdatesManager.testUpdate(Manager.BASE.plugin(), getFile());
         });
 
         // Sends enabled message

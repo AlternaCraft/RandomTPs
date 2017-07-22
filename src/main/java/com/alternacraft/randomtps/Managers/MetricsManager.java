@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.Managers;
 
-import com.alternacraft.aclib.utils.Metrics;
+import com.alternacraft.aclib.extras.Metrics;
 import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.randomtps.Main.Manager;
 import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE_FILE;

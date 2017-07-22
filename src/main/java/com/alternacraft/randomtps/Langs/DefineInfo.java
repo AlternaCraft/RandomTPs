@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 /**
  * Messages about zone defining.
- * 
+ *
  * @author AlternaCraft
  */
 public enum DefineInfo implements LangInterface {
@@ -104,11 +104,10 @@ public enum DefineInfo implements LangInterface {
 
     @Override
     public String getDefaultText(Langs lang) {
-        String value = (this.locales.get(lang) == null)
-                ? this.locales.get(Manager.BASE.getMainLanguage()) : this.locales.get(lang);
-
+        Langs main = Manager.BASE.getMainLanguage();
         String v = LangManager.getValueFromFile(lang, this);
-
-        return (v == null) ? value : v;
+        v = (v == null) ? LangManager.getValueFromFile(main, this) : v;
+        return (v == null) ? (this.locales.get(lang) == null) ? 
+                this.locales.get(main) : this.locales.get(lang) : v;
     }
 }

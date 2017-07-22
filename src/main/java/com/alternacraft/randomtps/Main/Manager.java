@@ -21,8 +21,6 @@ import com.alternacraft.aclib.PluginBase;
 import com.alternacraft.aclib.commands.registerer.SubCommandsRegisterer;
 import com.alternacraft.aclib.exceptions.ErrorManager;
 import com.alternacraft.aclib.exceptions.PluginException;
-import com.alternacraft.aclib.hook.ExternalPluginRegisterer;
-import com.alternacraft.aclib.hook.HookerInterface;
 import com.alternacraft.aclib.langs.CommandMessages;
 import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Langs;
@@ -55,7 +53,6 @@ public class Manager {
     public static Manager INSTANCE = new Manager();
 
     public static final PluginBase BASE = PluginBase.INSTANCE;
-    public static final ExternalPluginRegisterer HOOKS = ExternalPluginRegisterer.INSTANCE;
 
     /* DBs */
     private ZonesDB zonesdb;
@@ -141,10 +138,6 @@ public class Manager {
     /* GETTERS */
     public ConfigLoader loader() {
         return this.loader;
-    }
-
-    public HookerInterface getHooker(String name) {
-        return HOOKS.getHooker(name);
     }
 
     public SubCommandsRegisterer getMainCommand() {
