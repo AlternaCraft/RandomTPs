@@ -52,12 +52,12 @@ public class ZoneCommand implements SubCommandExecutor {
 
     @Override
     public boolean execute(CommandSender cs, String[] args) {
-        if (args.length <= 1) {
+        if (args.length < 1) {
             return false;
         }
 
         Langs lang = Localizer.getLocale(cs);
-        String cmd = args[1];
+        String cmd = args[0];
 
         switch (cmd) {
             case "list":

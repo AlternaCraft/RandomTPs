@@ -16,9 +16,12 @@
  */
 package com.alternacraft.randomtps.Commands;
 
+import com.alternacraft.aclib.commands.Condition;
 import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.aclib.commands.registerer.SubCommandsInterface;
+import com.alternacraft.aclib.extras.PluginCommands;
 import com.alternacraft.randomtps.Langs.CommandInfo;
+import com.alternacraft.randomtps.Main.Manager;
 
 /**
  * List of all subcommands.
@@ -30,7 +33,7 @@ public enum SubCommands implements SubCommandsInterface {
             "",
             "rtp",
             CommandInfo.COMMAND_EMPTY,
-            new PluginCommands()
+            new PluginCommands(Manager.INSTANCE.getMainCommand().cmdListener())
     ),
     INFO(
             "info",
@@ -58,14 +61,34 @@ public enum SubCommands implements SubCommandsInterface {
     );
 
     private final String arg, usage;
-    private final Enum info;
+    private final Enum desc;
     private final SubCommandExecutor instance;
+    private final Condition condition;
+    private final String[] aliases;
 
-    SubCommands(String argument, String usage, Enum description, SubCommandExecutor instance) {
+    SubCommands(String argument, String usage, Enum desc, 
+            SubCommandExecutor instance) {
+        this(argument, usage, desc, instance, null, new String[0]);
+    }
+
+    SubCommands(String argument, String usage, Enum desc, 
+            SubCommandExecutor instance, String... aliases) {
+        this(argument, usage, desc, instance, null, aliases);
+    }
+
+    SubCommands(String argument, String usage, Enum desc, 
+            SubCommandExecutor instance, Condition condition) {
+        this(argument, usage, desc, instance, condition, new String[0]);
+    }
+
+    SubCommands(String argument, String usage, Enum desc, SubCommandExecutor instance, 
+            Condition condition, String... aliases) {
         this.arg = argument;
         this.usage = usage;
-        this.info = description;
+        this.desc = desc;
         this.instance = instance;
+        this.condition = condition;
+        this.aliases = aliases;
     }
 
     @Override
@@ -80,11 +103,21 @@ public enum SubCommands implements SubCommandsInterface {
 
     @Override
     public Enum getDescription() {
-        return info;
+        return desc;
     }
 
     @Override
     public SubCommandExecutor getInstance() {
         return instance;
+    }
+
+    @Override
+    public Condition getCustomCondition() {
+        return condition;
+    }
+
+    @Override
+    public String[] getAliases() {
+        return aliases;
     }
 }
