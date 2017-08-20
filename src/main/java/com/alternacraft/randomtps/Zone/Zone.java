@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.Zone;
 
-import com.alternacraft.aclib.extras.Randomizer;
+import com.alternacraft.aclib.extras.NumbersUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.util.Vector;
@@ -52,7 +52,7 @@ public class Zone {
      * @return The random location
      */
     public Location randomLocation(World world) {
-        return Randomizer.randBetweenVector(this.p1, this.p2).toLocation(world);
+        return NumbersUtils.randBetweenVector(this.p2, this.p1).toLocation(world);
     }
     
     /**

@@ -20,7 +20,7 @@ import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.extras.MessageIntervals;
-import com.alternacraft.aclib.extras.Randomizer;
+import com.alternacraft.aclib.extras.NumbersUtils;
 import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Listeners.HandleTeleport;
@@ -137,16 +137,14 @@ public class ZoneChecker {
 
         @Override
         public void run() {
-            int randWorld = Randomizer.rand(
-                    dz.getDestinations().size() - 1, 0
-            );
+            int randWorld = NumbersUtils.rand(0, dz.getDestinations().size() - 1);
             World destination = Bukkit.getServer().getWorld(
                     dz.getDestinations().get(randWorld)
             );
 
             auxLocation = new Location(destination,
-                    Randomizer.rand(max_x, min_x), y,
-                    Randomizer.rand(max_z, min_z));
+                    NumbersUtils.rand(min_x, max_x), y,
+                    NumbersUtils.rand(min_z, max_z));
         }
 
         @Override
@@ -166,8 +164,8 @@ public class ZoneChecker {
 
         @Override
         public void run() {
-            int randworld = Randomizer.rand(subzones.size() - 1, 0);
-            int randSubzone = Randomizer.rand(subzones.getValue(randworld).size() - 1, 0);
+            int randworld = NumbersUtils.rand(0, subzones.size() - 1);
+            int randSubzone = NumbersUtils.rand(0, subzones.getValue(randworld).size() - 1);
             Zone zone = subzones.get(subzones.getKey(randworld)).get(randSubzone);
 
             zone.getP1().setY(dz.getY());
