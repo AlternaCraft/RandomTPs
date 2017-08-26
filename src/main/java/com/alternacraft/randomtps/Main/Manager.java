@@ -27,7 +27,7 @@ import com.alternacraft.aclib.langs.Langs;
 import com.alternacraft.aclib.listeners.HandlersRegisterer;
 import com.alternacraft.randomtps.API.Errors.DBErrors;
 import com.alternacraft.randomtps.API.ZonesDB;
-import com.alternacraft.randomtps.Commands.SubCommands;
+import com.alternacraft.randomtps.Commands.Commands;
 import com.alternacraft.randomtps.Langs.CommandInfo;
 import com.alternacraft.randomtps.Langs.DefineInfo;
 import com.alternacraft.randomtps.Langs.GameInfo;
@@ -92,7 +92,7 @@ public class Manager {
 
     public void registerCommands() {
         mainCommand = new SubCommandsRegisterer("randomtps", "rtp");
-        mainCommand.register(SubCommands.class);
+        mainCommand.register(Commands.class);
     }
 
     public void registerListeners() {

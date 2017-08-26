@@ -28,7 +28,7 @@ import com.alternacraft.randomtps.Main.Manager;
  * 
  * @author AlternaCraft
  */
-public enum SubCommands implements SubCommandsInterface {
+public enum Commands implements SubCommandsInterface {
     NONE(
             "",
             "rtp",
@@ -57,7 +57,8 @@ public enum SubCommands implements SubCommandsInterface {
             "reload",
             "rtp reload",
             CommandInfo.COMMAND_RELOAD_DESC,
-            new ReloadCommand()
+            new ReloadCommand(),
+            "rl"
     );
 
     private final String arg, usage;
@@ -66,22 +67,22 @@ public enum SubCommands implements SubCommandsInterface {
     private final Condition condition;
     private final String[] aliases;
 
-    SubCommands(String argument, String usage, Enum desc, 
+    Commands(String argument, String usage, Enum desc, 
             SubCommandExecutor instance) {
         this(argument, usage, desc, instance, null, new String[0]);
     }
 
-    SubCommands(String argument, String usage, Enum desc, 
+    Commands(String argument, String usage, Enum desc, 
             SubCommandExecutor instance, String... aliases) {
         this(argument, usage, desc, instance, null, aliases);
     }
 
-    SubCommands(String argument, String usage, Enum desc, 
+    Commands(String argument, String usage, Enum desc, 
             SubCommandExecutor instance, Condition condition) {
         this(argument, usage, desc, instance, condition, new String[0]);
     }
 
-    SubCommands(String argument, String usage, Enum desc, SubCommandExecutor instance, 
+    Commands(String argument, String usage, Enum desc, SubCommandExecutor instance, 
             Condition condition, String... aliases) {
         this.arg = argument;
         this.usage = usage;
