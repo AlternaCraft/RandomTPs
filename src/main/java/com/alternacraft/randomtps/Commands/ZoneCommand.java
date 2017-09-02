@@ -18,7 +18,7 @@ package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.commands.SubCommandExecutor;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.extras.NumbersUtils;
 import com.alternacraft.randomtps.API.Events.DefineZoneEvent;
@@ -56,7 +56,7 @@ public class ZoneCommand implements SubCommandExecutor {
             return false;
         }
 
-        Langs lang = Localizer.getLocale(cs);
+        Lang lang = Localizer.getLocale(cs);
         String cmd = args[0];
 
         switch (cmd) {

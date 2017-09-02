@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.alternacraft</groupId>
             <artifactId>aclib</artifactId>    
-            <version>1.5-SNAPSHOT</version>      
+            <version>1.6-SNAPSHOT</version>      
             <scope>compile</scope>
         </dependency>   
     </dependencies>
@@ -75,6 +75,16 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>com.alternacraft</artifact>
+                                    <excludes>
+                                        <exclude>com/alternacraft/aclib/extras/gui/**.class</exclude>
+                                        <exclude>com/alternacraft/aclib/extras/db/**.class</exclude>
+                                        <exclude>com/alternacraft/aclib/extras/crypt/**.class</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                             <relocations>
                                 <relocation>
                                     <pattern>com.alternacraft.aclib</pattern>

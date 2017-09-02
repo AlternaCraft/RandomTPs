@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.Utils;
 
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.randomtps.Listeners.HandleTeleport.COLLISION_EFFECT;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class ConfigDataStore {
     protected short errorFormat = 2;
     
     // Langs
-    protected Langs defaultLang = Langs.EN;
+    protected Lang defaultLang = Lang.EN;
     
     // Selection
     protected String selection = "add";
@@ -103,11 +103,11 @@ public class ConfigDataStore {
         this.errorFormat = errorFormat;
     }
 
-    public Langs getDefaultLang() {
+    public Lang getDefaultLang() {
         return defaultLang;
     }
 
-    public void setDefaultLang(Langs defaultLang) {
+    public void setDefaultLang(Lang defaultLang) {
         this.defaultLang = defaultLang;
     }
     

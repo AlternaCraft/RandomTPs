@@ -17,7 +17,7 @@
 package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.config.ConfigDataInterface;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.randomtps.Utils.ConfigDataStore;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -33,7 +33,7 @@ public class ConfigLoader extends ConfigDataStore implements ConfigDataInterface
         // Defaults
         Manager.BASE.definePluginPrefix(fc.getString("prefix"));
         Manager.BASE.defineErrorFormat((short) fc.getInt("errorFormat"));
-        Manager.BASE.defineMainLanguage(Langs.valueOf(fc.getString("defaultLang")));
+        Manager.BASE.defineMainLanguage(Lang.valueOf(fc.getString("defaultLang")));
         
         // General
         this.setMetrics(fc.getBoolean("metrics"));

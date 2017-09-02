@@ -18,7 +18,7 @@ package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.MessageManager;
 import static com.alternacraft.aclib.PluginBase.TPS;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.API.Events.BuildCompletedEvent;
 import com.alternacraft.randomtps.API.Events.BuildStartedEvent;
@@ -107,7 +107,7 @@ public class ZoneBuilder {
     }
 
     public void show(CommandSender cs, final Material m) {
-        Langs l = Localizer.getLocale(cs);
+        Lang l = Localizer.getLocale(cs);
 
         run = new BlocksReplacer(new ArrayList() {
             {
@@ -124,7 +124,7 @@ public class ZoneBuilder {
     }
 
     public void hide(CommandSender cs) {
-        Langs l = Localizer.getLocale(cs);
+        Lang l = Localizer.getLocale(cs);
 
         run = new BlocksReplacer(true, cs, this);
         Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), run, TPS);

@@ -19,7 +19,7 @@ package com.alternacraft.randomtps.Commands;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.aclib.langs.LangManager;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Main.Manager;
@@ -34,7 +34,7 @@ public class ReloadCommand implements SubCommandExecutor {
 
     @Override
     public boolean execute(CommandSender cs, String[] args) {
-        Langs lang = Localizer.getLocale(cs);
+        Lang lang = Localizer.getLocale(cs);
 
         LangManager.clearMessages();
         

@@ -23,7 +23,7 @@ import com.alternacraft.aclib.exceptions.ErrorManager;
 import com.alternacraft.aclib.exceptions.PluginException;
 import com.alternacraft.aclib.langs.CommandMessages;
 import com.alternacraft.aclib.langs.LangManager;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.listeners.HandlersRegisterer;
 import com.alternacraft.randomtps.API.Errors.DBErrors;
 import com.alternacraft.randomtps.API.ZonesDB;
@@ -104,7 +104,7 @@ public class Manager {
     }
     
     public void loadLanguages() {
-        LangManager.setKeys(Langs.ES, Langs.EN);
+        LangManager.setKeys(Lang.ES, Lang.EN);
         LangManager.saveMessages(CommandMessages.class, GeneralInfo.class,
                 CommandInfo.class, DefineInfo.class, GameInfo.class);
         LangManager.loadMessages();

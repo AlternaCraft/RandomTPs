@@ -18,7 +18,7 @@ package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.exceptions.PluginException;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.API.Events.DefineZoneEvent;
 import com.alternacraft.randomtps.Langs.DefineInfo;
@@ -95,7 +95,7 @@ public class HandleZoneCreation implements Listener {
     public void define(DefineZoneEvent ev) {
         UUID uuid = ev.offplayer().getUniqueId();
         if (ev.offplayer().isOnline()) {
-            Langs lang = Localizer.getLocale(ev.player());
+            Lang lang = Localizer.getLocale(ev.player());
 
             if (DEFINERS.containsKey(uuid)) {
                 MessageManager.sendPlayer(ev.player(),
@@ -128,7 +128,7 @@ public class HandleZoneCreation implements Listener {
         String answ = ev.getMessage();
 
         if (DEFINERS.containsKey(uuid) && answ.contains(Manager.INSTANCE.loader().getCancel())) {
-            Langs lang = Localizer.getLocale(player);
+            Lang lang = Localizer.getLocale(player);
             String zone = HandleZoneCreation.DEFINERS.get(uuid).getZoneName();
 
             // Bye bye
@@ -148,7 +148,7 @@ public class HandleZoneCreation implements Listener {
             return;
         }
 
-        Langs lang = Localizer.getLocale(ev.getPlayer());
+        Lang lang = Localizer.getLocale(ev.getPlayer());
         UUID uuid = ev.getPlayer().getUniqueId();
 
         if (DEFINERS.containsKey(uuid)) {
@@ -206,7 +206,7 @@ public class HandleZoneCreation implements Listener {
             return;
         }
 
-        Langs lang = Localizer.getLocale(ev.getPlayer());
+        Lang lang = Localizer.getLocale(ev.getPlayer());
         UUID uuid = ev.getPlayer().getUniqueId();
 
         if (DEFINERS.containsKey(uuid)) {
@@ -252,7 +252,7 @@ public class HandleZoneCreation implements Listener {
             return;
         }
 
-        Langs lang = Localizer.getLocale(ev.getPlayer());
+        Lang lang = Localizer.getLocale(ev.getPlayer());
         UUID uuid = ev.getPlayer().getUniqueId();
 
         if (DEFINERS.containsKey(uuid)) {
@@ -280,7 +280,7 @@ public class HandleZoneCreation implements Listener {
 
     private void save(PreDefinedZone preloc, Player pl) {
         try {
-            Langs lang = Localizer.getLocale(pl);
+            Lang lang = Localizer.getLocale(pl);
             
             Manager.INSTANCE.getZonesDB().saveDefinedZone(preloc.toDefinedZone());
             Manager.INSTANCE.getZonesDB().enableDefinedZone(preloc.getZoneName());

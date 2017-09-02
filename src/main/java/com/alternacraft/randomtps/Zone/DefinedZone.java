@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.Zone;
 
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.extras.NumbersUtils;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Listeners.HandleTeleport.COLLISION_EFFECT;
@@ -260,7 +260,7 @@ public class DefinedZone extends Zone {
      * 
      * @return The formatted string
      */
-    public String toClickString(Langs l) {
+    public String toClickString(Lang l) {
         String title = GameInfo.ZONE_GO_TITLE.getText(l);
         String coord1 = "*** P1 (" + this.p1.getBlockX() + ", " + this.getP1().getBlockY()
                 + ", " + this.getP1().getBlockZ() + ")";

@@ -18,7 +18,7 @@ package com.alternacraft.randomtps.Langs;
 
 import com.alternacraft.aclib.langs.LangInterface;
 import com.alternacraft.aclib.langs.LangManager;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
@@ -58,9 +58,9 @@ public enum GeneralInfo implements LangInterface {
             "&4¡Te faltan/sobran argumentos!",
             "&4You spare arguments!"            
     );
-    // </editor-fold>
+    // </editor-fold>// </editor-fold>
 
-    private final HashMap<Langs, String> locales = new HashMap();
+    private final HashMap<Lang, String> locales = new HashMap();
 
     /**
      * Define the default languages to load
@@ -69,18 +69,18 @@ public enum GeneralInfo implements LangInterface {
      * @param en English
      */
     private GeneralInfo(String es, String en) {
-        this.locales.put(Langs.ES, es);
-        this.locales.put(Langs.EN, en);
+        this.locales.put(Lang.ES, es);
+        this.locales.put(Lang.EN, en);
     }
 
     @Override
-    public String getText(Langs lang) {
+    public String getText(Lang lang) {
         return StringsUtils.translateColors(getDefaultText(lang));
     }
 
     @Override
-    public String getDefaultText(Langs lang) {        
-        Langs main = Manager.BASE.getMainLanguage();
+    public String getDefaultText(Lang lang) {        
+        Lang main = Manager.BASE.getMainLanguage();
         String v = LangManager.getValueFromFile(lang, this);
         v = (v == null) ? this.locales.get(lang) : v;
         v = (v == null) ? LangManager.getValueFromFile(main, this) : v;

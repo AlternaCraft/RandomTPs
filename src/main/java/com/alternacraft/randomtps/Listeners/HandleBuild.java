@@ -17,7 +17,7 @@
 package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.API.Events.BuildCompletedEvent;
@@ -48,7 +48,7 @@ public class HandleBuild implements Listener {
     @EventHandler
     public void handleBuildCompleted(final BuildCompletedEvent ev) {
         String time = StringsUtils.splitToComponentTimes(ev.getElapsedtimeInSeconds());
-        Langs l = Localizer.getLocale(ev.cs());
+        Lang l = Localizer.getLocale(ev.cs());
         
         if (ev.isRollback()) {
             MessageManager.sendCommandSender(ev.cs(), GameInfo.ZONE_END_ROLLBACK

@@ -18,7 +18,7 @@ package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.aclib.MessageManager;
 import static com.alternacraft.aclib.PluginBase.TPS;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.extras.MessageIntervals;
 import com.alternacraft.randomtps.API.Events.PlayerBecomesUselessEvent;
@@ -81,7 +81,7 @@ public class HandleGods implements Listener {
         }
 
         Player pl = (Player) ev.player();
-        Langs lang = Localizer.getLocale(pl);
+        Lang lang = Localizer.getLocale(pl);
 
         // Auto fix if something fails
         if (GODS.contains(pl.getUniqueId())) {
@@ -168,7 +168,7 @@ public class HandleGods implements Listener {
 
                 for (UUID uuid : GODS) {
                     Player player = Bukkit.getPlayer(uuid);
-                    Langs lang = Localizer.getLocale(player);
+                    Lang lang = Localizer.getLocale(player);
 
                     if (no_pvp.getUniqueId().equals(uuid)) {
                         MessageIntervals.sendMessage(player, GameInfo.PLAYER_LOSES_PVP, lang);

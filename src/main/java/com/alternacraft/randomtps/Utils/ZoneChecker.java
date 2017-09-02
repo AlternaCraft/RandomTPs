@@ -17,7 +17,7 @@
 package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.langs.Langs;
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.extras.MessageIntervals;
 import com.alternacraft.aclib.extras.NumbersUtils;
@@ -185,7 +185,7 @@ public class ZoneChecker {
     }
 
     private void endOfValidation(boolean successfully) {
-        Langs lang = Localizer.getLocale(player);
+        Lang lang = Localizer.getLocale(player);
 
         this.ended = true;
 
