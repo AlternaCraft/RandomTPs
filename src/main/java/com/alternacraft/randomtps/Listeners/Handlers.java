@@ -16,7 +16,7 @@
  */
 package com.alternacraft.randomtps.Listeners;
 
-import com.alternacraft.aclib.listeners.HandlersInterface;
+import com.alternacraft.aclib.extras.listeners.HandlersInterface;
 import com.alternacraft.randomtps.Utils.BroadcastAsExp;
 import org.bukkit.event.Listener;
 
