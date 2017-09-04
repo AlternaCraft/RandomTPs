@@ -72,6 +72,7 @@ public class ZonesFile implements ZonesDB {
                 this.saveConfiguration();
             }
         };
+        ZONESFILE.loadYamlConfiguration();
     }
     //</editor-fold>
 
