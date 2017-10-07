@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.alternacraft</groupId>
             <artifactId>aclib</artifactId>    
-            <version>1.6.2-SNAPSHOT</version>      
+            <version>1.7</version>      
             <scope>compile</scope>
         </dependency>   
     </dependencies>
@@ -79,9 +79,14 @@
                                 <filter>
                                     <artifact>com.alternacraft</artifact>
                                     <excludes>
-                                        <exclude>com/alternacraft/aclib/extras/gui/**.class</exclude>
+                                        <exclude>com/alternacraft/aclib/extras/SystemCommand*.class</exclude>
+                                        <exclude>com/alternacraft/aclib/extras/EasyFirework*.class</exclude>
+                                        <exclude>com/alternacraft/aclib/extras/LocationUtils*.class</exclude>
+                                        
                                         <exclude>com/alternacraft/aclib/extras/db/**.class</exclude>
                                         <exclude>com/alternacraft/aclib/extras/crypt/**.class</exclude>
+                                        <exclude>com/alternacraft/aclib/extras/gui/**.class</exclude>
+                                        <exclude>com/alternacraft/aclib/extras/serializer/**.class</exclude>
                                     </excludes>
                                 </filter>
                             </filters>

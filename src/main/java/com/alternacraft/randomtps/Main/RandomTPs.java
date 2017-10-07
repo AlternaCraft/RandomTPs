@@ -18,7 +18,7 @@ package com.alternacraft.randomtps.Main;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.aclib.extras.Recorder;
+import com.alternacraft.aclib.utils.Recorder;
 import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import static com.alternacraft.randomtps.Listeners.HandleBuild.DISABLED;
