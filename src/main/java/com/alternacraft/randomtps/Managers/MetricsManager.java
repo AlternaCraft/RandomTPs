@@ -18,15 +18,13 @@ package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.aclib.extras.Metrics;
 import com.alternacraft.aclib.utils.PluginLog;
+import com.alternacraft.aclib.utils.RegExp;
 import com.alternacraft.randomtps.Main.Manager;
 import static com.alternacraft.randomtps.Main.RandomTPs.PERFORMANCE_FILE;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -39,92 +37,49 @@ public class MetricsManager {
     //<editor-fold defaultstate="collapsed" desc="CUSTOM GRAPHS">
     public static void setGraphs(Metrics metrics) {
         metrics.addCustomChart(new Metrics.SimplePie("default_language",
-                new Callable<String>() {
-            @Override
-            public String call() {
-                return Manager.INSTANCE.loader().getDefaultLang().name();
-            }
-        }));
+                Manager.INSTANCE.loader().getDefaultLang()::name));
 
         metrics.addCustomChart(new Metrics.SimplePie("cancel_command",
-                new Callable<String>() {
-            @Override
-            public String call() {
-                return Manager.INSTANCE.loader().getCancel();
-            }
-        }));
+                Manager.INSTANCE.loader()::getCancel));
 
         metrics.addCustomChart(new Metrics.SimplePie("add_command",
-                new Callable<String>() {
-            @Override
-            public String call() {
-                return Manager.INSTANCE.loader().getSelection();
-            }
-        }));
+                Manager.INSTANCE.loader()::getSelection));
+
         metrics.addCustomChart(new Metrics.SimplePie("building_mode",
-                new Callable<String>() {
-            @Override
-            public String call() {
-                return (Manager.INSTANCE.loader().doInstantly()) ? "Instant" : "No instant";
-            }
-        }));
+                () -> (Manager.INSTANCE.loader().doInstantly()) ? "Instant" : "No instant"));
 
         metrics.addCustomChart(new Metrics.SimplePie("teletransportation_height",
-                new Callable<String>() {
-            @Override
-            public String call() {
-                return String.valueOf(Manager.INSTANCE.loader().getY());
+                () -> String.valueOf(Manager.INSTANCE.loader().getY())));
+
+        metrics.addCustomChart(new Metrics.SimplePie("enabled_validations", () -> {
+            String result = "";
+            List<String> validations = Manager.INSTANCE.loader().getValidations();
+            for (int i = 0; i < validations.size(); i++) {
+                result += validations.get(i);
+                if (i < validations.size() - 1) {
+                    result += ", ";
+                }
             }
+            return (result.isEmpty()) ? "None" : result;
         }));
 
-        metrics.addCustomChart(new Metrics.SimplePie("enabled_validations",
-                new Callable<String>() {
-            @Override
-            public String call() {
-                String result = "";
-                List<String> validations = Manager.INSTANCE.loader().getValidations();
-                for (int i = 0; i < validations.size(); i++) {
-                    result += validations.get(i);
-                    if (i < validations.size() - 1) {
-                        result += ", ";
-                    }
-                }
-                return (result.isEmpty()) ? "None" : result;
-            }
-        }));
+        metrics.addCustomChart(new Metrics.AdvancedPie("general_statistics", () -> {
+            PluginLog pl = new PluginLog(PERFORMANCE_FILE);
+            pl.importLog();
 
-        metrics.addCustomChart(new Metrics.AdvancedPie("general_statistics",
-                new Callable<Map<String, Integer>>() {
-            @Override
-            public Map<String, Integer> call() {
-                PluginLog pl = new PluginLog(PERFORMANCE_FILE);
-                pl.importLog();
+            Map<String, Integer> valueMap = new HashMap<>();
+            Map<Date, List<String>> loginfo = PluginLog.getValuesPerDate(pl.getMessages());
 
-                Map<String, Integer> valueMap = new HashMap<>();                
-                Map<Date, List<String>> loginfo = PluginLog.getValuesPerDate(pl.getMessages());
+            loginfo.entrySet().stream().map(Map.Entry::getValue).forEachOrdered(reports -> {
+                reports.forEach(report -> {
+                    RegExp.getGroupsWithElements("(.*) \\- (\\d+)", report, 1, 2)
+                            .forEach(e -> valueMap.put(e[0], Integer.valueOf(e[1])));
+                });
+            });
 
-                for (Map.Entry<Date, List<String>> entry : loginfo.entrySet()) {
-                    List<String> reports = entry.getValue();
-                    for (String report : reports) {
-                        Pattern p = Pattern.compile("(.*) \\- (\\d+)");
-                        Matcher m = p.matcher(report);
+            pl.delete();
 
-                        String type = "";
-                        int value = 0;
-
-                        if (m.find()) {
-                            type = m.group(1);
-                            value = Integer.valueOf(m.group(2));
-                        }
-
-                        valueMap.put(type, value);
-                    }
-                }
-
-                pl.delete();
-
-                return valueMap;
-            }
+            return valueMap;
         }));
     }
     //</editor-fold>        

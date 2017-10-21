@@ -18,9 +18,9 @@ package com.alternacraft.randomtps.Listeners;
 
 import com.alternacraft.aclib.MessageManager;
 import static com.alternacraft.aclib.PluginBase.TPS;
+import com.alternacraft.aclib.extras.MessageIntervals;
 import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.Localizer;
-import com.alternacraft.aclib.extras.MessageIntervals;
 import com.alternacraft.randomtps.API.Events.PlayerBecomesUselessEvent;
 import com.alternacraft.randomtps.API.Events.PlayerGodModeEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;

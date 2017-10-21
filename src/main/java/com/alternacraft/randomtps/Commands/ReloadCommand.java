@@ -18,8 +18,8 @@ package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.commands.SubCommandExecutor;
-import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.langs.Lang;
+import com.alternacraft.aclib.langs.LangManager;
 import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Main.Manager;

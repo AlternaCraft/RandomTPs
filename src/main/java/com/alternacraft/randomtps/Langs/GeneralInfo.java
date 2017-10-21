@@ -16,9 +16,9 @@
  */
 package com.alternacraft.randomtps.Langs;
 
+import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.langs.LangInterface;
 import com.alternacraft.aclib.langs.LangManager;
-import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.utils.StringsUtils;
 import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;

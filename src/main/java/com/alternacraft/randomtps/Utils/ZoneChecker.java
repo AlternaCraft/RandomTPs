@@ -17,10 +17,10 @@
 package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.MessageManager;
-import com.alternacraft.aclib.langs.Lang;
-import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.aclib.extras.MessageIntervals;
 import com.alternacraft.aclib.extras.NumbersUtils;
+import com.alternacraft.aclib.langs.Lang;
+import com.alternacraft.aclib.utils.Localizer;
 import com.alternacraft.randomtps.API.Events.PlayerDroppedEvent;
 import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Listeners.HandleTeleport;
