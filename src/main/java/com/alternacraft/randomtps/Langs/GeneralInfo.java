@@ -18,10 +18,8 @@ package com.alternacraft.randomtps.Langs;
 
 import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.aclib.langs.LangInterface;
-import com.alternacraft.aclib.langs.LangManager;
-import com.alternacraft.aclib.utils.StringsUtils;
-import com.alternacraft.randomtps.Main.Manager;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Messages about general information.
@@ -74,17 +72,12 @@ public enum GeneralInfo implements LangInterface {
     }
 
     @Override
-    public String getText(Lang lang) {
-        return StringsUtils.translateColors(getDefaultText(lang));
+    public Map<Lang, String> getLocales() {
+        return this.locales;
     }
 
     @Override
-    public String getDefaultText(Lang lang) {        
-        Lang main = Manager.BASE.getMainLanguage();
-        String v = LangManager.getValueFromFile(lang, this);
-        v = (v == null) ? this.locales.get(lang) : v;
-        v = (v == null) ? LangManager.getValueFromFile(main, this) : v;
-        v = (v == null) ? this.locales.get(main) : v;
-        return v;
+    public Enum getEnum() {
+        return this;
     }
 }
