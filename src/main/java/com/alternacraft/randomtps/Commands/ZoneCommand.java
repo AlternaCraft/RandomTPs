@@ -120,7 +120,7 @@ public class ZoneCommand implements SubCommandExecutor {
                             player.setFlying(Boolean.TRUE);
 
                             player.teleport(loc.getVisitLocation(Bukkit.getWorld(loc.getOrigin())));
-                            MessageManager.sendPlayer(player,
+                            MessageManager.sendCommandSender(player,
                                     GameInfo.ZONE_GO_FINISHED.getText(lang));
                         } else {
                             MessageManager.sendCommandSender(cs,
