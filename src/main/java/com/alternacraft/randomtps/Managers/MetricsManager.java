@@ -16,7 +16,6 @@
  */
 package com.alternacraft.randomtps.Managers;
 
-import com.alternacraft.aclib.extras.Metrics;
 import com.alternacraft.aclib.utils.PluginLog;
 import com.alternacraft.aclib.utils.RegExp;
 import com.alternacraft.randomtps.Main.Manager;
@@ -25,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
