@@ -17,7 +17,7 @@
 package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.randomtps.API.GMBroadcast;
-import com.alternacraft.randomtps.Utils.BroadcastAsExp;
+import com.alternacraft.randomtps.API.Presets.BroadcastAsExp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

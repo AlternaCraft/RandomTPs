@@ -17,7 +17,7 @@
 package com.alternacraft.randomtps.Managers;
 
 import com.alternacraft.randomtps.API.GMEffect;
-import com.alternacraft.randomtps.Utils.PotionEffects;
+import com.alternacraft.randomtps.API.Presets.PotionEffects;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +52,7 @@ public class EffectManager {
 
         if (b.start(pl, time, v)) {
             if (!EFFECTS.containsKey(pl.getUniqueId())) {
-                EFFECTS.put(pl.getUniqueId(), new ArrayList<GMEffect>());
+                EFFECTS.put(pl.getUniqueId(), new ArrayList<>());
             }
             EFFECTS.get(pl.getUniqueId()).add(b);
             return true;

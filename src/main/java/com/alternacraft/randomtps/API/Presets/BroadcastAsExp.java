@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Utils;
+package com.alternacraft.randomtps.API.Presets;
 
 import static com.alternacraft.aclib.PluginBase.TPS;
 import com.alternacraft.randomtps.API.GMBroadcast;

@@ -53,7 +53,7 @@ public class HandleTeleport implements Listener {
         BOUNCE((short) -5), 
         SPEED_UP((short) 5);
         
-        private short mvm;
+        private final short mvm;
 
         COLLISION_EFFECT(short mvm) {
             this.mvm = mvm;

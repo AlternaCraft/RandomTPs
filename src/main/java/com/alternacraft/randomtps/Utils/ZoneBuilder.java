@@ -34,6 +34,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
@@ -60,41 +61,19 @@ public class ZoneBuilder {
         int x, y, z;
         int minx, miny, minz;
 
-        if (p1.getX() >= p2.getX()) {
-            x = p1.getBlockX();
-            minx = p2.getBlockX();
-        } else {
-            x = p2.getBlockX();
-            minx = p1.getBlockX();
-        }
-        if (p1.getY() >= p2.getY()) {
-            y = p1.getBlockY();
-            miny = p2.getBlockY();
-        } else {
-            y = p2.getBlockY();
-            miny = p1.getBlockY();
-        }
-        if (p1.getZ() >= p2.getZ()) {
-            z = p1.getBlockZ();
-            minz = p2.getBlockZ();
-        } else {
-            z = p2.getBlockZ();
-            minz = p1.getBlockZ();
-        }
+        x = Math.max(p1.getBlockX(), p2.getBlockX());
+        minx = Math.min(p1.getBlockX(), p2.getBlockX());
+        y = Math.max(p1.getBlockY(), p2.getBlockY());
+        miny = Math.min(p1.getBlockY(), p2.getBlockY());
+        z = Math.max(p1.getBlockZ(), p2.getBlockZ());
+        minz = Math.min(p1.getBlockZ(), p2.getBlockZ());
 
         METER.start("Loading zone");
 
         for (int i = minx; i <= x; i++) {
             for (int j = miny; j <= y; j++) {
                 for (int k = minz; k <= z; k++) {
-                    if ( // Vertices
-                            (i == minx || i == x) && (j == miny || j == y) && (k == minz || k == z)
-                            || // Rows (side 1)
-                            (i == minx || i == x) && (j == miny || j == y)
-                            || // Rows (side 2)
-                            (k == minz || k == z) && (j == miny || j == y)
-                            || // Corners (Columns)
-                            (j > miny && j < y) && (i == minx || i == x) && (k == minz || k == z)) {
+                    if (this.shouldAdd(x, minx, y, miny, z, minz, i, j, k)) {
                         // Fix for negative coords
                         Location l = new Location(world, (i < 0) ? (i - 1) : i, j, (k < 0) ? (k - 1) : k);
                         blocks.put(l, l.getBlock().getType());
@@ -104,6 +83,19 @@ public class ZoneBuilder {
         }
 
         METER.recordTime("Loading zone");
+    }
+
+    private boolean shouldAdd(int x, int minx, int y, int miny, int z, int minz, 
+            int i, int j, int k) {
+        return 
+                // Vertices
+                (i == minx || i == x) && (j == miny || j == y) && (k == minz || k == z)
+                || // Rows (side 1)
+                (i == minx || i == x) && (j == miny || j == y)
+                || // Rows (side 2)
+                (k == minz || k == z) && (j == miny || j == y)
+                || // Corners (Columns)
+                (j > miny && j < y) && (i == minx || i == x) && (k == minz || k == z);
     }
 
     public void show(CommandSender cs, final Material m) {
@@ -150,9 +142,9 @@ public class ZoneBuilder {
 
         private long starttime;
         private long endtime;
-        
+
         private boolean stop;
-        
+
         private int lastBlock;
         private boolean finished;
 
@@ -186,19 +178,16 @@ public class ZoneBuilder {
 
                 // Get the material and change
                 final Material mat = (n >= mats.size()) ? (Material) materials[0]
-                        : (Material) materials[n];                
+                        : (Material) materials[n];
                 ((Location) locs[n]).getBlock().setType(mat);
-                
+
                 if (!instantly) {
-                    Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), new Runnable() {
-                        @Override
-                        public void run() {
-                            recursiveTask(n + 1, total);
-                        }
-                    }, 1L);                    
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(Manager.BASE.plugin(), () -> {
+                        recursiveTask(n + 1, total);
+                    });
                 } else {
                     recursiveTask(n + 1, total);
-                }               
+                }
             } else if (!stop) {
                 this.finished = true;
                 this.endtime = System.currentTimeMillis();
@@ -218,7 +207,7 @@ public class ZoneBuilder {
         private void stop() {
             this.stop = true;
         }
-        
+
         public void forceInstant() {
             this.instantly = true;
         }
@@ -248,7 +237,7 @@ public class ZoneBuilder {
     public void stop() {
         this.run.stop();
     }
-    
+
     public Runnable getRunnable() {
         return this.run;
     }

@@ -183,10 +183,9 @@ public class DefinedZone extends Zone {
     }
 
     public void setPotion_effects(List<String> effects) {
-        for (String effect : effects) {
-            String[] values = effect.split(" ");
+        effects.stream().map(effect -> effect.split(" ")).forEachOrdered((values) -> {
             potion_effects.put(values[0], Integer.valueOf(values[1]));
-        }
+        });
     }
 
     public List<String> getValidations() {

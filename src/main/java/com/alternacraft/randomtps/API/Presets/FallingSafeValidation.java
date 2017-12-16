@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.alternacraft.randomtps.Utils;
+package com.alternacraft.randomtps.API.Presets;
 
 import com.alternacraft.randomtps.API.ZoneValidation;
+import com.alternacraft.randomtps.Utils.ZoneUtils;
 import static com.alternacraft.randomtps.Utils.ZoneUtils.MAX_DIFF;
 import static com.alternacraft.randomtps.Utils.ZoneUtils.MAX_HEIGHT;
 import com.alternacraft.randomtps.Zone.Zone;
