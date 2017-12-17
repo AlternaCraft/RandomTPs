@@ -4,7 +4,7 @@
   <groupId>com.alternacraft</groupId>
   <artifactId>RandomTPs</artifactId>
   <name>RandomTPs</name>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>1.1.1</version>
   <description>A random teleport plugin</description>
   <url>http://dev.bukkit.org/bukkit-plugins/randomtps/</url>
   <inceptionYear>2016</inceptionYear>
@@ -60,13 +60,17 @@
                 <filter>
                   <artifact>com.alternacraft</artifact>
                   <excludes>
+                    <exclude>org/slf4j/**</exclude>
+                    <exclude>com/zaxxer/**</exclude>
                     <exclude>com/alternacraft/aclib/extras/SystemCommand*.class</exclude>
                     <exclude>com/alternacraft/aclib/extras/EasyFirework*.class</exclude>
                     <exclude>com/alternacraft/aclib/extras/LocationUtils*.class</exclude>
+                    <exclude>com/alternacraft/aclib/extras/Serializer*.class</exclude>
+                    <exclude>com/alternacraft/aclib/extras/UUIDFetcher*.class</exclude>
                     <exclude>com/alternacraft/aclib/extras/db/**.class</exclude>
                     <exclude>com/alternacraft/aclib/extras/crypt/**.class</exclude>
                     <exclude>com/alternacraft/aclib/extras/gui/**.class</exclude>
-                    <exclude>com/alternacraft/aclib/extras/serializer/**.class</exclude>
+                    <exclude>com/alternacraft/aclib/extras/timer/**.class</exclude>
                   </excludes>
                 </filter>
               </filters>

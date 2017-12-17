@@ -116,7 +116,7 @@ public enum GameInfo implements LangInterface {
             "&eSe ha/n eliminado %QUANT% zona/s inactiva/s",
             "&e%QUANT% inactive zone/s has been removed"
     );
-    // </editor-fold>// </editor-fold>
+    // </editor-fold>
 
     private final HashMap<Lang, String> locales = new HashMap();
 

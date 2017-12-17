@@ -1,5 +1,5 @@
 # DO NOT TOUCH #
-version: 1.1.0
+version: 1.1.1
 ################
 
 ############################################################
@@ -61,7 +61,7 @@ building:
         
 # Default extras. This is applied to all zones
 # You can set the properties below in each zone by using the keyword "customExtras"
-defaults:
+presets:
     # World limits (This don't affect to the defined subzones)
     # Be careful with this values if you don't want that the world "fattening" too much.
     limits:

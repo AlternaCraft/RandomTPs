@@ -40,6 +40,34 @@ public enum CommandInfo implements LangInterface {
             "Gestiona una region",
             "Manage a region"
     ),
+    COMMAND_ZONE_LIST_DESC(
+            "Lista de regiones activas",
+            "Region list"
+    ),
+    COMMAND_ZONE_TOGGLEACTIVE_DESC(
+            "Activa/Desactiva una region",
+            "Enable/Disable a region"
+    ),
+    COMMAND_ZONE_GO_DESC(
+            "Ir a una zona",
+            "Go to a zone"
+    ),
+    COMMAND_ZONE_CREATE_DESC(
+            "Crea/Modifica una zona",
+            "Create/Modify a region"
+    ),
+    COMMAND_ZONE_SHOW_DESC(
+            "Visualiza una zona",
+            "Show a region"
+    ),
+    COMMAND_ZONE_HIDE_DESC(
+            "Oculta una zona",
+            "Manage a region"
+    ),
+    COMMAND_ZONE_RESTOREALL_DESC(
+            "Restaura todas las regiones",
+            "Restore all regions"
+    ),
     COMMAND_PURGE_DESC(
             "Para limpiar las zonas inactivas",
             "Remove inactive zones"
@@ -48,7 +76,7 @@ public enum CommandInfo implements LangInterface {
             "Para recargar el config del plugin",
             "Reload the plugin configuration"
     );
-    // </editor-fold>// </editor-fold>
+    // </editor-fold>
 
     private final HashMap<Lang, String> locales = new HashMap();
 

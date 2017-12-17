@@ -80,7 +80,7 @@ public enum DefineInfo implements LangInterface {
             "&aZona creada con exito",
             "&aZone created successfully"
     );
-    // </editor-fold>// </editor-fold>
+    // </editor-fold>
 
     private final HashMap<Lang, String> locales = new HashMap();
 

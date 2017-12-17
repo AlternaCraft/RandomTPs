@@ -17,6 +17,7 @@
 package com.alternacraft.randomtps.Commands;
 
 import com.alternacraft.aclib.commands.Condition;
+import com.alternacraft.aclib.commands.SubCommand;
 import com.alternacraft.aclib.commands.SubCommandExecutor;
 import com.alternacraft.aclib.commands.registerer.SubCommandsInterface;
 import com.alternacraft.aclib.extras.PluginCommands;
@@ -31,75 +32,65 @@ import com.alternacraft.randomtps.Main.Manager;
 public enum Commands implements SubCommandsInterface {
     NONE(
             "",
-            "rtp",
             CommandInfo.COMMAND_EMPTY,
             new PluginCommands(Manager.INSTANCE.getMainCommand().cmdListener())
     ),
     INFO(
             "info",
-            "rtp info",
             CommandInfo.COMMAND_INFO_DESC,
             new InfoCommand()
     ),
     ZONE(
             "zone",
-            "rtp zone [list | toggleactive | go | create | show | hide | restoreall]",
             CommandInfo.COMMAND_ZONE_DESC,
-            new ZoneCommand()
+            new ZoneCommand(),
+            new SubCommand("list", CommandInfo.COMMAND_ZONE_LIST_DESC),
+            new SubCommand("toggleactive", CommandInfo.COMMAND_ZONE_TOGGLEACTIVE_DESC),
+            new SubCommand("go", CommandInfo.COMMAND_ZONE_GO_DESC),
+            new SubCommand("create", CommandInfo.COMMAND_ZONE_CREATE_DESC),
+            new SubCommand("show", CommandInfo.COMMAND_ZONE_SHOW_DESC),
+            new SubCommand("hide", CommandInfo.COMMAND_ZONE_HIDE_DESC),
+            new SubCommand("restoreall", CommandInfo.COMMAND_ZONE_RESTOREALL_DESC)
     ),
     PURGE(
             "purge",
-            "rtp purge",
             CommandInfo.COMMAND_PURGE_DESC,
             new PurgeCommand()
     ),
     RELOAD(
             "reload",
-            "rtp reload",
             CommandInfo.COMMAND_RELOAD_DESC,
             new ReloadCommand(),
             "rl"
     );
 
-    private final String arg, usage;
+    private final String cmd;
     private final Enum desc;
     private final SubCommandExecutor instance;
-    private final Condition condition;
-    private final String[] aliases;
+    private String[] aliases;
+    private SubCommand[] commands;
 
-    Commands(String argument, String usage, Enum desc, 
-            SubCommandExecutor instance) {
-        this(argument, usage, desc, instance, null, new String[0]);
+    Commands(String cmd, Enum desc, SubCommandExecutor instance, SubCommand... commands) {
+        this(cmd, desc, instance);
+        this.commands = commands;
     }
 
-    Commands(String argument, String usage, Enum desc, 
-            SubCommandExecutor instance, String... aliases) {
-        this(argument, usage, desc, instance, null, aliases);
+    Commands(String cmd, Enum desc, SubCommandExecutor instance, String... aliases) {
+        this(cmd, desc, instance);
+        this.aliases = aliases;
     }
 
-    Commands(String argument, String usage, Enum desc, 
-            SubCommandExecutor instance, Condition condition) {
-        this(argument, usage, desc, instance, condition, new String[0]);
-    }
-
-    Commands(String argument, String usage, Enum desc, SubCommandExecutor instance, 
-            Condition condition, String... aliases) {
-        this.arg = argument;
-        this.usage = usage;
+    Commands(String cmd, Enum desc, SubCommandExecutor instance) {
+        this.cmd = cmd;
         this.desc = desc;
         this.instance = instance;
-        this.condition = condition;
-        this.aliases = aliases;
+        this.aliases = new String[0];
+        this.commands = new SubCommand[0];
     }
 
     @Override
     public String getSubCommand() {
-        return arg;
-    }
-
-    @Override
-    public String getUsage() {
-        return usage;
+        return cmd;
     }
 
     @Override
@@ -114,11 +105,16 @@ public enum Commands implements SubCommandsInterface {
 
     @Override
     public Condition getCustomCondition() {
-        return condition;
+        return null;
     }
 
     @Override
     public String[] getAliases() {
         return aliases;
+    }
+
+    @Override
+    public SubCommand[] getArguments() {
+        return commands;
     }
 }

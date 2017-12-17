@@ -56,7 +56,7 @@ public enum GeneralInfo implements LangInterface {
             "&4¡Te faltan/sobran argumentos!",
             "&4You spare arguments!"            
     );
-    // </editor-fold>// </editor-fold>
+    // </editor-fold>
 
     private final HashMap<Lang, String> locales = new HashMap();
 
