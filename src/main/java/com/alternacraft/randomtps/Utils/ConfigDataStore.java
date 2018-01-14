@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 package com.alternacraft.randomtps.Utils;
 
 import com.alternacraft.aclib.langs.Lang;
-import com.alternacraft.randomtps.Listeners.HandleTeleport.COLLISION_EFFECT;
+import com.alternacraft.randomtps.Listeners.HandleTeleport.CollisionEffect;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class ConfigDataStore {
     protected int[] z = {10000, -5000};
 
     // Default extras
-    protected COLLISION_EFFECT coll = COLLISION_EFFECT.SLOW_DOWN;
+    protected CollisionEffect coll = CollisionEffect.SLOW_DOWN;
     protected int time = 10;
     protected boolean broadcast_as_exp = true;
     protected List<String> potions_effects = new ArrayList();
@@ -175,13 +175,13 @@ public class ConfigDataStore {
         this.z = z;
     }
 
-    public COLLISION_EFFECT getCollisionEffect() {
+    public CollisionEffect getCollisionEffect() {
         return coll;
     }
 
     public void setCollisionEffect(String coll) {
-        if (COLLISION_EFFECT.valueOf(coll) != null) {
-            this.coll = COLLISION_EFFECT.valueOf(coll);
+        if (CollisionEffect.valueOf(coll) != null) {
+            this.coll = CollisionEffect.valueOf(coll);
         }
     }
 

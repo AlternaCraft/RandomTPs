@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,8 +89,8 @@ public class ZoneCommand implements SubCommandExecutor {
             // </editor-fold>
             case "toggleactive":
                 //<editor-fold defaultstate="collapsed" desc="TOGGLE CODE">
-                if (args.length > 2) {
-                    String zone = args[2];
+                if (args.length > 1) {
+                    String zone = args[1];
                     if (Manager.INSTANCE.zoneExists(zone)) {
                         Manager.INSTANCE.disableDefinedZone(zone);
                         MessageManager.sendCommandSender(cs, 
@@ -103,7 +103,7 @@ public class ZoneCommand implements SubCommandExecutor {
                     }
                 } else {
                     MessageManager.sendCommandSender(cs,
-                            "&cSyntax: /rt zone toggle <name>");
+                            "&cSyntax: /rtp zone toggle <name>");
                 }
                 break;
                 //</editor-fold>                
@@ -112,8 +112,8 @@ public class ZoneCommand implements SubCommandExecutor {
                 if (cs instanceof Player) {
                     Player player = (Player) cs;
 
-                    if (args.length > 2) {
-                        DefinedZone loc = Manager.INSTANCE.getDefinedZoneByName(args[2]);
+                    if (args.length > 1) {
+                        DefinedZone loc = Manager.INSTANCE.getDefinedZoneByName(args[1]);
 
                         if (loc != null) {
                             player.setGameMode(GameMode.CREATIVE);
@@ -128,7 +128,7 @@ public class ZoneCommand implements SubCommandExecutor {
                         }
                     } else {
                         MessageManager.sendCommandSender(cs,
-                                "&cSyntax: /rt zone go <name>");
+                                "&cSyntax: /rtp zone go <name>");
                     }
                 } else {
                     MessageManager.sendCommandSender(cs,
@@ -141,8 +141,8 @@ public class ZoneCommand implements SubCommandExecutor {
                 if (cs instanceof Player) {
                     Player player = (Player) cs;
 
-                    if (args.length > 2) {
-                        String zone = args[2];
+                    if (args.length > 1) {
+                        String zone = args[1];
 
                         boolean exists = Manager.INSTANCE.zoneExists(zone);
 
@@ -156,7 +156,7 @@ public class ZoneCommand implements SubCommandExecutor {
                                 new DefineZoneEvent(player, zone, exists));
                     } else {
                         MessageManager.sendCommandSender(cs,
-                                "&cSyntax: /rt zone create <name> [redefine]");
+                                "&cSyntax: /rtp zone create <name>");
                     }
                 } else {
                     MessageManager.sendCommandSender(cs,
@@ -166,8 +166,8 @@ public class ZoneCommand implements SubCommandExecutor {
             // </editor-fold>
             case "show":
                 // <editor-fold defaultstate="collapsed" desc="SHOW CODE">
-                if (args.length > 2) {
-                    String zone = args[2];
+                if (args.length > 1) {
+                    String zone = args[1];
 
                     if (!isAvailable(zone) || DISABLED.containsKey(zone)) {
                         if (!isAvailable(zone)) {
@@ -181,8 +181,8 @@ public class ZoneCommand implements SubCommandExecutor {
                     }
 
                     String material = "glowstone"; // Default
-                    if (args.length > 3) {
-                        material = args[3];
+                    if (args.length > 2) {
+                        material = args[2];
                     }
 
                     Material m = null;
@@ -221,15 +221,15 @@ public class ZoneCommand implements SubCommandExecutor {
                         DISABLED.put(zone, z); // Save the task
                     }
                 } else {
-                    MessageManager.sendCommandSender(cs, "&cSyntax: /rt zone show"
+                    MessageManager.sendCommandSender(cs, "&cSyntax: /rtp zone show"
                             + " <name> <materialName|materialID>");
                 }
                 break;
             // </editor-fold>
             case "hide":
                 // <editor-fold defaultstate="collapsed" desc="HIDE CODE">
-                if (args.length > 2) {
-                    String zone = args[2];
+                if (args.length > 1) {
+                    String zone = args[1];
 
                     if (!isAvailable(zone)) {
                         MessageManager.sendCommandSender(cs,
@@ -244,7 +244,7 @@ public class ZoneCommand implements SubCommandExecutor {
                                 GameInfo.ZONE_NOT_ROLLBACK.getText(lang));
                     }
                 } else {
-                    MessageManager.sendCommandSender(cs, "&cSyntax: /rt zone hide"
+                    MessageManager.sendCommandSender(cs, "&cSyntax: /rtp zone hide"
                             + " <name>");
                 }
                 break;

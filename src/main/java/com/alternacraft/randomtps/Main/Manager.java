@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ package com.alternacraft.randomtps.Main;
 import com.alternacraft.aclib.MessageManager;
 import com.alternacraft.aclib.PluginBase;
 import com.alternacraft.aclib.commands.registerer.SubCommandsRegisterer;
-import com.alternacraft.aclib.exceptions.ErrorManager;
+import com.alternacraft.aclib.utils.exceptions.ErrorManager;
 import com.alternacraft.aclib.exceptions.PluginException;
 import com.alternacraft.aclib.langs.CommandMessages;
 import com.alternacraft.aclib.langs.Lang;
@@ -34,7 +34,7 @@ import com.alternacraft.randomtps.Langs.GameInfo;
 import com.alternacraft.randomtps.Langs.GeneralInfo;
 import com.alternacraft.randomtps.Listeners.Handlers;
 import com.alternacraft.randomtps.Managers.ZoneManager;
-import com.alternacraft.randomtps.Managers.ZoneManager.DEFAULT_VALIDATIONS;
+import com.alternacraft.randomtps.Managers.ZoneManager.DefaultValidations;
 import com.alternacraft.randomtps.API.Presets.FallingSafeValidation;
 import com.alternacraft.randomtps.API.Presets.FluidsValidation;
 import com.alternacraft.randomtps.API.Presets.PlayersValidation;
@@ -124,14 +124,11 @@ public class Manager {
     }
     
     public void registerDefaultValidations() {
-        ZoneManager.registerValidation(
-                DEFAULT_VALIDATIONS.FALLING.name(), new FallingSafeValidation()
+        ZoneManager.registerValidation(DefaultValidations.FALLING.name(), new FallingSafeValidation()
         );
-        ZoneManager.registerValidation(
-                DEFAULT_VALIDATIONS.FLUIDS.name(), new FluidsValidation()
+        ZoneManager.registerValidation(DefaultValidations.FLUIDS.name(), new FluidsValidation()
         );
-        ZoneManager.registerValidation(
-                DEFAULT_VALIDATIONS.PLAYERS.name(), new PlayersValidation()
+        ZoneManager.registerValidation(DefaultValidations.PLAYERS.name(), new PlayersValidation()
         );
     }
 

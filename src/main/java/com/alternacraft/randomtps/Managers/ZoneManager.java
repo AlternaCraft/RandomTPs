@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import org.bukkit.Location;
  */
 public class ZoneManager {
     
-    public enum DEFAULT_VALIDATIONS {
+    public enum DefaultValidations {
         FALLING,
         FLUIDS,
         PLAYERS,

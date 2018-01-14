@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  */
 package com.alternacraft.randomtps.API.Errors;
 
-import com.alternacraft.aclib.exceptions.ErrorExecutor;
-import com.alternacraft.aclib.exceptions.ErrorFormat;
+import com.alternacraft.aclib.utils.exceptions.ErrorExecutor;
+import com.alternacraft.aclib.utils.exceptions.ErrorFormat;
 
 /**
  *

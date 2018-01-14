@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,13 +33,13 @@ import org.bukkit.entity.Player;
  */
 public class EffectManager {
 
-    public enum TYPE {
+    public enum Type {
         POTIONS
     }
 
     public static final Map<UUID, List<GMEffect>> EFFECTS = new HashMap();
 
-    public static boolean addEffect(TYPE type, Player pl, int time, Object v) {
+    public static boolean addEffect(Type type, Player pl, int time, Object v) {
         GMEffect b;
 
         switch (type) {
@@ -61,7 +61,7 @@ public class EffectManager {
         return false;
     }
     
-    public static void removeEffect(OfflinePlayer player, TYPE type) {
+    public static void removeEffect(OfflinePlayer player, Type type) {
         List<GMEffect> effects = EFFECTS.get(player.getUniqueId());
         for (GMEffect effect : effects) {
             switch(type) {

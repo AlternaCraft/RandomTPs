@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -98,13 +98,13 @@ public class HandleGods implements Listener {
 
         // Effects
         if (!l.getPotionEffects().isEmpty()) {
-            EffectManager.addEffect(EffectManager.TYPE.POTIONS, pl, time,
+            EffectManager.addEffect(EffectManager.Type.POTIONS, pl, time,
                     l.getPotionEffects());
         }
 
         // Ending
         if (l.broadcastAsEXP()) {
-            BroadcastManager.callBroadcast(BroadcastManager.TYPE.AS_EXP, pl, time);
+            BroadcastManager.callBroadcast(BroadcastManager.Type.AS_EXP, pl, time);
         }
 
         overtime(pl, time);

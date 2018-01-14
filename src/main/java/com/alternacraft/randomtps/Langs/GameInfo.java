@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ public enum GameInfo implements LangInterface {
             "&cI am sorry, the destination zone is full"
     ),
     PLAYER_TELEPORTED(
-            "&6¡Preparate para la batalla!",
+            "&6¡Prepárate para la batalla!",
             "&6Prepare for the battle!"
     ),
     PLAYER_INVULNERABILITY(
@@ -113,7 +113,7 @@ public enum GameInfo implements LangInterface {
             "&cThere are no zones to restore"
     ),
     PURGE_ZONES(
-            "&eSe ha/n eliminado %QUANT% zona/s inactiva/s",
+            "&eSe ha\\/n eliminado %QUANT% zona/s inactiva/s",
             "&e%QUANT% inactive zone/s has been removed"
     );
     // </editor-fold>

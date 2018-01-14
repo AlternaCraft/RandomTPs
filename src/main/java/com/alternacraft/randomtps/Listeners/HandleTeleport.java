@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ public class HandleTeleport implements Listener {
 
     public static final Map<UUID, ZoneChecker> TELEPORTING = new HashMap();
 
-    public enum COLLISION_EFFECT {
+    public enum CollisionEffect {
         NONE((short) 1), 
         SLOW_DOWN((short) 0), 
         BOUNCE((short) -5), 
@@ -55,7 +55,7 @@ public class HandleTeleport implements Listener {
         
         private final short mvm;
 
-        COLLISION_EFFECT(short mvm) {
+        CollisionEffect(short mvm) {
             this.mvm = mvm;
         }
 

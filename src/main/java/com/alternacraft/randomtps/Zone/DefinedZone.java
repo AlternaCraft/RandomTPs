@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ package com.alternacraft.randomtps.Zone;
 import com.alternacraft.aclib.extras.NumbersUtils;
 import com.alternacraft.aclib.langs.Lang;
 import com.alternacraft.randomtps.Langs.GameInfo;
-import com.alternacraft.randomtps.Listeners.HandleTeleport.COLLISION_EFFECT;
+import com.alternacraft.randomtps.Listeners.HandleTeleport.CollisionEffect;
 import com.alternacraft.randomtps.Managers.ZoneManager;
 import static com.alternacraft.randomtps.Utils.ConfigDataStore.MAX;
 import static com.alternacraft.randomtps.Utils.ConfigDataStore.MIN;
@@ -52,7 +52,7 @@ public class DefinedZone extends Zone {
     protected int y = 150;
     protected int[] z = {10000, -5000};
     
-    private COLLISION_EFFECT coll = COLLISION_EFFECT.SLOW_DOWN;
+    private CollisionEffect coll = CollisionEffect.SLOW_DOWN;
     
     // Effect time    
     private int time = 10;    
@@ -148,17 +148,17 @@ public class DefinedZone extends Zone {
         this.z = z;
     }
 
-    public COLLISION_EFFECT getCollisionEffect() {
+    public CollisionEffect getCollisionEffect() {
         return coll;
     }
 
-    public void setCollisionEffect(COLLISION_EFFECT coll) {
+    public void setCollisionEffect(CollisionEffect coll) {
         this.coll = coll;
     }    
     
     public void setCollisionEffect(String coll) {
-        if (COLLISION_EFFECT.valueOf(coll) != null) {
-            this.coll = COLLISION_EFFECT.valueOf(coll);
+        if (CollisionEffect.valueOf(coll) != null) {
+            this.coll = CollisionEffect.valueOf(coll);
         }
     }    
 
@@ -196,19 +196,19 @@ public class DefinedZone extends Zone {
         for (String validation : validations) {
             switch(validation) {
                 case "falling_safe":
-                    this.validations.add(ZoneManager.DEFAULT_VALIDATIONS.FALLING.name());
+                    this.validations.add(ZoneManager.DefaultValidations.FALLING.name());
                     break;
                 case "no_players":
-                    this.validations.add(ZoneManager.DEFAULT_VALIDATIONS.PLAYERS.name());
+                    this.validations.add(ZoneManager.DefaultValidations.PLAYERS.name());
                     break;
                 case "no_fluids":
-                    this.validations.add(ZoneManager.DEFAULT_VALIDATIONS.FLUIDS.name());
+                    this.validations.add(ZoneManager.DefaultValidations.FLUIDS.name());
                     break;
                 case "no_factions":
-                    this.validations.add(ZoneManager.DEFAULT_VALIDATIONS.FACTIONS.name());
+                    this.validations.add(ZoneManager.DefaultValidations.FACTIONS.name());
                     break;
                 case "no_wgregions":
-                    this.validations.add(ZoneManager.DEFAULT_VALIDATIONS.WGREGIONS.name());
+                    this.validations.add(ZoneManager.DefaultValidations.WGREGIONS.name());
                     break;
                 default:
                     this.validations.add(validation);

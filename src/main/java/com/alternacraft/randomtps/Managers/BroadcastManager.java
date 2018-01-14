@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,13 +33,13 @@ import org.bukkit.entity.Player;
  */
 public class BroadcastManager {
 
-    public enum TYPE {
+    public enum Type {
         AS_EXP
     }
 
     public static final Map<UUID, List<GMBroadcast>> BROADCASTERS = new HashMap();
 
-    public static boolean callBroadcast(TYPE type, Player pl, int time) {
+    public static boolean callBroadcast(Type type, Player pl, int time) {
         GMBroadcast b;
 
         switch (type) {
@@ -61,7 +61,7 @@ public class BroadcastManager {
         return false;
     }
     
-    public static void stopBroadcast(OfflinePlayer player, TYPE type) {
+    public static void stopBroadcast(OfflinePlayer player, Type type) {
         List<GMBroadcast> broadcasts = BROADCASTERS.get(player.getUniqueId());
         for (GMBroadcast broadcast : broadcasts) {
             switch(type) {

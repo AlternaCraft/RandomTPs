@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 AlternaCraft
+ * Copyright (C) 2018 AlternaCraft
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,8 +69,8 @@ public enum DefineInfo implements LangInterface {
             "&eCool. Now, you have to select the second coordinate and write: \"%SELECT%\""
     ),
     SUBZONE(
-            "&e¿Quieres definir una subzona? (y/n)",
-            "&eDo you want to define a subzone? (y/n)"
+            "&e¿Quieres definir una subzona? (y\\/n)",
+            "&eDo you want to define a subzone? (y\\/n)"
     ),
     WORLDS(
             "&e¡Perfecto!. Ahora indique el mundo, o los mundos (<mundo1> <mundo2> etc), de destino",
