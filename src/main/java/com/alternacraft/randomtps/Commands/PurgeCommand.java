@@ -39,7 +39,7 @@ public class PurgeCommand implements SubCommandExecutor {
 
         try {
             int n = Manager.INSTANCE.getZonesDB().purge();
-            MessageManager.sendCommandSender(cs, GameInfo.PURGE_ZONES.getText(lang)
+            MessageManager.sendPluginMessage(cs, GameInfo.PURGE_ZONES.getText(lang)
                     .replace("%QUANT%", String.valueOf(n)));            
         } catch (PluginException ex) {
             MessageManager.logArrayError(ex.getCustomStacktrace());

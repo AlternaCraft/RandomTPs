@@ -198,14 +198,14 @@ public class ZoneChecker {
             player.teleport(auxLocation);
             player.setGameMode(GameMode.SURVIVAL);
 
-            MessageManager.sendCommandSender(player, GameInfo.PLAYER_TELEPORTED.getText(lang));
+            MessageManager.sendPluginMessage(player, GameInfo.PLAYER_TELEPORTED.getText(lang));
 
             try {
                 // Let's to propagate the "good news"
                 Bukkit.getServer().getPluginManager().callEvent(
                         new PlayerDroppedEvent(player, dz.getZoneName()));
             } catch (IllegalStateException ex) {
-                MessageManager.sendCommandSender(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
+                MessageManager.sendPluginMessage(player, GameInfo.PLUGIN_ERROR_ON_TP.getText(lang));
             }
         }
 

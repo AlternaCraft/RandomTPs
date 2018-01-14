@@ -93,7 +93,7 @@ public class HandleGods implements Listener {
 
         // God
         pl.setNoDamageTicks(TPS * time);
-        MessageManager.sendCommandSender(pl, GameInfo.PLAYER_INVULNERABILITY.
+        MessageManager.sendPluginMessage(pl, GameInfo.PLAYER_INVULNERABILITY.
                 getText(lang).replace("%TIME%", String.valueOf(time)));
 
         // Effects
@@ -120,7 +120,7 @@ public class HandleGods implements Listener {
             public void run() {
                 clearGod(pl);
                 if (pl.isOnline()) {
-                    MessageManager.sendCommandSender((Player) pl, GameInfo.PLAYER_RECOVERS_PVP
+                    MessageManager.sendPluginMessage((Player) pl, GameInfo.PLAYER_RECOVERS_PVP
                             .getText(Localizer.getLocale((Player) pl)));
                 }
                 Bukkit.getServer().getPluginManager().callEvent(new PlayerBecomesUselessEvent(pl));

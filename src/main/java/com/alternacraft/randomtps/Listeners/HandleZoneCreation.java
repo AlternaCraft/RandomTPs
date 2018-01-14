@@ -81,7 +81,7 @@ public class HandleZoneCreation implements Listener {
                 }
 
                 LOCATIONS.put(uuid, l);
-                MessageManager.sendCommandSender(player,
+                MessageManager.sendPluginMessage(player,
                         DefineInfo.SELECTED.getText(Localizer.getLocale(player))
                                 .replace("%BLOCK_X%", String.valueOf(l.getBlockX()))
                                 .replace("%BLOCK_Y%", String.valueOf(l.getBlockY()))
@@ -98,16 +98,16 @@ public class HandleZoneCreation implements Listener {
             Lang lang = Localizer.getLocale(ev.player());
 
             if (DEFINERS.containsKey(uuid)) {
-                MessageManager.sendCommandSender(ev.player(),
+                MessageManager.sendPluginMessage(ev.player(),
                         DefineInfo.ALREADY_DEFINING.getText(lang));
             } else {
                 String cancel = Manager.INSTANCE.loader().getCancel();
                 String selection = Manager.INSTANCE.loader().getSelection();
 
-                MessageManager.sendCommandSender(ev.player(),
+                MessageManager.sendPluginMessage(ev.player(),
                         DefineInfo.HOW_TO_CANCEL.getText(lang)
                                 .replace("%CANCEL%", cancel));
-                MessageManager.sendCommandSender(ev.player(),
+                MessageManager.sendPluginMessage(ev.player(),
                         DefineInfo.COORD_1.getText(lang)
                                 .replace("%SELECT%", selection));
 
@@ -135,7 +135,7 @@ public class HandleZoneCreation implements Listener {
             HandleBuild.DISABLED.remove(zone);
             DEFINERS.remove(uuid);
             
-            MessageManager.sendCommandSender(player,
+            MessageManager.sendPluginMessage(player,
                     DefineInfo.STOP_DEFINING.getText(lang));
 
             ev.setCancelled(true);
@@ -158,7 +158,7 @@ public class HandleZoneCreation implements Listener {
                 PreDefinedZone preloc = DEFINERS.get(uuid);
 
                 if (!LOCATIONS.containsKey(uuid)) {
-                    MessageManager.sendCommandSender(ev.getPlayer(),
+                    MessageManager.sendPluginMessage(ev.getPlayer(),
                             DefineInfo.UNSELECTED.getText(lang));
                     return;
                 }
@@ -175,7 +175,7 @@ public class HandleZoneCreation implements Listener {
                     preloc.setCoord1(true);
 
                     String selection = Manager.INSTANCE.loader().getSelection();
-                    MessageManager.sendCommandSender(ev.getPlayer(),
+                    MessageManager.sendPluginMessage(ev.getPlayer(),
                             DefineInfo.COORD_2.getText(lang)
                                     .replace("%SELECT%", selection));
                 } else if (!preloc.coord2Saved()) {
@@ -191,7 +191,7 @@ public class HandleZoneCreation implements Listener {
                     preloc.askWorld(false);
                     preloc.askSubzone(true);
 
-                    MessageManager.sendCommandSender(ev.getPlayer(),
+                    MessageManager.sendPluginMessage(ev.getPlayer(),
                             DefineInfo.SUBZONE.getText(lang));
                 }
 
@@ -225,7 +225,7 @@ public class HandleZoneCreation implements Listener {
                     preloc.askSubzone(false);
 
                     String selection = Manager.INSTANCE.loader().getSelection();
-                    MessageManager.sendCommandSender(ev.getPlayer(),
+                    MessageManager.sendPluginMessage(ev.getPlayer(),
                             DefineInfo.COORD_1.getText(lang)
                                     .replace("%SELECT%", selection));
                 } else if (answ.contains("n")) {
@@ -235,11 +235,11 @@ public class HandleZoneCreation implements Listener {
                         preloc.askWorld(true);
                         preloc.askSubzone(false);
 
-                        MessageManager.sendCommandSender(ev.getPlayer(),
+                        MessageManager.sendPluginMessage(ev.getPlayer(),
                                 DefineInfo.WORLDS.getText(lang));
                     }
                 } else {
-                    MessageManager.sendCommandSender(ev.getPlayer(),
+                    MessageManager.sendPluginMessage(ev.getPlayer(),
                             DefineInfo.SUBZONE.getText(lang));
                 }
             }
@@ -266,7 +266,7 @@ public class HandleZoneCreation implements Listener {
                     if (Bukkit.getWorld(w) != null) {
                         preloc.addDestination(w);
                     } else {
-                        MessageManager.sendCommandSender(ev.getPlayer(),
+                        MessageManager.sendPluginMessage(ev.getPlayer(),
                                 DefineInfo.INVALID_WORLD.getText(lang)
                                         .replace("%WORLD%", w));
                         return;
@@ -293,7 +293,7 @@ public class HandleZoneCreation implements Listener {
             
             DEFINERS.remove(pl.getUniqueId());
             
-            MessageManager.sendCommandSender(pl,
+            MessageManager.sendPluginMessage(pl,
                     DefineInfo.ZONE_CREATED.getText(lang));
         } catch (PluginException ex) {
             MessageManager.logArrayError(ex.getCustomStacktrace());

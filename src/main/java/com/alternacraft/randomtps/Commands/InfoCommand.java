@@ -35,15 +35,15 @@ public class InfoCommand implements SubCommandExecutor {
         JavaPlugin plugin = Manager.BASE.plugin();
         
         cs.sendMessage("");
-        MessageManager.sendCommandSender(
+        MessageManager.sendPluginMessage(
                 cs,
                 "&fPlugin developed by &9AlternaCraft"
         );
-        MessageManager.sendCommandSender(
+        MessageManager.sendPluginMessage(
                 cs,
                 "Version: " + ChatColor.GRAY + plugin.getDescription().getVersion()
         );
-        MessageManager.sendCommandSender(
+        MessageManager.sendPluginMessage(
                 cs,
                 "&fMore info in &9" + plugin.getDescription().getWebsite()
         );

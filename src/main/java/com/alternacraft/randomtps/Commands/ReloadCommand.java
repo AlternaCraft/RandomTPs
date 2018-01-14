@@ -46,7 +46,7 @@ public class ReloadCommand implements SubCommandExecutor {
         Manager.INSTANCE.loadLanguages();
         Manager.INSTANCE.loadDefinedZones();
 
-        MessageManager.sendCommandSender(cs, GeneralInfo.PLUGIN_RELOAD.getText(lang));
+        MessageManager.sendPluginMessage(cs, GeneralInfo.PLUGIN_RELOAD.getText(lang));
         
         return true;
     }

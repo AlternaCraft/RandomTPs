@@ -83,7 +83,7 @@ public class RandomTPs extends JavaPlugin {
             BlocksReplacer br = zonebuilder.new BlocksReplacer(true, cs, zonebuilder);
             br.forceInstant();
             
-            MessageManager.sendCommandSender(cs,
+            MessageManager.sendPluginMessage(cs,
                         GameInfo.ZONE_START_ROLLBACK.getText(Localizer.getLocale(cs))
                                 .replace("%NAME%", zonebuilder.zoneName())); 
             
@@ -91,7 +91,7 @@ public class RandomTPs extends JavaPlugin {
             
             synchronized (br) {
                 String time = StringsUtils.splitToComponentTimes(zonebuilder.elapsedTime() / 1000);
-                MessageManager.sendCommandSender(cs, GameInfo.ZONE_END_ROLLBACK
+                MessageManager.sendPluginMessage(cs, GameInfo.ZONE_END_ROLLBACK
                     .getText(Localizer.getLocale(cs)).replace("%TIME%", time)
                         .replace("%NAME%", zonebuilder.zoneName()));
             }

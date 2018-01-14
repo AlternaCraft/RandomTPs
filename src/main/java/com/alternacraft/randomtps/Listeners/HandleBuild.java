@@ -51,11 +51,11 @@ public class HandleBuild implements Listener {
         Lang l = Localizer.getLocale(ev.cs());
         
         if (ev.isRollback()) {
-            MessageManager.sendCommandSender(ev.cs(), GameInfo.ZONE_END_ROLLBACK
+            MessageManager.sendPluginMessage(ev.cs(), GameInfo.ZONE_END_ROLLBACK
                     .getText(l).replace("%TIME%", time).replace("%NAME%", ev.zoneName()));            
             DISABLED.remove(ev.zoneName());
         } else {
-            MessageManager.sendCommandSender(ev.cs(), GameInfo.ZONE_END_BUILD
+            MessageManager.sendPluginMessage(ev.cs(), GameInfo.ZONE_END_BUILD
                     .getText(l).replace("%TIME%", time).replace("%NAME%", ev.zoneName()));
         }
     }

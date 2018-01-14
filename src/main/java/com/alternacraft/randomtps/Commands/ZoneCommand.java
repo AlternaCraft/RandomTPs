@@ -63,7 +63,7 @@ public class ZoneCommand implements SubCommandExecutor {
             case "list":
                 // <editor-fold defaultstate="collapsed" desc="LIST CODE">
                 cs.sendMessage("");
-                MessageManager.sendCommandSender(cs, "");
+                MessageManager.sendPluginMessage(cs, "");
                 cs.sendMessage(ChatColor.GRAY + "  ---------");
                 cs.sendMessage(ChatColor.BLUE + "   Zone list");
                 cs.sendMessage(ChatColor.GRAY + "  ---------");
@@ -93,16 +93,16 @@ public class ZoneCommand implements SubCommandExecutor {
                     String zone = args[1];
                     if (Manager.INSTANCE.zoneExists(zone)) {
                         Manager.INSTANCE.disableDefinedZone(zone);
-                        MessageManager.sendCommandSender(cs, 
+                        MessageManager.sendPluginMessage(cs, 
                                 GameInfo.ZONE_DISABLED.getText(lang));
                     }
                     else {
                         Manager.INSTANCE.enableDefinedZone(zone);
-                        MessageManager.sendCommandSender(cs,
+                        MessageManager.sendPluginMessage(cs,
                                 GameInfo.ZONE_ENABLED.getText(lang));
                     }
                 } else {
-                    MessageManager.sendCommandSender(cs,
+                    MessageManager.sendPluginMessage(cs,
                             "&cSyntax: /rtp zone toggle <name>");
                 }
                 break;
@@ -120,18 +120,18 @@ public class ZoneCommand implements SubCommandExecutor {
                             player.setFlying(Boolean.TRUE);
 
                             player.teleport(loc.getVisitLocation(Bukkit.getWorld(loc.getOrigin())));
-                            MessageManager.sendCommandSender(player,
+                            MessageManager.sendPluginMessage(player,
                                     GameInfo.ZONE_GO_FINISHED.getText(lang));
                         } else {
-                            MessageManager.sendCommandSender(cs,
+                            MessageManager.sendPluginMessage(cs,
                                     GameInfo.ZONE_NOT_EXISTS.getText(lang));
                         }
                     } else {
-                        MessageManager.sendCommandSender(cs,
+                        MessageManager.sendPluginMessage(cs,
                                 "&cSyntax: /rtp zone go <name>");
                     }
                 } else {
-                    MessageManager.sendCommandSender(cs,
+                    MessageManager.sendPluginMessage(cs,
                             GeneralInfo.COMMAND_FORBIDDEN.getText(lang));
                 }
                 break;
@@ -148,18 +148,18 @@ public class ZoneCommand implements SubCommandExecutor {
 
                         if (exists) {
                             HandleBuild.DISABLED.put(zone, null);
-                            MessageManager.sendCommandSender(cs,
+                            MessageManager.sendPluginMessage(cs,
                                     DefineInfo.REDEFINING.getText(lang));
                         }
                         
                         Bukkit.getServer().getPluginManager().callEvent(
                                 new DefineZoneEvent(player, zone, exists));
                     } else {
-                        MessageManager.sendCommandSender(cs,
+                        MessageManager.sendPluginMessage(cs,
                                 "&cSyntax: /rtp zone create <name>");
                     }
                 } else {
-                    MessageManager.sendCommandSender(cs,
+                    MessageManager.sendPluginMessage(cs,
                             GeneralInfo.COMMAND_FORBIDDEN.getText(lang));
                 }
                 break;
@@ -171,10 +171,10 @@ public class ZoneCommand implements SubCommandExecutor {
 
                     if (!isAvailable(zone) || DISABLED.containsKey(zone)) {
                         if (!isAvailable(zone)) {
-                            MessageManager.sendCommandSender(cs,
+                            MessageManager.sendPluginMessage(cs,
                                     GameInfo.ZONE_IN_USE.getText(lang));
                         } else {
-                            MessageManager.sendCommandSender(cs,
+                            MessageManager.sendPluginMessage(cs,
                                     GameInfo.ZONE_ALREADY_BUILDED.getText(lang));
                         }
                         return true;
@@ -203,13 +203,13 @@ public class ZoneCommand implements SubCommandExecutor {
 
                     // Check the material
                     if (m == null) {
-                        MessageManager.sendCommandSender(cs, "&cYou have to indicate "
+                        MessageManager.sendPluginMessage(cs, "&cYou have to indicate "
                                 + "a valid material (materialName|materialID)");
                     } else {
                         DefinedZone l = Manager.INSTANCE.getDefinedZoneByName(zone);
 
                         if (l == null) {
-                            MessageManager.sendCommandSender(cs,
+                            MessageManager.sendPluginMessage(cs,
                                     GameInfo.ZONE_NOT_EXISTS.getText(lang));
                             return true;
                         }
@@ -221,7 +221,7 @@ public class ZoneCommand implements SubCommandExecutor {
                         DISABLED.put(zone, z); // Save the task
                     }
                 } else {
-                    MessageManager.sendCommandSender(cs, "&cSyntax: /rtp zone show"
+                    MessageManager.sendPluginMessage(cs, "&cSyntax: /rtp zone show"
                             + " <name> <materialName|materialID>");
                 }
                 break;
@@ -232,7 +232,7 @@ public class ZoneCommand implements SubCommandExecutor {
                     String zone = args[1];
 
                     if (!isAvailable(zone)) {
-                        MessageManager.sendCommandSender(cs,
+                        MessageManager.sendPluginMessage(cs,
                                 GameInfo.ZONE_IN_USE.getText(lang));
                         return true;
                     }
@@ -240,11 +240,11 @@ public class ZoneCommand implements SubCommandExecutor {
                     if (DISABLED.containsKey(zone)) {
                         DISABLED.get(zone).hide(cs);
                     } else {
-                        MessageManager.sendCommandSender(cs,
+                        MessageManager.sendPluginMessage(cs,
                                 GameInfo.ZONE_NOT_ROLLBACK.getText(lang));
                     }
                 } else {
-                    MessageManager.sendCommandSender(cs, "&cSyntax: /rtp zone hide"
+                    MessageManager.sendPluginMessage(cs, "&cSyntax: /rtp zone hide"
                             + " <name>");
                 }
                 break;
@@ -252,18 +252,18 @@ public class ZoneCommand implements SubCommandExecutor {
             case "restoreall":
                 //<editor-fold defaultstate="collapsed" desc="RESTORE ALL CODE">
                 if (!DISABLED.isEmpty()) {
-                    MessageManager.sendCommandSender(cs, GameInfo.RESET_ZONES.getText(lang));
+                    MessageManager.sendPluginMessage(cs, GameInfo.RESET_ZONES.getText(lang));
                     for (Map.Entry<String, ZoneBuilder> entry : DISABLED.entrySet()) {
                         ZoneBuilder zonebuilder = entry.getValue();
                         if (zonebuilder.isFinished()) {
                             zonebuilder.hide(cs);
                         } else {
-                            MessageManager.sendCommandSender(cs,
+                            MessageManager.sendPluginMessage(cs,
                                     GameInfo.ZONE_IN_USE.getText(lang));
                         }
                     }
                 } else {
-                    MessageManager.sendCommandSender(cs,
+                    MessageManager.sendPluginMessage(cs,
                             GameInfo.NO_ZONES_TO_RESET.getText(lang));
                 }
                 break;

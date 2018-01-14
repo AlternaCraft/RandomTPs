@@ -108,7 +108,7 @@ public class ZoneBuilder {
         }, false, cs, this);
         Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), run, TPS);
 
-        MessageManager.sendCommandSender(cs, GameInfo.ZONE_START_BUILD.getText(l)
+        MessageManager.sendPluginMessage(cs, GameInfo.ZONE_START_BUILD.getText(l)
                 .replace("%NAME%", zone));
 
         Bukkit.getServer().getPluginManager().callEvent(new BuildStartedEvent(
@@ -121,7 +121,7 @@ public class ZoneBuilder {
         run = new BlocksReplacer(true, cs, this);
         Bukkit.getScheduler().runTaskLater(Manager.BASE.plugin(), run, TPS);
 
-        MessageManager.sendCommandSender(cs, GameInfo.ZONE_START_ROLLBACK.getText(l)
+        MessageManager.sendPluginMessage(cs, GameInfo.ZONE_START_ROLLBACK.getText(l)
                 .replace("%NAME%", zone));
 
         Bukkit.getServer().getPluginManager().callEvent(new BuildStartedEvent(
